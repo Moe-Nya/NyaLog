@@ -12,6 +12,7 @@ var (
 	HttpPort string
 
 	// DataBase config
+	Db         string
 	DbHost     string
 	DbPort     int
 	DbUser     string
@@ -34,6 +35,7 @@ func LoadServer(file *ini.File) {
 }
 
 func LoadDatabase(file *ini.File) {
+	Db = file.Section("DataBase").Key("Db").MustString("mysql")
 	DbName = file.Section("DataBase").Key("DbName").MustString("NyaLog")
 	DbHost = file.Section("DataBase").Key("DbHost").MustString("localhost")
 	DbPort = file.Section("DataBase").Key("DbPort").MustInt(3306)
