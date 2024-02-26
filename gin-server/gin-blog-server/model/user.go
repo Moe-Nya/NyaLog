@@ -2,7 +2,11 @@ package model
 
 import (
 	"NyaLog/gin-blog-server/utils/errmsg"
+	"encoding/base64"
+	"math/rand"
+	"time"
 
+	"golang.org/x/crypto/scrypt"
 	"gorm.io/gorm"
 )
 
@@ -21,6 +25,9 @@ type User struct {
 
 // 新增用户
 func NewUser(user *User) int {
+	pw, salt := ScryptPw(user.Password)
+	user.Password = pw
+	user.Salt = string(salt)
 	err := db.Create(&user).Error
 	if err != nil {
 		return errmsg.ERROR
@@ -54,7 +61,26 @@ func UpdateUser(uid int, data User) int {
 }
 
 // 密码加密
-func ScryptPw(password string) string {
-
-	return "todo"
+// 输入一个字符串，是密码；返回一个字符串，是加密后的密码
+func ScryptPw(password string) (string, []byte) {
+	const KeyLen = 10 //加密后的字符串的长度
+	// 这里建议盐用时间戳，从外部作为参数传入，不适用固定的盐
+	// salt := make([]byte, 8) // scrypt的盐是一个字符数组，自行设置字符数组的长度
+	var salt []byte
+	rand.NewSource(time.Now().UnixNano())
+	for i := 0; i < 8; i++ {
+		randomNumber := rand.Intn(10)
+		salt = append(salt, byte(randomNumber))
+	}
+	N := 32768 // 这个N是决定CPU和内存性能消耗的一个参数，要求大于1并且是2的幂次方
+	R := 8
+	P := 1 // 这两个是官方推荐的设置参数
+	HashPw, err := scrypt.Key([]byte(password), salt, N, R, P, KeyLen)
+	if err != nil {
+		panic(err)
+	}
+	pwd := base64.StdEncoding.EncodeToString(HashPw)
+	return pwd, salt
 }
+
+// 验证密码
