@@ -29,5 +29,32 @@ func NewUser(user *User) int {
 }
 
 // 提取用户信息
+func SeleUser() (User, int) {
+	var user User
+	err := db.Limit(1).Find(&user).Error
+	if err != nil {
+		return user, errmsg.ERROR
+	}
+	return user, errmsg.SUCCESS
+}
 
 // 更新用户信息
+func UpdateUser(uid int, data User) int {
+	var user User
+	var usermap = make(map[string]interface{})
+	usermap["username"] = data.Username
+	usermap["profilephoto"] = data.Profilephoto
+	usermap["email"] = data.Email
+	usermap["slogan"] = data.Slogan
+	err := db.Model(&user).Where("uid = ? ", uid).Updates(usermap).Error
+	if err != nil {
+		return errmsg.ERROR
+	}
+	return errmsg.SUCCESS
+}
+
+// 密码加密
+func ScryptPw(password string) string {
+
+	return "todo"
+}
