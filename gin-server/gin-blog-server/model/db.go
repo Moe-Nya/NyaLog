@@ -45,7 +45,7 @@ func InitDb() {
 		os.Exit(1)
 	}
 
-	db.AutoMigrate(&User{})
+	db.AutoMigrate(&User{}, &EmailServer{}, &BlogSet{}, &BlogBackSet{})
 
 	sqlDB, _ := db.DB()
 	// SetMaxIdleCons 设置连接池中的最大闲置连接数。
