@@ -1,6 +1,10 @@
 package model
 
-import "gorm.io/gorm"
+import (
+	"NyaLog/gin-blog-server/utils/errmsg"
+
+	"gorm.io/gorm"
+)
 
 type User struct {
 	gorm.Model
@@ -14,3 +18,16 @@ type User struct {
 	Secret       string `gorm:"type:varchar(300);not null" json:"secret" label:"secret"`
 	Lastip       string `gorm:"type:varchar(20)" json:"lastip" label:"lastip"`
 }
+
+// 新增用户
+func NewUser(user *User) int {
+	err := db.Create(&user).Error
+	if err != nil {
+		return errmsg.ERROR
+	}
+	return errmsg.SUCCESS
+}
+
+// 提取用户信息
+
+// 更新用户信息
