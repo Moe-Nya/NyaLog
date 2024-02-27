@@ -62,7 +62,7 @@ func UpdateUser(uid int, data User) int {
 
 // 密码加密
 // 输入一个字符串，是密码；返回一个字符串，是加密后的密码
-func ScryptPw(password string) (string, []byte) {
+func ScryptPw(password string) (string, string) {
 	const KeyLen = 10 //加密后的字符串的长度
 	// 这里建议盐用时间戳，从外部作为参数传入，不适用固定的盐
 	// salt := make([]byte, 8) // scrypt的盐是一个字符数组，自行设置字符数组的长度
@@ -80,7 +80,33 @@ func ScryptPw(password string) (string, []byte) {
 		panic(err)
 	}
 	pwd := base64.StdEncoding.EncodeToString(HashPw)
-	return pwd, salt
+	return pwd, string(salt)
 }
 
 // 验证密码
+func VertifyPw(password string, saltString string) int {
+	const KeyLen = 10
+	var user User
+	salt := []byte(saltString)
+	N := 32768 // 这个N是决定CPU和内存性能消耗的一个参数，要求大于1并且是2的幂次方
+	R := 8
+	P := 1 // 这两个是官方推荐的设置参数
+	HashPw, err := scrypt.Key([]byte(password), salt, N, R, P, KeyLen)
+	if err != nil {
+		return errmsg.ERROR
+	}
+	user, e := SeleUser()
+	if e != errmsg.SUCCESS {
+		return errmsg.ERROR
+	}
+	if user.Password == string(HashPw) {
+		return errmsg.SUCCESS
+	}
+	return errmsg.ERROR
+}
+
+// 修改密码
+func ModifyPw(password string, data User) int {
+	// hashpw, salt := ScryptPw(password)
+	return 0
+}
