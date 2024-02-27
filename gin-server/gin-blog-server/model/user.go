@@ -48,7 +48,7 @@ func SeleUser() (User, int) {
 }
 
 // 更新用户信息
-func UpdateUser(uid int, data User) int {
+func UpdateUser(uid string, data User) int {
 	var user User
 	var usermap = make(map[string]interface{})
 	usermap["username"] = data.Username
@@ -90,10 +90,18 @@ func ScryptPw(password string) (string, string) {
 }
 
 // 验证密码
-func VertifyPw(password string, saltString string) int {
+func VertifyPw(password string) int {
 	const KeyLen = 10
 	var user User
-	salt := []byte(saltString)
+	user, e := SeleUser()
+	if e != errmsg.SUCCESS {
+		return errmsg.ERROR
+	}
+	var salt []byte
+	for _, b := range user.Salt {
+		num, _ := strconv.Atoi(string(b))
+		salt = append(salt, byte(num))
+	}
 	N := 32768 // 这个N是决定CPU和内存性能消耗的一个参数，要求大于1并且是2的幂次方
 	R := 8
 	P := 1 // 这两个是官方推荐的设置参数
@@ -101,19 +109,17 @@ func VertifyPw(password string, saltString string) int {
 	if err != nil {
 		return errmsg.ERROR
 	}
-	user, e := SeleUser()
-	if e != errmsg.SUCCESS {
-		return errmsg.ERROR
-	}
-	if user.Password == string(HashPw) {
+	fmt.Println(base64.StdEncoding.EncodeToString(HashPw))
+	if user.Password == base64.StdEncoding.EncodeToString(HashPw) {
 		return errmsg.SUCCESS
 	}
 	return errmsg.ERROR
 }
 
 // 修改密码
-func ModifyPw(password string, data User) int {
+func ModifyPw(password string) int {
 	var user User
+	data, _ := SeleUser()
 	hashpw, salt := ScryptPw(password)
 	var pwmap = make(map[string]interface{})
 	pwmap["password"] = hashpw
