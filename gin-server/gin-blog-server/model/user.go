@@ -3,7 +3,9 @@ package model
 import (
 	"NyaLog/gin-blog-server/utils/errmsg"
 	"encoding/base64"
+	"fmt"
 	"math/rand"
+	"strconv"
 	"time"
 
 	"golang.org/x/crypto/scrypt"
@@ -27,7 +29,7 @@ type User struct {
 func NewUser(user *User) int {
 	pw, salt := ScryptPw(user.Password)
 	user.Password = pw
-	user.Salt = string(salt)
+	user.Salt = salt
 	err := db.Create(&user).Error
 	if err != nil {
 		return errmsg.ERROR
@@ -77,10 +79,14 @@ func ScryptPw(password string) (string, string) {
 	P := 1 // 这两个是官方推荐的设置参数
 	HashPw, err := scrypt.Key([]byte(password), salt, N, R, P, KeyLen)
 	if err != nil {
-		panic(err)
+		fmt.Println("Password encryption error")
 	}
 	pwd := base64.StdEncoding.EncodeToString(HashPw)
-	return pwd, string(salt)
+	strSalt := ""
+	for _, b := range salt {
+		strSalt += strconv.Itoa(int(b))
+	}
+	return pwd, strSalt
 }
 
 // 验证密码
