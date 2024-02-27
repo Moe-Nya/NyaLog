@@ -107,6 +107,14 @@ func VertifyPw(password string, saltString string) int {
 
 // 修改密码
 func ModifyPw(password string, data User) int {
-	// hashpw, salt := ScryptPw(password)
-	return 0
+	var user User
+	hashpw, salt := ScryptPw(password)
+	var pwmap = make(map[string]interface{})
+	pwmap["password"] = hashpw
+	pwmap["salt"] = salt
+	err := db.Model(&user).Where("uid = ?", data.Uid).Updates(pwmap).Error
+	if err != nil {
+		return errmsg.ERROR
+	}
+	return errmsg.SUCCESS
 }
