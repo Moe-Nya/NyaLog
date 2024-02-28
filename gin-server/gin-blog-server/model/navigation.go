@@ -18,7 +18,23 @@ func CreateNav(navtitle string, navurl string) int {
 	var nav Navigation
 	nav.Navtitle = navtitle
 	nav.Navurl = navurl
-	err := db.Create(&nav).Error
+	var count int64
+	err := db.Find(&nav).Count(&count).Error
+	if err != nil {
+		return errmsg.ERROR
+	}
+	// 使navid有一个自增效果，方便后续的寻找和修改
+	if count == 0 {
+		nav.NavId = 0
+	} else {
+		var finalnav Navigation
+		err = db.Limit(1).Offset(int(count - 1)).Find(&finalnav).Error
+		if err != nil {
+			return errmsg.ERROR
+		}
+		nav.NavId = finalnav.NavId + 1
+	}
+	err = db.Create(&nav).Error
 	if err != nil {
 		return errmsg.ERROR
 	}
@@ -36,5 +52,24 @@ func SeleNav() (Navigation, int) {
 }
 
 // 修改导航标签
+func ModifyNav(navid int, navtitle string, navurl string) int {
+	var nav Navigation
+	var navmap = make(map[string]interface{})
+	navmap["navtitle"] = navtitle
+	navmap["navurl"] = navurl
+	err := db.Model(&nav).Where("navid = ?", navid).Updates(navmap).Error
+	if err != nil {
+		return errmsg.ERROR
+	}
+	return errmsg.SUCCESS
+}
 
 // 删除导航标签
+func DeleNav(navid int) int {
+	var nav Navigation
+	err := db.Where("navid = ?", navid).Unscoped().Delete(&nav).Error
+	if err != nil {
+		return errmsg.ERROR
+	}
+	return errmsg.SUCCESS
+}
