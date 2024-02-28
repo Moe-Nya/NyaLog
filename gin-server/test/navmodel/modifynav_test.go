@@ -8,7 +8,7 @@ import (
 
 func Test_ModifyNav(t *testing.T) {
 	model.InitDb()
-	var nav *model.Navigation
+	var nav = &model.Navigation{}
 	nav.NavId = 2
 	nav.Navtitle = "友链"
 	nav.Navurl = "www.google.com"
