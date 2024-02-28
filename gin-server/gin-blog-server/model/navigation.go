@@ -14,10 +14,10 @@ type Navigation struct {
 }
 
 // 增加导航标签
-func CreateNav(navtitle string, navurl string) int {
+func CreateNav(data *Navigation) int {
 	var nav Navigation
-	nav.Navtitle = navtitle
-	nav.Navurl = navurl
+	nav.Navtitle = data.Navtitle
+	nav.Navurl = data.Navurl
 	var count int64
 	// 单独创建一个结构体，因为db查询后会把查询结果放到n中，如果这里使用db.Find(&nav)，就会使
 	// 最后一条数据被赋值给nav，ID相同导致创建失败
@@ -55,12 +55,12 @@ func SeleNav() ([]Navigation, int) {
 }
 
 // 修改导航标签
-func ModifyNav(navid int, navtitle string, navurl string) int {
+func ModifyNav(data *Navigation) int {
 	var nav Navigation
 	var navmap = make(map[string]interface{})
-	navmap["navtitle"] = navtitle
-	navmap["navurl"] = navurl
-	err := db.Model(&nav).Where("nav_id = ?", navid).Updates(navmap).Error
+	navmap["navtitle"] = data.Navtitle
+	navmap["navurl"] = data.Navurl
+	err := db.Model(&nav).Where("nav_id = ?", data.NavId).Updates(navmap).Error
 	if err != nil {
 		return errmsg.ERROR
 	}
