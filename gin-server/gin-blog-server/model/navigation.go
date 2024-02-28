@@ -44,7 +44,7 @@ func CreateNav(data *Navigation) int {
 	return errmsg.SUCCESS
 }
 
-// 获取导航标签列表
+// 查询所有导航标签
 func SeleNav() ([]Navigation, int) {
 	var nav []Navigation
 	err := db.Find(&nav).Error
