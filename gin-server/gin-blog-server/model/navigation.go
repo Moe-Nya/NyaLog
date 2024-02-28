@@ -19,7 +19,10 @@ func CreateNav(navtitle string, navurl string) int {
 	nav.Navtitle = navtitle
 	nav.Navurl = navurl
 	var count int64
-	err := db.Find(&nav).Count(&count).Error
+	// 单独创建一个结构体，因为db查询后会把查询结果放到n中，如果这里使用db.Find(&nav)，就会使
+	// 最后一条数据被赋值给nav，ID相同导致创建失败
+	var n Navigation
+	err := db.Find(&n).Count(&count).Error
 	if err != nil {
 		return errmsg.ERROR
 	}
@@ -42,9 +45,9 @@ func CreateNav(navtitle string, navurl string) int {
 }
 
 // 获取导航标签列表
-func SeleNav() (Navigation, int) {
-	var nav Navigation
-	err := db.Limit(1).Find(&nav).Error
+func SeleNav() ([]Navigation, int) {
+	var nav []Navigation
+	err := db.Find(&nav).Error
 	if err != nil {
 		return nav, errmsg.ERROR
 	}
@@ -57,7 +60,7 @@ func ModifyNav(navid int, navtitle string, navurl string) int {
 	var navmap = make(map[string]interface{})
 	navmap["navtitle"] = navtitle
 	navmap["navurl"] = navurl
-	err := db.Model(&nav).Where("navid = ?", navid).Updates(navmap).Error
+	err := db.Model(&nav).Where("nav_id = ?", navid).Updates(navmap).Error
 	if err != nil {
 		return errmsg.ERROR
 	}
@@ -67,7 +70,7 @@ func ModifyNav(navid int, navtitle string, navurl string) int {
 // 删除导航标签
 func DeleNav(navid int) int {
 	var nav Navigation
-	err := db.Where("navid = ?", navid).Unscoped().Delete(&nav).Error
+	err := db.Where("nav_id = ?", navid).Unscoped().Delete(&nav).Error
 	if err != nil {
 		return errmsg.ERROR
 	}
