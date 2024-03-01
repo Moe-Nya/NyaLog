@@ -11,5 +11,5 @@ func Test_ModifyEmail(t *testing.T) {
 	var email model.EmailServer
 	email, _ = model.SeleEmail()
 	email.Emailpassword = "ddd"
-	fmt.Println(model.ModifyEmail(email))
+	fmt.Println(model.ModifyEmail(&email))
 }
