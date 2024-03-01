@@ -41,14 +41,14 @@ func SeleEmail() (EmailServer, int) {
 }
 
 // 修改邮件服务器信息
-func ModifyEmail(data *EmailServer) int {
+func ModifyEmail(data EmailServer) int {
 	var email EmailServer
 	var emailmap = make(map[string]interface{})
 	emailmap["stmphost"] = data.Stmphost
 	emailmap["stmpport"] = data.Stmpport
 	emailmap["emailusername"] = data.Emailusername
 	emailmap["emailpassword"] = data.Emailpassword
-	err := db.Model(&email).Updates(emailmap).Error
+	err := db.Model(&email).Where("id = 1").Updates(emailmap).Error
 	if err != nil {
 		return errmsg.ERROR
 	}
