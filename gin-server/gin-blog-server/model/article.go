@@ -60,9 +60,14 @@ func CreateArticle(data *Article) int {
 }
 
 // 查询单篇文章
-func SeleOneArticle(articleid int) Article {
+func SeleOneArticle(articleid int) (Article, int) {
 	var article Article
-	return article
+	err := db.Where("articleid = ?", articleid).Find(&article).Error
+	if err != nil {
+		return article, errmsg.ERROR
+	}
+
+	return article, errmsg.SUCCESS
 }
 
 // 查询文章列表
