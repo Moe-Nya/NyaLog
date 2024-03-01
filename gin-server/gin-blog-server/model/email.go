@@ -41,7 +41,7 @@ func SeleEmail() (EmailServer, int) {
 }
 
 // 修改邮件服务器信息
-func ModifyEmail(data EmailServer) int {
+func ModifyEmail(data *EmailServer) int {
 	var email EmailServer
 	var emailmap = make(map[string]interface{})
 	emailmap["stmphost"] = data.Stmphost
