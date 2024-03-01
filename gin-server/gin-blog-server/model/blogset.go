@@ -12,6 +12,10 @@ type BlogSet struct {
 	Sitename       string    `gorm:"type:varchar(50)" json:"sitename" label:"站点名称"`
 	Sitecreatetime time.Time `gorm:"type:datetime" json:"sitecreatetime" label:"创建时间"`
 	Sitebackground string    `gorm:"type:varchar(1000)" json:"sitebackground" label:"博客头图"`
+	AIswitch       int       `gorm:"type:int(5);not null;default:0" json:"aiswitch" label:"AI摘要开关"`
+	// 0是GPT 1是通义千问
+	AIcategory int    `gorm:"type:int(5)" json:"aicategory" label:"使用谁的API"`
+	AIurl      string `gorm:"type:" json:"aiurl" label:"API地址"`
 }
 
 // 创建博客设置
@@ -46,6 +50,11 @@ func ModifyBlogSet(data *BlogSet) int {
 	blogsetmap["sitename"] = data.Sitename
 	blogsetmap["sitecreatetime"] = data.Sitecreatetime
 	blogsetmap["sitebackground"] = data.Sitebackground
+	blogsetmap["aiswitch"] = data.AIswitch
+	if blogsetmap["aiswitch"] == 1 {
+		blogsetmap["aicategory"] = data.AIcategory
+		blogsetmap["aiurl"] = data.AIurl
+	}
 	err := db.Model(&blogset).Where("id = ?", data.ID).Updates(blogsetmap).Error
 	if err != nil {
 		return errmsg.ERROR
