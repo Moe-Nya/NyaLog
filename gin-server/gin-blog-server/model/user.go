@@ -109,7 +109,6 @@ func VertifyPw(password string) int {
 	if err != nil {
 		return errmsg.ERROR
 	}
-	fmt.Println(base64.StdEncoding.EncodeToString(HashPw))
 	if user.Password == base64.StdEncoding.EncodeToString(HashPw) {
 		return errmsg.SUCCESS
 	}
