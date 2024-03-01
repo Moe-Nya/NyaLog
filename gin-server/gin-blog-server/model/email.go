@@ -48,7 +48,7 @@ func ModifyEmail(data *EmailServer) int {
 	emailmap["stmpport"] = data.Stmpport
 	emailmap["emailusername"] = data.Emailusername
 	emailmap["emailpassword"] = data.Emailpassword
-	err := db.Model(&email).Where("id = 1").Updates(emailmap).Error
+	err := db.Model(&email).Where("id = ?", data.ID).Updates(emailmap).Error
 	if err != nil {
 		return errmsg.ERROR
 	}
