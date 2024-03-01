@@ -1,6 +1,7 @@
 package model
 
 import (
+	"NyaLog/gin-blog-server/utils/errmsg"
 	"time"
 
 	"gorm.io/gorm"
@@ -18,3 +19,54 @@ type Article struct {
 	Aisummary    string     `gorm:"type:text" json:"aisummary" label:"AI文章摘要"`
 	Text         string     `gorm:"type:text;not null" json:"text" label:"文章内容"`
 }
+
+// 新增文章
+func CreateArticle(data *Article) int {
+	var article Article
+	article.Articleimg = data.Articleimg
+	article.Articletitle = data.Articletitle
+	// 若输入的时间为空，则使用当前时间作为文章发布时间
+	if data.Articledate.IsZero() {
+		data.Articledate = time.Now()
+	}
+	article.Articledate = data.Articledate
+	article.Articlelikes = data.Articlelikes
+	article.Articleviews = data.Articleviews
+	article.Cid = data.Cid
+	article.Aisummary = data.Aisummary
+	article.Text = data.Text
+	var count int64
+	var a Article
+	err := db.Find(&a).Count(&count).Error
+	if err != nil {
+		return errmsg.ERROR
+	}
+	// 使navid有一个自增效果，方便后续的寻找和修改
+	if count == 0 {
+		article.Articleid = 0
+	} else {
+		var finalarticle Article
+		err = db.Limit(1).Offset(int(count - 1)).Find(&finalarticle).Error
+		if err != nil {
+			return errmsg.ERROR
+		}
+		article.Articleid = finalarticle.Articleid + 1
+	}
+	err = db.Create(&article).Error
+	if err != nil {
+		return errmsg.ERROR
+	}
+	return errmsg.SUCCESS
+}
+
+// 查询单篇文章
+func SeleOneArticle(articleid int) Article {
+	var article Article
+	return article
+}
+
+// 查询文章列表
+
+// 编辑文章
+
+// 删除文章
