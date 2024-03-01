@@ -1,9 +1,54 @@
 package model
 
-import "gorm.io/gorm"
+import (
+	"NyaLog/gin-blog-server/utils/errmsg"
+
+	"gorm.io/gorm"
+)
 
 type Category struct {
 	gorm.Model
 	Cid          int    `gorm:"type:int(5);not null;primary key" json:"cid" label:"文章分类id"`
 	Categorytext string `gorm:"type:varchar(50);not null" json:"categorytext" label:"分类内容"`
+}
+
+// 新增文章分类
+func CreateCat(data *Category) int {
+	err := db.Create(&data).Error
+	if err != nil {
+		return errmsg.ERROR
+	}
+	return errmsg.SUCCESS
+}
+
+// 查询文章分类列表
+func SeleCat() ([]Category, int) {
+	var cats []Category
+	err := db.Find(&cats).Error
+	if err != nil {
+		return cats, errmsg.ERROR
+	}
+	return cats, errmsg.SUCCESS
+}
+
+// 编辑分类
+func ModifyCat(data *Category) int {
+	var cat Category
+	var catmap = make(map[string]interface{})
+	catmap["categorytext"] = data.Categorytext
+	err := db.Model(&cat).Where("cid = ?", data.Cid).Updates(catmap).Error
+	if err != nil {
+		return errmsg.ERROR
+	}
+	return errmsg.SUCCESS
+}
+
+// 删除文章分类
+func DeleCat(cid int) int {
+	var cat Category
+	err := db.Where("cid = ?", cid).Unscoped().Delete(&cat).Error
+	if err != nil {
+		return errmsg.ERROR
+	}
+	return errmsg.SUCCESS
 }
