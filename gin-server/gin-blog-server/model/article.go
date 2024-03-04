@@ -1,8 +1,9 @@
 package model
 
 import (
+	"NyaLog/gin-blog-server/utils"
 	"NyaLog/gin-blog-server/utils/errmsg"
-	"time"
+	"fmt"
 
 	"gorm.io/gorm"
 )
@@ -12,12 +13,12 @@ type Article struct {
 	Articleid    int64      `gorm:"type:bigint;not null;primary key" json:"articleid" label:"文章id"`
 	Articleimg   string     `gorm:"type:varchar(1000)" json:"articleimg" label:"文章头图"`
 	Articletitle string     `gorm:"type:text;not null" json:"articletitle" label:"文章标题"`
-	Articledate  time.Time  `gorm:"type:datetime;not null" json:"articledate" label:"文章最后更新时间"`
 	Articlelikes string     `gorm:"type:varchar(100);not null;default:0" json:"articlelikes" label:"文章点赞数"`
 	Articleviews string     `gorm:"type:varchar(100)not null;default:0" json:"articleviews" label:"文章浏览数"`
 	Cid          []Category `gorm:"type:int;foreignKey:Cid" json:"cid" label:"文章分类id"`
 	Aisummary    string     `gorm:"type:text" json:"aisummary" label:"AI文章摘要"`
 	Text         string     `gorm:"type:text;not null" json:"text" label:"文章内容"`
+	Shorttext    string     `gorm:"type:textlnot null" json:"shorttext" label:"短原文"`
 }
 
 // 新增文章
@@ -25,16 +26,19 @@ func CreateArticle(data *Article) int {
 	var article Article
 	article.Articleimg = data.Articleimg
 	article.Articletitle = data.Articletitle
-	// 若输入的时间为空，则使用当前时间作为文章发布时间
-	if data.Articledate.IsZero() {
-		data.Articledate = time.Now()
-	}
-	article.Articledate = data.Articledate
 	article.Articlelikes = data.Articlelikes
 	article.Articleviews = data.Articleviews
 	article.Cid = data.Cid
 	article.Aisummary = data.Aisummary
 	article.Text = data.Text
+	// 短原文截取原文的前30字符
+	// 这样做在列出文章列表是，可以丰富展示框内容，又节约服务器性能
+	// 只截取30字符，交给前端取舍
+	runes := []rune(data.Text)
+	if len(runes) > 30 {
+		runes = runes[:30]
+	}
+	article.Shorttext = string(runes)
 	var count int64
 	var a Article
 	err := db.Find(&a).Count(&count).Error
@@ -66,12 +70,51 @@ func SeleOneArticle(articleid int) (Article, int) {
 	if err != nil {
 		return article, errmsg.ERROR
 	}
-
+	newViews := utils.BigNumAdd(article.Articleviews)
+	err = db.Model(&article).Update("articleviews", newViews).Error
+	if err != nil {
+		fmt.Println("ERROR:Views update error.")
+	}
 	return article, errmsg.SUCCESS
 }
 
 // 查询文章列表
+func SeleListArticle(pageSize int, pageNum int) ([]Article, int, int64) {
+	var articleList []Article
+	err := db.Select("article.articleid, articleimg, articletitle, created_at, updated_at, articlelikes, articleviews, shorttext, category.cid").Limit(pageSize).Offset((pageNum - 1) * pageSize).Order("Created_At DESC").Joins("Category").Find(&articleList).Error
+	if err != nil {
+		return articleList, errmsg.ERROR, 0
+	}
+	var total int64
+	db.Model(&articleList).Count(&total)
+	return articleList, errmsg.SUCCESS, total
+}
 
 // 编辑文章
+func ModifyArticle(articleid int, data *Article) int {
+	var article Article
+	var articlemaps = make(map[string]interface{})
+	articlemaps["articleimg"] = data.Articleimg
+	articlemaps["articletitle"] = data.Articletitle
+	articlemaps["cid"] = data.Cid
+	articlemaps["aisummary"] = data.Aisummary
+	articlemaps["text"] = data.Text
+	runes := []rune(data.Text)
+	if len(runes) > 30 {
+		runes = runes[:30]
+	}
+	articlemaps["shorttext"] = string(runes)
+	err := db.Model(&article).Where("articleid = ?", articleid).Updates(articlemaps).Error
+	if err != nil {
+		return errmsg.ERROR
+	}
+	return errmsg.SUCCESS
+}
 
 // 删除文章
+
+// 文章喜欢数累加
+
+// 文章CID更新(如果数据库无法关联，就手动)
+
+// 同CID下的文章列表
