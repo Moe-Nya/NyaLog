@@ -112,9 +112,39 @@ func ModifyArticle(articleid int, data *Article) int {
 }
 
 // 删除文章
+func DeleteArticle(articleid int) int {
+	var article Article
+	err := db.Where("cid = ?", articleid).Unscoped().Delete(&article).Error
+	if err != nil {
+		return errmsg.ERROR
+	}
+	return errmsg.SUCCESS
+}
 
 // 文章喜欢数累加
+func AddLike(articleid int) int {
+	var article Article
+	err := db.Where("articleid = ?", articleid).Find(&article).Error
+	if err != nil {
+		return errmsg.ERROR
+	}
+	articlelikes := article.Articlelikes
+	newlikes := utils.BigNumAdd(articlelikes)
+	err = db.Model(&article).Update("articlelikes", newlikes).Error
+	if err != nil {
+		return errmsg.ERROR
+	}
+	return errmsg.SUCCESS
+}
 
 // 文章CID更新(如果数据库无法关联，就手动)
 
 // 同CID下的文章列表
+func SameCidArt(cid int) ([]Article, int) {
+	var article []Article
+	err := db.Where("cid = ?", cid).Find(&article).Error
+	if err != nil {
+		return nil, errmsg.ERROR
+	}
+	return article, errmsg.SUCCESS
+}
