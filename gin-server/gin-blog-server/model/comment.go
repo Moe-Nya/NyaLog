@@ -9,7 +9,7 @@ import (
 type Comment struct {
 	Article Article `gorm:"foreignkey:Article"`
 	gorm.Model
-	Comid        string `gorm:"type:varchar(20);not null;primary key" json:"comid" label:"评论id"`
+	Comid        string `gorm:"type:varchar(20);not null;primary_key" json:"comid" label:"评论id"`
 	Articleid    int64  `gorm:"type:bigint;not null;" json:"articleid" label:"文章id"`
 	Userid       string `gorm:"type:varchar(20);not null" json:"userid" label:"用户id"`
 	Profilephoto string `gorm:"type:varchar(1000);not null" json:"profilephoto" label:"用户头像"`

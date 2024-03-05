@@ -11,7 +11,7 @@ import (
 type Article struct {
 	Category Category `gorm:"foreignkey:Cid"`
 	gorm.Model
-	Articleid    int64  `gorm:"type:bigint;not null;primary key" json:"articleid" label:"文章id"`
+	Articleid    int64  `gorm:"type:bigint;not null;primary_key" json:"articleid" label:"文章id"`
 	Articleimg   string `gorm:"type:varchar(1000)" json:"articleimg" label:"文章头图"`
 	Articletitle string `gorm:"type:text;not null" json:"articletitle" label:"文章标题"`
 	Articlelikes string `gorm:"type:varchar(100);not null;default:0" json:"articlelikes" label:"文章点赞数"`

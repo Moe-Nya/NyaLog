@@ -14,7 +14,7 @@ import (
 
 type User struct {
 	gorm.Model
-	Uid          string `gorm:"type:varchar(20);not null;primary key" json:"uid" label:"用户UID"`
+	Uid          string `gorm:"type:varchar(20);not null;primary_key" json:"uid" label:"用户UID"`
 	Username     string `gorm:"type:varchar(20);not null" json:"username" label:"用户名"`
 	Password     string `gorm:"type:varchar(100);not null" json:"password" label:"用户密码"`
 	Profilephoto string `gorm:"type:varchar(1000)" json:"profilephoto" label:"用户头像"`

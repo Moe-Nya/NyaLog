@@ -8,7 +8,7 @@ import (
 
 type Navigation struct {
 	gorm.Model
-	NavId    int    `gorm:"type:int(10);not null" json:"navid" label:"导航标签id"`
+	NavId    int    `gorm:"type:int(10);not null;primary_key" json:"navid" label:"导航标签id"`
 	Navtitle string `gorm:"type:varchar(20);not null" json:"navtitle" label:"导航栏标题"`
 	Navurl   string `gorm:"type:varchar(1000)" json:"navurl" label:"导航链接"`
 }
