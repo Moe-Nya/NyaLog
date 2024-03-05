@@ -46,7 +46,7 @@ func CreateArticle(data *Article) int {
 	if err != nil {
 		return errmsg.ERROR
 	}
-	// 使navid有一个自增效果，方便后续的寻找和修改
+	// 使id有一个自增效果，方便后续的寻找和修改
 	if count == 0 {
 		article.Articleid = 0
 	} else {
