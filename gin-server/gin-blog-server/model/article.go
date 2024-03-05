@@ -82,7 +82,7 @@ func SeleOneArticle(articleid int) (Article, int) {
 // 查询文章列表
 func SeleListArticle(pageSize int, pageNum int) ([]Article, int, int64) {
 	var articleList []Article
-	err := db.Select("article.articleid, articleimg, articletitle, created_at, updated_at, articlelikes, articleviews, shorttext, category.cid").Limit(pageSize).Offset((pageNum - 1) * pageSize).Order("Created_At DESC").Joins("Category").Find(&articleList).Error
+	err := db.Select("article.articleid, articleimg, articletitle, created_at, updated_at, articlelikes, articleviews, shorttext, cid").Limit(pageSize).Offset((pageNum - 1) * pageSize).Order("Created_At DESC").Find(&articleList).Error
 	if err != nil {
 		return articleList, errmsg.ERROR, 0
 	}
@@ -139,6 +139,14 @@ func AddLike(articleid int) int {
 }
 
 // 文章CID更新(如果数据库无法关联，就手动)
+func DeleCid(cid int) int {
+	var newcid int
+	err := db.Where("cid = ?", cid).Update("cid", newcid).Error
+	if err != nil {
+		return errmsg.ERROR
+	}
+	return errmsg.SUCCESS
+}
 
 // 同CID下的文章列表
 func SameCidArt(cid int) ([]Article, int) {
