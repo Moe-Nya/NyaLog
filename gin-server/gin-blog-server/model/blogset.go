@@ -12,10 +12,12 @@ type BlogSet struct {
 	Sitename       string    `gorm:"type:varchar(50)" json:"sitename" label:"站点名称"`
 	Sitecreatetime time.Time `gorm:"type:datetime" json:"sitecreatetime" label:"创建时间"`
 	Sitebackground string    `gorm:"type:varchar(1000)" json:"sitebackground" label:"博客头图"`
-	AIswitch       int       `gorm:"type:int(5);not null;default:0" json:"aiswitch" label:"AI摘要开关"`
+	Aiswitch       int       `gorm:"type:int(5);not null;default:0" json:"aiswitch" label:"AI摘要开关"`
 	// 0是GPT 1是通义千问
-	AIcategory int    `gorm:"type:int(5)" json:"aicategory" label:"使用谁的API"`
-	AIurl      string `gorm:"type:varchar(1000)" json:"aiurl" label:"API地址"`
+	Aicategory    int    `gorm:"type:int(5)" json:"aicategory" label:"使用谁的API"`
+	Aiurl         string `gorm:"type:varchar(1000)" json:"aiurl" label:"API地址"`
+	Commentswitch int    `gorm:"type:int(5);not null" json:"commentswitch" label:"是否开启评论"`
+	Githuburl     string `gorm:"type:varchar(1000)" json:"githuburl" label:"githubAPI"`
 }
 
 // 创建博客设置
@@ -50,10 +52,14 @@ func ModifyBlogSet(data *BlogSet) int {
 	blogsetmap["sitename"] = data.Sitename
 	blogsetmap["sitecreatetime"] = data.Sitecreatetime
 	blogsetmap["sitebackground"] = data.Sitebackground
-	blogsetmap["aiswitch"] = data.AIswitch
+	blogsetmap["aiswitch"] = data.Aiswitch
 	if blogsetmap["aiswitch"] == 1 {
-		blogsetmap["aicategory"] = data.AIcategory
-		blogsetmap["aiurl"] = data.AIurl
+		blogsetmap["aicategory"] = data.Aicategory
+		blogsetmap["aiurl"] = data.Aiurl
+	}
+	blogsetmap["commentswitch"] = data.Commentswitch
+	if blogsetmap["commentswitch"] == 1 {
+		blogsetmap["githuburl"] = data.Githuburl
 	}
 	err := db.Model(&blogset).Where("id = ?", data.ID).Updates(blogsetmap).Error
 	if err != nil {
