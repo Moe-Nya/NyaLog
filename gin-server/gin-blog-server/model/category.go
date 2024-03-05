@@ -14,7 +14,24 @@ type Category struct {
 
 // 新增文章分类
 func CreateCat(data *Category) int {
-	err := db.Create(&data).Error
+	var count int64
+	var c Category
+	err := db.Find(&c).Count(&count).Error
+	if err != nil {
+		return errmsg.ERROR
+	}
+	// 使id有一个自增效果，方便后续的寻找和修改
+	if count == 0 {
+		data.Cid = 0
+	} else {
+		var finalcat Category
+		err = db.Limit(1).Offset(int(count - 1)).Find(&finalcat).Error
+		if err != nil {
+			return errmsg.ERROR
+		}
+		data.Cid = finalcat.Cid + 1
+	}
+	err = db.Create(&data).Error
 	if err != nil {
 		return errmsg.ERROR
 	}
