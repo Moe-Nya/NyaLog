@@ -1,6 +1,7 @@
 package model
 
 import (
+	"NyaLog/gin-blog-server/utils"
 	"NyaLog/gin-blog-server/utils/errmsg"
 
 	"gorm.io/gorm"
@@ -20,7 +21,24 @@ type Comment struct {
 
 // 新增评论
 func CreateCom(comment *Comment) int {
-	err := db.Where("articleid = ?", comment.Articleid).Create(&comment).Error
+	var count int64
+	var c Comment
+	err := db.Find(&c).Count(&count).Error
+	if err != nil {
+		return errmsg.ERROR
+	}
+	// 使id有一个自增效果，方便后续的寻找和修改\
+	if count == 0 {
+		comment.Comid = "0"
+	} else {
+		var finalcom Comment
+		err = db.Limit(1).Offset(int(count - 1)).Find(&finalcom).Error
+		if err != nil {
+			return errmsg.ERROR
+		}
+		comment.Comid = utils.BigNumAdd(finalcom.Comid)
+	}
+	err = db.Create(&comment).Error
 	if err != nil {
 		return errmsg.ERROR
 	}
