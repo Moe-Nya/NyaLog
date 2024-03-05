@@ -115,7 +115,7 @@ func ModifyArticle(articleid int, data *Article) int {
 // 删除文章
 func DeleteArticle(articleid int) int {
 	var article Article
-	err := db.Where("cid = ?", articleid).Unscoped().Delete(&article).Error
+	err := db.Where("articleid = ?", articleid).Unscoped().Delete(&article).Error
 	if err != nil {
 		return errmsg.ERROR
 	}
@@ -140,8 +140,9 @@ func AddLike(articleid int) int {
 
 // 文章CID更新(如果数据库无法关联，就手动)
 func DeleCid(cid int) int {
-	var newcid int
-	err := db.Where("cid = ?", cid).Update("cid", newcid).Error
+	var article Article
+	var newcid *int = nil
+	err := db.Model(&article).Where("cid = ?", cid).Update("cid", newcid).Error
 	if err != nil {
 		return errmsg.ERROR
 	}
