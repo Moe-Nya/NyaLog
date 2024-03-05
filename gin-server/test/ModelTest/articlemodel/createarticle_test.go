@@ -16,6 +16,5 @@ func TestCreateArticle(t *testing.T) {
 	article.Cid = 1
 	article.Aisummary = "not fund"
 	article.Text = "12312321312312312444"
-	article.Shorttext = "1234"
 	fmt.Println(model.CreateArticle(article))
 }
