@@ -15,11 +15,11 @@ type Article struct {
 	Articleimg   string `gorm:"type:varchar(1000)" json:"articleimg" label:"文章头图"`
 	Articletitle string `gorm:"type:text;not null" json:"articletitle" label:"文章标题"`
 	Articlelikes string `gorm:"type:varchar(100);not null;default:0" json:"articlelikes" label:"文章点赞数"`
-	Articleviews string `gorm:"type:varchar(100)not null;default:0" json:"articleviews" label:"文章浏览数"`
-	Cid          int    `gorm:"type:int(5);" json:"cid" label:"文章分类id"`
+	Articleviews string `gorm:"type:varchar(100);not null;default:0" json:"articleviews" label:"文章浏览数"`
+	Cid          int    `gorm:"type:int(5)" json:"cid" label:"文章分类id"`
 	Aisummary    string `gorm:"type:text" json:"aisummary" label:"AI文章摘要"`
 	Text         string `gorm:"type:text;not null" json:"text" label:"文章内容"`
-	Shorttext    string `gorm:"type:textlnot null" json:"shorttext" label:"短原文"`
+	Shorttext    string `gorm:"type:text;not null" json:"shorttext" label:"短原文"`
 }
 
 // 新增文章

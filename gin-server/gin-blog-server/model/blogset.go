@@ -15,7 +15,7 @@ type BlogSet struct {
 	AIswitch       int       `gorm:"type:int(5);not null;default:0" json:"aiswitch" label:"AI摘要开关"`
 	// 0是GPT 1是通义千问
 	AIcategory int    `gorm:"type:int(5)" json:"aicategory" label:"使用谁的API"`
-	AIurl      string `gorm:"type:" json:"aiurl" label:"API地址"`
+	AIurl      string `gorm:"type:varchar(1000)" json:"aiurl" label:"API地址"`
 }
 
 // 创建博客设置

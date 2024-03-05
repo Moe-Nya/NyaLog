@@ -45,6 +45,7 @@ func InitDb() {
 		os.Exit(1)
 	}
 
+	// db.AutoMigrate(&User{}, &EmailServer{}, &BlogSet{}, &FindMe{}, &Navigation{}, &Category{}, &Article{}, &Comment{})
 	db.AutoMigrate(&User{}, &EmailServer{}, &BlogSet{}, &FindMe{}, &Navigation{}, &Category{}, &Article{}, &Comment{})
 
 	sqlDB, _ := db.DB()
