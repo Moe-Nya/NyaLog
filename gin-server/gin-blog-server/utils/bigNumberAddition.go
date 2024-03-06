@@ -27,6 +27,9 @@ func BigNumAdd(bigNum string) string {
 					copy(resualt[len(t):], num)
 					num = resualt
 				}
+			} else {
+				num[i] = byte(temp)
+				add = false
 			}
 		}
 	}
