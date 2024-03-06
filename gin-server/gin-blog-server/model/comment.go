@@ -56,9 +56,19 @@ func SeleCom(articleid int64) ([]Comment, int) {
 }
 
 // 删除评论
-func DeleteCom(Comid string) int {
+func DeleteCom(comid string) int {
 	var comment Comment
-	err := db.Where("Comid = ?", Comid).Unscoped().Delete(&comment).Error
+	err := db.Where("comid = ?", comid).Unscoped().Delete(&comment).Error
+	if err != nil {
+		return errmsg.ERROR
+	}
+	return errmsg.SUCCESS
+}
+
+// 删除某篇文章的所有评论
+func DeleteAllCom(articleid int) int {
+	var comment Comment
+	err := db.Where("articleid = ?", articleid).Unscoped().Delete(&comment).Error
 	if err != nil {
 		return errmsg.ERROR
 	}
