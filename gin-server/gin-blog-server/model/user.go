@@ -21,7 +21,7 @@ type User struct {
 	Email        string `gorm:"type:varchar(50);not null" json:"email" label:"用户邮箱"`
 	Slogan       string `gorm:"type:varchar(50)" json:"slogan" label:"slogan"`
 	Salt         string `gorm:"type:varchar(50);not null" json:"salt" label:"salt"`
-	Secret       string `gorm:"type:varchar(300);not null" json:"secret" label:"secret"`
+	Secret       string `gorm:"type:varchar(300)" json:"secret" label:"secret"`
 	Lastip       string `gorm:"type:varchar(20)" json:"lastip" label:"lastip"`
 }
 
@@ -70,6 +70,7 @@ func UpdateUser(uid string, data User) int {
 	usermap["profilephoto"] = data.Profilephoto
 	usermap["email"] = data.Email
 	usermap["slogan"] = data.Slogan
+	usermap["secret"] = data.Secret
 	err := db.Model(&user).Where("uid = ? ", uid).Updates(usermap).Error
 	if err != nil {
 		return errmsg.ERROR
