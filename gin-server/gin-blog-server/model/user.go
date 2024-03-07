@@ -25,6 +25,21 @@ type User struct {
 	Lastip       string `gorm:"type:varchar(20)" json:"lastip" label:"lastip"`
 }
 
+// 检查用户是否存在
+// 1存在 0不存在
+func UserExist() (r int, e int) {
+	var count int64
+	var user User
+	err := db.Find(&user).Count(&count).Error
+	if err != nil {
+		return 0, errmsg.ERROR
+	}
+	if count > 0 {
+		return 1, errmsg.SUCCESS
+	}
+	return 0, errmsg.SUCCESS
+}
+
 // 新增用户
 func NewUser(user *User) int {
 	pw, salt := ScryptPw(user.Password)
