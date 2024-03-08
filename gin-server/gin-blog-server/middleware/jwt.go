@@ -21,7 +21,7 @@ type UserClaims struct {
 var jwtkey = []byte(utils.JwtKey)
 
 // 创建jwt
-func GenerateJWT(user *UserClaims) (string, error) {
+func GenerateJWT(user *UserClaims) (string, int) {
 	// 设置过期时间
 	expirationTime := time.Now().Add(24 * time.Hour)
 
@@ -35,11 +35,18 @@ func GenerateJWT(user *UserClaims) (string, error) {
 		},
 	}
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-	return token.SignedString(jwtkey)
+	tokenString, err := token.SignedString(jwtkey)
+	if err != nil {
+		return "", errmsg.TokenGenerateFailed
+	}
+	if UserLogin(tokenString, user.Uid) != errmsg.SUCCESS {
+		return "", errmsg.TokenGenerateFailed
+	}
+	return tokenString, errmsg.SUCCESS
 }
 
 // 验证token
-func ValidateJWT(tokenString string, userid string, userip string) int {
+func ValidateJWT(tokenString string, userip string) int {
 	// 解析jwt
 	token, err := jwt.ParseWithClaims(tokenString, &UserClaims{}, func(token *jwt.Token) (interface{}, error) {
 		return jwtkey, nil
@@ -55,7 +62,7 @@ func ValidateJWT(tokenString string, userid string, userip string) int {
 	if !ok {
 		return errmsg.TokenParseFailed
 	}
-	if uid.Uid == userid || uid.Uip == userip {
+	if uid.Uid == GetUid(tokenString) || uid.Uip == userip {
 		return errmsg.SUCCESS
 	}
 	return errmsg.ERROR
@@ -67,7 +74,6 @@ func JwtToken() gin.HandlerFunc {
 		var code int
 		// 接收传入的token
 		tokenString := c.Request.Header.Get("Authorization")
-		userid := c.Request.Header.Get("Uid")
 		if tokenString == "" {
 			code = errmsg.TokenNotExist
 			c.JSON(http.StatusOK, gin.H{
@@ -78,7 +84,7 @@ func JwtToken() gin.HandlerFunc {
 			return
 		}
 		// 验证token
-		code = ValidateJWT(tokenString, userid, c.ClientIP())
+		code = ValidateJWT(tokenString, c.ClientIP())
 		if code != errmsg.SUCCESS {
 			c.JSON(http.StatusOK, gin.H{
 				"status": code,
