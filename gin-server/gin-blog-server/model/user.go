@@ -23,6 +23,7 @@ type User struct {
 	Salt         string `gorm:"type:varchar(50);not null" json:"salt" label:"salt"`
 	Secret       string `gorm:"type:varchar(300)" json:"secret" label:"secret"`
 	Lastip       string `gorm:"type:varchar(20)" json:"lastip" label:"lastip"`
+	Validateuser int    `gorm:"type:int(5);default:0" json:"validateuser" label:"用户是否验证"`
 }
 
 // 检查用户是否存在
@@ -63,7 +64,7 @@ func SeleUser() (User, int) {
 }
 
 // 更新用户信息
-func UpdateUser(uid string, data User) int {
+func UpdateUser(uid string, data *User) int {
 	var user User
 	var usermap = make(map[string]interface{})
 	usermap["username"] = data.Username
@@ -141,6 +142,20 @@ func ModifyPw(password string) int {
 	pwmap["salt"] = salt
 	err := db.Model(&user).Where("uid = ?", data.Uid).Updates(pwmap).Error
 	if err != nil {
+		return errmsg.ERROR
+	}
+	return errmsg.SUCCESS
+}
+
+// 删除用户
+func DeleteUser() int {
+	var user User
+	user, err := SeleUser()
+	if err == errmsg.ERROR {
+		return errmsg.ERROR
+	}
+	e := db.Where("uid = ?", user.Uid).Unscoped().Delete(&user).Error
+	if e != nil {
 		return errmsg.ERROR
 	}
 	return errmsg.SUCCESS
