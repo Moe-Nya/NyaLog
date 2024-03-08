@@ -8,7 +8,7 @@ import (
 
 func TestUserExist(t *testing.T) {
 	model.InitDb()
-	var r int
+	var r bool
 	var e int
 	r, e = model.UserExist()
 	fmt.Println(r, e)

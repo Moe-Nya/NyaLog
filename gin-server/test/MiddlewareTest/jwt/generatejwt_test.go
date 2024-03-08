@@ -12,5 +12,5 @@ func TestGenerateJwt(t *testing.T) {
 	user.Uip = "127.0.0.1"
 	token, _ := middleware.GenerateJWT(user)
 
-	fmt.Println(middleware.ValidateJWT(token, user.Uid, user.Uip))
+	fmt.Println(middleware.ValidateJWT(token, user.Uip))
 }
