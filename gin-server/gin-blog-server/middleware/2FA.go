@@ -9,15 +9,15 @@ import (
 // two-factor authentication
 
 // 生成2FA
-func GenerateTwoFA(uid string) (string, int) {
+func GenerateTwoFA(uid string) (string, string, int) {
 	key, err := totp.Generate(totp.GenerateOpts{
 		Issuer:      "NyaLog",
 		AccountName: uid,
 	})
 	if err != nil {
-		return "", errmsg.GenerateSecretError
+		return "", "", errmsg.GenerateSecretFailed
 	}
-	return key.URL(), errmsg.SUCCESS
+	return key.Secret(), key.URL(), errmsg.SUCCESS
 }
 
 // 验证2FA

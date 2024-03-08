@@ -10,12 +10,12 @@ func init() {
 }
 
 // 登陆时存入token和对应的uid
-func UserLogin(token string, uid string) int {
-	UserTokenMap[token] = uid
+func UserLogin(uid string, token string) int {
+	UserTokenMap[uid] = token
 	return errmsg.SUCCESS
 }
 
 // 提取token对应的uid
-func GetUid(token string) string {
-	return UserTokenMap[token]
+func GetUid(uid string) string {
+	return UserTokenMap[uid]
 }
