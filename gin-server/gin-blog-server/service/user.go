@@ -8,7 +8,7 @@ import (
 // 创建用户
 // todo 先解决谷歌二级验证码中间件、登录安全中间件、token内存保持服务
 func CreateUser(user *model.User) int {
-	if user.Uid == "" || user.Username == "" || user.Password == "" || user.Email == "" || user.Secret == "" {
+	if user.Uid == "" || user.Username == "" || user.Password == "" || user.Email == "" {
 		return errmsg.UserInfoError
 	}
 
