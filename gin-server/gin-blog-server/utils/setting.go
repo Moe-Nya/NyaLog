@@ -7,6 +7,9 @@ import (
 )
 
 var (
+	// System config
+	PasswordMinLen int
+
 	// Server config
 	AppMode  string
 	HttpPort string
@@ -28,6 +31,11 @@ func init() {
 	}
 	LoadServer(file)
 	LoadDatabase(file)
+	LoadSystem(file)
+}
+
+func LoadSystem(file *ini.File) {
+	PasswordMinLen = file.Section("System").Key("PasswordMinLen").MustInt(6)
 }
 
 func LoadServer(file *ini.File) {
