@@ -27,17 +27,17 @@ type User struct {
 
 // 检查用户是否存在
 // 1存在 0不存在
-func UserExist() (r int, e int) {
+func UserExist() (bool, int) {
 	var count int64
 	var user User
 	err := db.Find(&user).Count(&count).Error
 	if err != nil {
-		return 0, errmsg.ERROR
+		return false, errmsg.ERROR
 	}
 	if count > 0 {
-		return 1, errmsg.SUCCESS
+		return true, errmsg.SUCCESS
 	}
-	return 0, errmsg.SUCCESS
+	return false, errmsg.SUCCESS
 }
 
 // 新增用户
