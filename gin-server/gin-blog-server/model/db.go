@@ -46,7 +46,7 @@ func InitDb() {
 	}
 
 	// db.AutoMigrate(&User{}, &EmailServer{}, &BlogSet{}, &FindMe{}, &Navigation{}, &Category{}, &Article{}, &Comment{})
-	db.AutoMigrate(&User{}, &EmailServer{}, &BlogSet{}, &FindMe{}, &Navigation{}, &Category{}, &Article{}, &Comment{})
+	db.AutoMigrate(&User{}, &BlogSet{}, &FindMe{}, &Navigation{}, &Category{}, &Article{}, &Comment{})
 
 	sqlDB, _ := db.DB()
 	// SetMaxIdleCons 设置连接池中的最大闲置连接数。

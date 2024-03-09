@@ -41,6 +41,20 @@ func UserExist() (bool, int) {
 	return false, errmsg.SUCCESS
 }
 
+// 检查用户是否验证
+// 1验证 0未验证
+func UserValidate() (bool, int) {
+	var user User
+	user, err := SeleUser()
+	if err == errmsg.ERROR {
+		return false, errmsg.ERROR
+	}
+	if user.Validateuser == 1 {
+		return true, errmsg.SUCCESS
+	}
+	return false, errmsg.SUCCESS
+}
+
 // 新增用户
 func NewUser(user *User) int {
 	pw, salt := ScryptPw(user.Password)
@@ -72,6 +86,7 @@ func UpdateUser(uid string, data *User) int {
 	usermap["email"] = data.Email
 	usermap["slogan"] = data.Slogan
 	usermap["secret"] = data.Secret
+	usermap["validateuser"] = data.Validateuser
 	err := db.Model(&user).Where("uid = ? ", uid).Updates(usermap).Error
 	if err != nil {
 		return errmsg.ERROR
