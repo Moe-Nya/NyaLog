@@ -23,8 +23,8 @@ func GenerateTwoFA(uid string) (string, string, int) {
 // 验证2FA
 func Validate2FA(code string, secret string) int {
 	validate := totp.Validate(code, secret)
-	if !validate {
-		return errmsg.CodeError
+	if validate {
+		return errmsg.SUCCESS
 	}
-	return errmsg.SUCCESS
+	return errmsg.CodeError
 }
