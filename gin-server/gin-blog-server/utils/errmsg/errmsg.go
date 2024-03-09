@@ -17,11 +17,15 @@ const (
 	// QRcode
 	GenerateQRFailed = 4001
 
-	// 用户登录
-	UserInfoError   = 2001
-	UserExist       = 2002
-	UserNotExist    = 2003
-	CheckUserFailed = 2004
+	// 管理员用户
+	UserInfoError      = 2001
+	UserExist          = 2002
+	UserNotExist       = 2003
+	CheckUserFailed    = 2004
+	UserEmailCodeError = 2005
+
+	// 邮件发送
+	SendEmailFailed = 5001
 )
 
 var codeMsg = map[int]string{
@@ -42,10 +46,14 @@ var codeMsg = map[int]string{
 	GenerateQRFailed: "generate qrcode failed",
 
 	// 管理员用户
-	UserInfoError:   "user information error",
-	UserExist:       "user exist",
-	UserNotExist:    "user not exist",
-	CheckUserFailed: "check user failed",
+	UserInfoError:      "user information error",
+	UserExist:          "user exist",
+	UserNotExist:       "user not exist",
+	CheckUserFailed:    "check user failed",
+	UserEmailCodeError: "user email validate code error",
+
+	// 邮件发送
+	SendEmailFailed: "Email send failed",
 }
 
 func GetErrorMsg(code int) string {

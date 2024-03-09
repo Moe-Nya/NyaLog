@@ -22,6 +22,12 @@ var (
 	DbUser     string
 	DbPassword string
 	DbName     string
+
+	// Email server
+	Stmphost      string
+	Stmpport      string
+	Emailusername string
+	Emailpassword string
 )
 
 func init() {
@@ -32,6 +38,7 @@ func init() {
 	LoadServer(file)
 	LoadDatabase(file)
 	LoadSystem(file)
+	LoadEmaiInfo(file)
 }
 
 func LoadSystem(file *ini.File) {
@@ -51,4 +58,11 @@ func LoadDatabase(file *ini.File) {
 	DbPort = file.Section("DataBase").Key("DbPort").MustInt(3306)
 	DbUser = file.Section("DataBase").Key("DbUser").MustString("root")
 	DbPassword = file.Section("DataBase").Key("DbPassword").MustString("IDontKnow")
+}
+
+func LoadEmaiInfo(file *ini.File) {
+	Stmphost = file.Section("Email").Key("Stmphost").MustString("127.0.0.1")
+	Stmpport = file.Section("Email").Key("Stmpport").MustString("587")
+	Emailusername = file.Section("Email").Key("Emailusername").MustString("username")
+	Emailpassword = file.Section("Email").Key("Emailpassword").MustString("password")
 }
