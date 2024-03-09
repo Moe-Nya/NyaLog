@@ -20,7 +20,10 @@ func IniRouter() {
 	authrouter := routerv1.Group("api/v1")
 	authrouter.Use(middleware.JwtToken())
 	{
-
+		// 发送邮件验证码
+		authrouter.GET("/sendemail", v1.SendEmailCode)
+		// 验证用户注册信息
+		authrouter.POST("/adminvalidate", v1.ValidateUser)
 	}
 
 	_ = routerv1.Run(utils.HttpPort)
