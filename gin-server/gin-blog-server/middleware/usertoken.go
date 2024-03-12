@@ -1,14 +1,22 @@
 package middleware
 
-import "NyaLog/gin-blog-server/utils/errmsg"
+import (
+	"NyaLog/gin-blog-server/utils/errmsg"
+	"time"
+)
+
+type UserEmailCode struct {
+	Emailcode  string `json:"emailcode"`
+	ExpiryTime time.Time
+}
 
 var UserTokenMap map[string]string
-var UserEmailCodeMap map[string]string
+var UserEmailCodeMap map[string]UserEmailCode
 
 // 初始化usertoken哈希表
 func init() {
 	UserTokenMap = make(map[string]string)
-	UserEmailCodeMap = make(map[string]string)
+	UserEmailCodeMap = make(map[string]UserEmailCode)
 }
 
 // 登陆时存入uid和对应的token
@@ -29,18 +37,36 @@ func DeleteToken(uid string) int {
 }
 
 // 验证时存入用户uid和邮箱验证码
-func UserEmailCode(uid string, code string) int {
-	UserEmailCodeMap[uid] = code
+func CheckUserEmailCode(uid string, code string) int {
+	var expiryTime time.Duration = time.Minute * 30
+	expiry := time.Now().Add(expiryTime)
+	UserEmailCodeMap[uid] = UserEmailCode{
+		Emailcode:  code,
+		ExpiryTime: expiry,
+	}
 	return errmsg.SUCCESS
 }
 
 // 提取uid对应的code
-func GetCode(uid string) string {
-	return UserEmailCodeMap[uid]
+func GetCode(uid string) (string, int) {
+	CleanupExpiredData()
+	data, ok := UserEmailCodeMap[uid]
+	if ok && time.Now().Before(data.ExpiryTime) {
+		return data.Emailcode, errmsg.SUCCESS
+	}
+	return "", errmsg.ERROR
 }
 
 // 删除uid对应的code
 func DeleteCode(uid string) int {
 	delete(UserEmailCodeMap, uid)
 	return errmsg.SUCCESS
+}
+
+func CleanupExpiredData() {
+	for key, data := range UserEmailCodeMap {
+		if time.Now().After(data.ExpiryTime) {
+			delete(UserEmailCodeMap, key)
+		}
+	}
 }

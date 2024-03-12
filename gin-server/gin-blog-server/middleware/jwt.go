@@ -62,10 +62,10 @@ func ValidateJWT(tokenString string, userip string) (string, int) {
 	if !ok {
 		return "", errmsg.TokenParseFailed
 	}
-	if tokenString == GetToken(uid.Uid) || uid.Uip == userip {
+	if tokenString == GetToken(uid.Uid) && uid.Uip == userip {
 		return uid.Uid, errmsg.SUCCESS
 	}
-	return "", errmsg.ERROR
+	return "", errmsg.TokenInvalid
 }
 
 // jwt中间件
