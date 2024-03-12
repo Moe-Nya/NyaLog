@@ -100,7 +100,7 @@ func SendEmailCode() int {
 	if err != errmsg.SUCCESS {
 		return err
 	}
-	middleware.UserEmailCode(user.Uid, string(code))
+	middleware.CheckUserEmailCode(user.Uid, string(code))
 	return errmsg.SUCCESS
 }
 
@@ -135,7 +135,8 @@ func CheckUser(data *CheckUserToken, token string) int {
 
 	// 验证用户输入的验证信息
 	uid, _ := middleware.ValidateJWT(token, data.Userip)
-	if middleware.GetCode(uid) != data.Emailcode {
+	code, err := middleware.GetCode(uid)
+	if err != errmsg.SUCCESS || code != data.Emailcode {
 		return errmsg.UserEmailCodeError
 	}
 	if middleware.Validate2FA(data.Twofacode, user.Secret) == errmsg.CodeError {
@@ -148,5 +149,64 @@ func CheckUser(data *CheckUserToken, token string) int {
 	}
 	middleware.DeleteCode(uid)
 	middleware.DeleteToken(uid)
+	return errmsg.SUCCESS
+}
+
+// 用户登录时所用的结构体
+type Ulogin struct {
+	Uid       string `json:"uid"`
+	Password  string `json:"password"`
+	TwoFACode string `json:"twofacode"`
+}
+
+// 用户登录
+func UserLogin(data *Ulogin) int {
+	// 验证用户是否已经存在
+	userexist, err := UserExist()
+	if err == errmsg.ERROR {
+		return errmsg.LoginError
+	}
+	if userexist {
+		uservalidate, err := model.UserValidate()
+		if err == errmsg.ERROR {
+			return errmsg.LoginError
+		}
+		if !uservalidate {
+			return errmsg.UserNotValidate
+		}
+	} else {
+		return errmsg.UserNotExist
+	}
+
+	var user model.User
+	user, err = model.SeleUser()
+	if err != errmsg.SUCCESS {
+		return errmsg.LoginError
+	}
+	// Uid验证
+	if data.Uid != user.Uid {
+		return errmsg.UidError
+	}
+
+	// Password验证
+	pwValidate := model.VertifyPw(data.Password)
+	if pwValidate != errmsg.SUCCESS {
+		return errmsg.PasswordError
+	}
+
+	// 2FA验证
+	twoFAValidate := middleware.Validate2FA(data.TwoFACode, user.Secret)
+	if twoFAValidate != errmsg.SUCCESS {
+		return twoFAValidate
+	}
+	return errmsg.SUCCESS
+}
+
+// 登录注销
+func UserLoginOut(uid string) int {
+	err := middleware.DeleteToken(uid)
+	if err != errmsg.SUCCESS {
+		return errmsg.TokenNotExist
+	}
 	return errmsg.SUCCESS
 }
