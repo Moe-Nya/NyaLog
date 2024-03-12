@@ -21,8 +21,12 @@ const (
 	UserInfoError      = 2001
 	UserExist          = 2002
 	UserNotExist       = 2003
-	CheckUserFailed    = 2004
-	UserEmailCodeError = 2005
+	UserNotValidate    = 2004
+	CheckUserFailed    = 2005
+	UserEmailCodeError = 2006
+	LoginError         = 2007
+	UidError           = 2008
+	PasswordError      = 2009
 
 	// 邮件发送
 	SendEmailFailed = 5001
@@ -49,8 +53,12 @@ var codeMsg = map[int]string{
 	UserInfoError:      "user information error",
 	UserExist:          "user exist",
 	UserNotExist:       "user not exist",
+	UserNotValidate:    "user not validate",
 	CheckUserFailed:    "check user failed",
 	UserEmailCodeError: "user email validate code error",
+	LoginError:         "an error occurred while logging in",
+	UidError:           "uid error",
+	PasswordError:      "password error",
 
 	// 邮件发送
 	SendEmailFailed: "Email send failed",
