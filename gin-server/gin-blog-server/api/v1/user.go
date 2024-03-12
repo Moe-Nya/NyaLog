@@ -123,3 +123,51 @@ func ValidateUser(c *gin.Context) {
 }
 
 // 用户登录
+func UserLogin(c *gin.Context) {
+	var data service.Ulogin
+	_ = c.ShouldBindJSON(&data)
+	err := service.UserLogin(&data)
+	if err != errmsg.SUCCESS {
+		c.JSON(http.StatusOK, gin.H{
+			"code":    err,
+			"message": errmsg.GetErrorMsg(err),
+		})
+	} else {
+		var user middleware.UserClaims
+		user.Uid = data.Uid
+		user.Uip = c.ClientIP()
+		var t time.Duration = time.Hour
+		tokenString, err := middleware.GenerateJWT(&user, t)
+		if err != errmsg.SUCCESS {
+			c.JSON(http.StatusOK, gin.H{
+				"code":    err,
+				"message": errmsg.GetErrorMsg(err),
+			})
+		} else {
+			middleware.UserLogin(data.Uid, tokenString)
+			c.JSON(http.StatusOK, gin.H{
+				"code":    err,
+				"message": errmsg.GetErrorMsg(err),
+				"token":   tokenString,
+			})
+		}
+	}
+}
+
+// 登录注销
+func UserLoginOut(c *gin.Context) {
+	tokenString := c.Request.Header.Get("Authorization")
+	uid, err := middleware.ValidateJWT(tokenString, c.ClientIP())
+	if err != errmsg.SUCCESS {
+		c.JSON(http.StatusOK, gin.H{
+			"code":    err,
+			"message": errmsg.GetErrorMsg(err),
+		})
+	} else {
+		err = service.UserLoginOut(uid)
+		c.JSON(http.StatusOK, gin.H{
+			"code":    err,
+			"message": errmsg.GetErrorMsg(err),
+		})
+	}
+}
