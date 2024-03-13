@@ -14,6 +14,7 @@ var (
 	AppMode  string
 	HttpPort string
 	JwtKey   string
+	LoginNum int
 
 	// DataBase config
 	Db         string
@@ -49,6 +50,7 @@ func LoadServer(file *ini.File) {
 	AppMode = file.Section("Server").Key("AppMode").MustString("debug")
 	HttpPort = file.Section("Server").Key("HttpPort").MustString(":3000")
 	JwtKey = file.Section("Server").Key("JwtKey").MustString("yourkey")
+	LoginNum = file.Section("Server").Key("LoginNum").MustInt(10)
 }
 
 func LoadDatabase(file *ini.File) {

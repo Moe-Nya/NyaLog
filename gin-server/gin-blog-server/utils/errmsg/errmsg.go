@@ -27,6 +27,7 @@ const (
 	LoginError         = 2007
 	UidError           = 2008
 	PasswordError      = 2009
+	CantLogin          = 2010
 
 	// 邮件发送
 	SendEmailFailed = 5001
@@ -59,6 +60,7 @@ var codeMsg = map[int]string{
 	LoginError:         "an error occurred while logging in",
 	UidError:           "uid error",
 	PasswordError:      "password error",
+	CantLogin:          "this ipdress can't login agin",
 
 	// 邮件发送
 	SendEmailFailed: "Email send failed",
