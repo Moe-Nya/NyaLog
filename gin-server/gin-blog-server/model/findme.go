@@ -26,6 +26,7 @@ func CreateFindme(data *FindMe) int {
 	if err != nil {
 		return errmsg.ERROR
 	}
+	// id自增效果计算
 	if count == 0 {
 		findme.FindId = 0
 	} else {
