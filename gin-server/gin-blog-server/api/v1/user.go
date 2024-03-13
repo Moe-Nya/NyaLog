@@ -128,6 +128,15 @@ func UserLogin(c *gin.Context) {
 	_ = c.ShouldBindJSON(&data)
 	err := service.UserLogin(&data)
 	if err != errmsg.SUCCESS {
+		// 用户登录错误次数
+		e := middleware.CheckLoginError(c.ClientIP())
+		if e != errmsg.SUCCESS {
+			c.JSON(http.StatusOK, gin.H{
+				"code":    e,
+				"message": errmsg.GetErrorMsg(e),
+			})
+			return
+		}
 		c.JSON(http.StatusOK, gin.H{
 			"code":    err,
 			"message": errmsg.GetErrorMsg(err),
@@ -145,6 +154,7 @@ func UserLogin(c *gin.Context) {
 			})
 		} else {
 			middleware.UserLogin(data.Uid, tokenString)
+			middleware.DeleteLoginErrorData(c.ClientIP())
 			c.JSON(http.StatusOK, gin.H{
 				"code":    err,
 				"message": errmsg.GetErrorMsg(err),
