@@ -13,7 +13,7 @@ type UserEmailCode struct {
 var UserTokenMap map[string]string
 var UserEmailCodeMap map[string]UserEmailCode
 
-// 初始化usertoken哈希表
+// 初始化哈希表
 func init() {
 	UserTokenMap = make(map[string]string)
 	UserEmailCodeMap = make(map[string]UserEmailCode)
@@ -49,7 +49,7 @@ func CheckUserEmailCode(uid string, code string) int {
 
 // 提取uid对应的code
 func GetCode(uid string) (string, int) {
-	CleanupExpiredData()
+	CleanupEmaiCodeExpiredData()
 	data, ok := UserEmailCodeMap[uid]
 	if ok && time.Now().Before(data.ExpiryTime) {
 		return data.Emailcode, errmsg.SUCCESS
@@ -63,7 +63,8 @@ func DeleteCode(uid string) int {
 	return errmsg.SUCCESS
 }
 
-func CleanupExpiredData() {
+// 清除过期emaicode
+func CleanupEmaiCodeExpiredData() {
 	for key, data := range UserEmailCodeMap {
 		if time.Now().After(data.ExpiryTime) {
 			delete(UserEmailCodeMap, key)
