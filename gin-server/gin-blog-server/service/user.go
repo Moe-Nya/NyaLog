@@ -183,6 +183,13 @@ func UserLogin(data *Ulogin) int {
 	if err != errmsg.SUCCESS {
 		return errmsg.LoginError
 	}
+
+	// 2FA验证
+	twoFAValidate := middleware.Validate2FA(data.TwoFACode, user.Secret)
+	if twoFAValidate != errmsg.SUCCESS {
+		return twoFAValidate
+	}
+
 	// Uid验证
 	if data.Uid != user.Uid {
 		return errmsg.UidError
@@ -192,12 +199,6 @@ func UserLogin(data *Ulogin) int {
 	pwValidate := model.VertifyPw(data.Password)
 	if pwValidate != errmsg.SUCCESS {
 		return errmsg.PasswordError
-	}
-
-	// 2FA验证
-	twoFAValidate := middleware.Validate2FA(data.TwoFACode, user.Secret)
-	if twoFAValidate != errmsg.SUCCESS {
-		return twoFAValidate
 	}
 	return errmsg.SUCCESS
 }
