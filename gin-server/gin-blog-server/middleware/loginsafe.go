@@ -19,7 +19,7 @@ func init() {
 	LoginSafeMap = make(map[string]*LoginSafe)
 }
 
-// 当用户登陆失败时，记录其登录ip以及累计登录次数
+// 当用户进行非法操作时，记录其ip以及累计非法操作次数
 func CheckLoginError(uip string) int {
 	CleanupLoginErrorExpiredData()
 	loginSafe, ok := LoginSafeMap[uip]
@@ -35,6 +35,18 @@ func CheckLoginError(uip string) int {
 		if num >= 0 && num < utils.LoginNum {
 			loginSafe.ErrorNum += 1
 		} else if num >= utils.LoginNum {
+			return errmsg.CantLogin
+		}
+	}
+	return errmsg.SUCCESS
+}
+
+// 检查ip是否还能登录
+func CheckIP(uip string) int {
+	CleanupLoginErrorExpiredData()
+	loginSafe, ok := LoginSafeMap[uip]
+	if ok {
+		if loginSafe.ErrorNum >= utils.LoginNum {
 			return errmsg.CantLogin
 		}
 	}

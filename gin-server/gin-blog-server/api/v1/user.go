@@ -32,6 +32,59 @@ func UserExist(c *gin.Context) {
 	}
 }
 
+// -------------------------------------------
+
+// 发送邮件验证码
+func SendEmailCode(c *gin.Context) {
+	var data service.SendEmail
+	_ = c.ShouldBindJSON(&data)
+	if middleware.CheckIP(c.ClientIP()) != errmsg.SUCCESS {
+		c.JSON(http.StatusOK, gin.H{
+			"code":    errmsg.SendEmailFailed,
+			"message": "Send code failed",
+		})
+	} else {
+		var user model.User
+		user, err := model.SeleUser()
+		if err != errmsg.SUCCESS {
+			c.JSON(http.StatusOK, gin.H{
+				"code":    err,
+				"message": "validate failed",
+			})
+		} else {
+			if user.Validateuser == 1 {
+				data.Category = true
+				data.Useplace = "reset"
+			} else {
+				data.Category = false
+				data.Useplace = "create"
+			}
+			err = service.SendEmailCode(&data)
+			if err != errmsg.SUCCESS {
+				if err == errmsg.ERROR {
+					c.JSON(http.StatusOK, gin.H{
+						"code":    err,
+						"message": "send code failed",
+					})
+				} else {
+					c.JSON(http.StatusOK, gin.H{
+						"code":    err,
+						"message": errmsg.GetErrorMsg(err),
+					})
+				}
+			} else {
+				_ = middleware.CheckLoginError(c.ClientIP())
+				c.JSON(http.StatusOK, gin.H{
+					"code":    err,
+					"message": "send success",
+				})
+			}
+		}
+	}
+}
+
+// -------------------------------------------
+
 // 注册用户
 func CreateUser(c *gin.Context) {
 	var data model.User
@@ -72,29 +125,6 @@ func CreateUser(c *gin.Context) {
 	}
 }
 
-// 发送邮件验证码
-func SendEmailCode(c *gin.Context) {
-	err := service.SendEmailCode()
-	if err != errmsg.SUCCESS {
-		if err == errmsg.ERROR {
-			c.JSON(http.StatusOK, gin.H{
-				"code":    err,
-				"message": "Send code failed",
-			})
-		} else {
-			c.JSON(http.StatusOK, gin.H{
-				"code":    err,
-				"message": errmsg.GetErrorMsg(err),
-			})
-		}
-	} else {
-		c.JSON(http.StatusOK, gin.H{
-			"code":    err,
-			"message": "Send success",
-		})
-	}
-}
-
 // 验证注册的用户
 func ValidateUser(c *gin.Context) {
 	var data service.CheckUserToken
@@ -115,6 +145,7 @@ func ValidateUser(c *gin.Context) {
 			})
 		}
 	} else {
+		middleware.DeleteLoginErrorData(c.ClientIP())
 		c.JSON(http.StatusOK, gin.H{
 			"code":    err,
 			"message": "Validate success",
@@ -122,44 +153,54 @@ func ValidateUser(c *gin.Context) {
 	}
 }
 
+// -------------------------------------------
+
 // 用户登录
 func UserLogin(c *gin.Context) {
-	var data service.Ulogin
-	_ = c.ShouldBindJSON(&data)
-	err := service.UserLogin(&data)
+	err := middleware.CheckIP(c.ClientIP())
 	if err != errmsg.SUCCESS {
-		// 用户登录错误次数
-		e := middleware.CheckLoginError(c.ClientIP())
-		if e != errmsg.SUCCESS {
-			c.JSON(http.StatusOK, gin.H{
-				"code":    e,
-				"message": errmsg.GetErrorMsg(e),
-			})
-			return
-		}
 		c.JSON(http.StatusOK, gin.H{
 			"code":    err,
 			"message": errmsg.GetErrorMsg(err),
 		})
 	} else {
-		var user middleware.UserClaims
-		user.Uid = data.Uid
-		user.Uip = c.ClientIP()
-		var t time.Duration = time.Hour
-		tokenString, err := middleware.GenerateJWT(&user, t)
+		var data service.Ulogin
+		_ = c.ShouldBindJSON(&data)
+		err = service.UserLogin(&data)
 		if err != errmsg.SUCCESS {
+			// 用户登录错误次数
+			e := middleware.CheckLoginError(c.ClientIP())
+			if e != errmsg.SUCCESS {
+				c.JSON(http.StatusOK, gin.H{
+					"code":    e,
+					"message": errmsg.GetErrorMsg(e),
+				})
+				return
+			}
 			c.JSON(http.StatusOK, gin.H{
 				"code":    err,
 				"message": errmsg.GetErrorMsg(err),
 			})
 		} else {
-			middleware.UserLogin(data.Uid, tokenString)
-			middleware.DeleteLoginErrorData(c.ClientIP())
-			c.JSON(http.StatusOK, gin.H{
-				"code":    err,
-				"message": errmsg.GetErrorMsg(err),
-				"token":   tokenString,
-			})
+			var user middleware.UserClaims
+			user.Uid = data.Uid
+			user.Uip = c.ClientIP()
+			var t time.Duration = time.Hour
+			tokenString, err := middleware.GenerateJWT(&user, t)
+			if err != errmsg.SUCCESS {
+				c.JSON(http.StatusOK, gin.H{
+					"code":    err,
+					"message": errmsg.GetErrorMsg(err),
+				})
+			} else {
+				middleware.UserLogin(data.Uid, tokenString)
+				middleware.DeleteLoginErrorData(c.ClientIP())
+				c.JSON(http.StatusOK, gin.H{
+					"code":    err,
+					"message": errmsg.GetErrorMsg(err),
+					"token":   tokenString,
+				})
+			}
 		}
 	}
 }
@@ -178,6 +219,69 @@ func UserLoginOut(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{
 			"code":    err,
 			"message": errmsg.GetErrorMsg(err),
+		})
+	}
+}
+
+// -------------------------------------------
+
+// 重置密码
+func ValidateReset(c *gin.Context) {
+	err := middleware.CheckIP(c.ClientIP())
+	if err != errmsg.SUCCESS {
+		c.JSON(http.StatusOK, gin.H{
+			"code":    err,
+			"message": errmsg.GetErrorMsg(err),
+		})
+	} else {
+		var validatereset service.ValidateRe
+		_ = c.ShouldBindJSON(&validatereset)
+		err = service.ValidateReset(&validatereset)
+		if err != errmsg.SUCCESS {
+			middleware.CheckLoginError(c.ClientIP())
+			c.JSON(http.StatusOK, gin.H{
+				"code":    err,
+				"message": errmsg.GetErrorMsg(err),
+			})
+		} else {
+			var user middleware.UserClaims
+			user.Uid = validatereset.Uid
+			user.Uip = c.ClientIP()
+			var t time.Duration = time.Minute
+			tokenString, err := middleware.GenerateJWT(&user, t)
+			if middleware.UserLogin(user.Uid, tokenString) != errmsg.SUCCESS {
+				c.JSON(http.StatusOK, gin.H{
+					"code":    err,
+					"message": errmsg.GetErrorMsg(err),
+				})
+			} else {
+				middleware.DeleteLoginErrorData(c.ClientIP())
+				c.JSON(http.StatusOK, gin.H{
+					"code":    err,
+					"message": errmsg.GetErrorMsg(err),
+					"token":   tokenString,
+				})
+			}
+		}
+	}
+}
+
+// 验证邮箱
+func ValidateEmail(c *gin.Context) {
+	var user service.ValidateEm
+	_ = c.ShouldBindJSON(&user)
+	err := service.ValidateEmail(&user)
+	if err != errmsg.SUCCESS {
+		c.JSON(http.StatusOK, gin.H{
+			"code":    err,
+			"message": errmsg.GetErrorMsg(err),
+		})
+	} else {
+		middleware.DeleteCode(user.Uid)
+		middleware.DeleteToken(user.Uid)
+		c.JSON(http.StatusOK, gin.H{
+			"code":    errmsg.SUCCESS,
+			"message": "reset success",
 		})
 	}
 }

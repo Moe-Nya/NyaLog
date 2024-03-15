@@ -7,6 +7,7 @@ import (
 
 type UserEmailCode struct {
 	Emailcode  string `json:"emailcode"`
+	Useplace   string `json:"useplace"`
 	ExpiryTime time.Time
 }
 
@@ -37,24 +38,25 @@ func DeleteToken(uid string) int {
 }
 
 // 验证时存入用户uid和邮箱验证码
-func CheckUserEmailCode(uid string, code string) int {
+func CheckUserEmailCode(uid string, useplace string, code string) int {
 	var expiryTime time.Duration = time.Minute * 30
 	expiry := time.Now().Add(expiryTime)
 	UserEmailCodeMap[uid] = UserEmailCode{
 		Emailcode:  code,
+		Useplace:   useplace,
 		ExpiryTime: expiry,
 	}
 	return errmsg.SUCCESS
 }
 
 // 提取uid对应的code
-func GetCode(uid string) (string, int) {
+func GetCode(uid string) (string, string, int) {
 	CleanupEmaiCodeExpiredData()
 	data, ok := UserEmailCodeMap[uid]
 	if ok && time.Now().Before(data.ExpiryTime) {
-		return data.Emailcode, errmsg.SUCCESS
+		return data.Emailcode, data.Useplace, errmsg.SUCCESS
 	}
-	return "", errmsg.ERROR
+	return "", "", errmsg.ERROR
 }
 
 // 删除uid对应的code
