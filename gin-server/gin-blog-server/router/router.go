@@ -11,6 +11,7 @@ import (
 func IniRouter() {
 	gin.SetMode(utils.AppMode)
 	routerv1 := gin.Default()
+	routerv1.RedirectTrailingSlash = false
 
 	normalrouter := routerv1.Group("api/v1")
 	// 用户是否存在
@@ -21,6 +22,9 @@ func IniRouter() {
 
 	// 用户登录
 	normalrouter.POST("/login", v1.UserLogin)
+
+	// 重置密码-用户验证
+	normalrouter.POST("/resetpwd", v1.ValidateReset)
 
 	authrouter := routerv1.Group("api/v1")
 	authrouter.Use(middleware.JwtToken())
@@ -33,6 +37,9 @@ func IniRouter() {
 
 		// 登录注销
 		authrouter.POST("/loginout", v1.UserLoginOut)
+
+		// 重置密码-邮箱验证
+		authrouter.POST("/resetpwdcode", v1.ValidateEmail)
 	}
 
 	_ = routerv1.Run(utils.HttpPort)
