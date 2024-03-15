@@ -18,19 +18,20 @@ const (
 	GenerateQRFailed = 4001
 
 	// 管理员用户
-	UserInfoError      = 2001
-	UserExist          = 2002
-	UserNotExist       = 2003
-	UserNotValidate    = 2004
-	CheckUserFailed    = 2005
-	UserEmailCodeError = 2006
-	LoginError         = 2007
-	UidError           = 2008
-	PasswordError      = 2009
-	CantLogin          = 2010
+	UserInfoError       = 2001
+	UserExist           = 2002
+	UserNotExist        = 2003
+	UserNotValidate     = 2004
+	CheckUserFailed     = 2005
+	LoginError          = 2006
+	UidError            = 2007
+	PasswordError       = 2008
+	CantLogin           = 2009
+	ResetPasswordFailed = 2010
 
 	// 邮件发送
-	SendEmailFailed = 5001
+	SendEmailFailed   = 5001
+	ValidateCodeError = 5002
 )
 
 var codeMsg = map[int]string{
@@ -51,19 +52,20 @@ var codeMsg = map[int]string{
 	GenerateQRFailed: "generate qrcode failed",
 
 	// 管理员用户
-	UserInfoError:      "user information error",
-	UserExist:          "user exist",
-	UserNotExist:       "user not exist",
-	UserNotValidate:    "user not validate",
-	CheckUserFailed:    "check user failed",
-	UserEmailCodeError: "user email validate code error",
-	LoginError:         "an error occurred while logging in",
-	UidError:           "uid error",
-	PasswordError:      "password error",
-	CantLogin:          "this ipdress can't login agin",
+	UserInfoError:       "user information error",
+	UserExist:           "user exist",
+	UserNotExist:        "user not exist",
+	UserNotValidate:     "user not validate",
+	CheckUserFailed:     "check user failed",
+	LoginError:          "an error occurred while logging in",
+	UidError:            "uid error",
+	PasswordError:       "password error",
+	CantLogin:           "this ipdress can't login agin",
+	ResetPasswordFailed: "reset password failed",
 
 	// 邮件发送
-	SendEmailFailed: "Email send failed",
+	SendEmailFailed:   "Email send failed",
+	ValidateCodeError: "validate coede error",
 }
 
 func GetErrorMsg(code int) string {
