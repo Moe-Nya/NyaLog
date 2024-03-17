@@ -32,6 +32,10 @@ const (
 	// 邮件发送
 	SendEmailFailed   = 5001
 	ValidateCodeError = 5002
+
+	// 博客设置
+	BlogNotSet    = 6001
+	BlogSetFailed = 6002
 )
 
 var codeMsg = map[int]string{
@@ -64,8 +68,12 @@ var codeMsg = map[int]string{
 	ResetPasswordFailed: "reset password failed",
 
 	// 邮件发送
-	SendEmailFailed:   "Email send failed",
+	SendEmailFailed:   "email send failed",
 	ValidateCodeError: "validate coede error",
+
+	// 博客设置
+	BlogNotSet:    "blog not set",
+	BlogSetFailed: "blog set failed",
 }
 
 func GetErrorMsg(code int) string {
