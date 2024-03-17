@@ -17,6 +17,7 @@ type Article struct {
 	Articlelikes string `gorm:"type:varchar(100);not null;default:0" json:"articlelikes" label:"文章点赞数"`
 	Articleviews string `gorm:"type:varchar(100);not null;default:0" json:"articleviews" label:"文章浏览数"`
 	Cid          int    `gorm:"type:int(5)" json:"cid" label:"文章分类id"`
+	Aiswitch     int    `gorm:"type:int(5);not null;default:0" json:"aiswitch" label:"谋篇文章AI摘要开关"`
 	Aisummary    string `gorm:"type:text" json:"aisummary" label:"AI文章摘要"`
 	Text         string `gorm:"type:text;not null" json:"text" label:"文章内容"`
 	Shorttext    string `gorm:"type:text;not null" json:"shorttext" label:"短原文"`
@@ -30,6 +31,7 @@ func CreateArticle(data *Article) int {
 	article.Articlelikes = data.Articlelikes
 	article.Articleviews = data.Articleviews
 	article.Cid = data.Cid
+	article.Aiswitch = data.Aiswitch
 	article.Aisummary = data.Aisummary
 	article.Text = data.Text
 	// 短原文截取原文的前30字符
@@ -98,6 +100,7 @@ func ModifyArticle(articleid int, data *Article) int {
 	articlemaps["articleimg"] = data.Articleimg
 	articlemaps["articletitle"] = data.Articletitle
 	articlemaps["cid"] = data.Cid
+	articlemaps["aiswitch"] = data.Aiswitch
 	articlemaps["aisummary"] = data.Aisummary
 	articlemaps["text"] = data.Text
 	runes := []rune(data.Text)
