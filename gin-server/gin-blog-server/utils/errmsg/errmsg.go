@@ -40,6 +40,7 @@ const (
 	// 文章管理
 	ArticleUpdateFailed = 7001
 	ArticleQueryFailed  = 7002
+	ArticleDeleteFailed = 7003
 )
 
 var codeMsg = map[int]string{
@@ -82,6 +83,7 @@ var codeMsg = map[int]string{
 	// 文章管理
 	ArticleUpdateFailed: "article update failed",
 	ArticleQueryFailed:  "article query failed",
+	ArticleDeleteFailed: "article delete failed",
 }
 
 func GetErrorMsg(code int) string {
