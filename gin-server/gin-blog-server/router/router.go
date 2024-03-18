@@ -26,7 +26,7 @@ func IniRouter() {
 	// 重置密码-用户验证
 	normalrouter.POST("/resetpwd", v1.ValidateReset)
 
-	authrouter := routerv1.Group("api/v1/admin")
+	authrouter := routerv1.Group("api/v1/" + utils.AdminEntrance)
 	authrouter.Use(middleware.JwtToken())
 	{
 		// 发送邮件验证码
@@ -46,6 +46,14 @@ func IniRouter() {
 		authrouter.POST("/blogset", v1.UpdateBlogSet)
 		// 读取设置
 		authrouter.GET("/blogsetlist", v1.SeleBlogSet)
+
+		// 文章设置
+		// 文章设置-新增文章
+		authrouter.POST("/newarticle", v1.CreateArticle)
+		// 文章设置-查询单篇文章
+		authrouter.GET("/article/:id", v1.SeleOneArticle)
+		// 文章设置-查询文章列表
+		authrouter.GET("/articlelist", v1.SeleListArticle)
 	}
 
 	_ = routerv1.Run(utils.HttpPort)
