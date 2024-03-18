@@ -3,7 +3,6 @@ package middleware
 import (
 	"NyaLog/gin-blog-server/utils"
 	"NyaLog/gin-blog-server/utils/errmsg"
-	"fmt"
 	"time"
 )
 
@@ -64,8 +63,6 @@ func CleanupLoginErrorExpiredData() {
 
 // 删除记录
 func DeleteLoginErrorData(uip string) int {
-	fmt.Println(LoginSafeMap[uip])
 	delete(LoginSafeMap, uip)
-	fmt.Println(LoginSafeMap[uip])
 	return errmsg.SUCCESS
 }

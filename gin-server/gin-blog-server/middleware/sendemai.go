@@ -3,7 +3,6 @@ package middleware
 import (
 	"NyaLog/gin-blog-server/utils"
 	"NyaLog/gin-blog-server/utils/errmsg"
-	"fmt"
 	"net/smtp"
 )
 
@@ -16,7 +15,6 @@ func SendEmail(email string, msg []byte) int {
 	// 发送邮件
 	err := smtp.SendMail(utils.Stmphost+":"+utils.Stmpport, auth, utils.Emailusername, users, msg)
 	if err != nil {
-		fmt.Println(err)
 		return errmsg.SendEmailFailed
 	}
 	return errmsg.SUCCESS
