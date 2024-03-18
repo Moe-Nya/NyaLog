@@ -3,7 +3,6 @@ package model
 import (
 	"NyaLog/gin-blog-server/utils"
 	"NyaLog/gin-blog-server/utils/errmsg"
-	"fmt"
 
 	"gorm.io/gorm"
 )
@@ -77,7 +76,7 @@ func SeleOneArticle(articleid int) (Article, int) {
 	newViews := utils.BigNumAdd(article.Articleviews)
 	err = db.Model(&article).Update("articleviews", newViews).Error
 	if err != nil {
-		fmt.Println("ERROR:Views update error.")
+		return article, errmsg.ERROR
 	}
 	return article, errmsg.SUCCESS
 }
@@ -95,7 +94,7 @@ func SeleListArticle(pageSize int, pageNum int) ([]Article, int, int64) {
 }
 
 // 编辑文章
-func ModifyArticle(articleid int, data *Article) int {
+func ModifyArticle(data *Article) int {
 	var article Article
 	var articlemaps = make(map[string]interface{})
 	articlemaps["articleimg"] = data.Articleimg
@@ -109,7 +108,7 @@ func ModifyArticle(articleid int, data *Article) int {
 		runes = runes[:30]
 	}
 	articlemaps["shorttext"] = string(runes)
-	err := db.Model(&article).Where("articleid = ?", articleid).Updates(articlemaps).Error
+	err := db.Model(&article).Where("articleid = ?", data.Articleid).Updates(articlemaps).Error
 	if err != nil {
 		return errmsg.ERROR
 	}
