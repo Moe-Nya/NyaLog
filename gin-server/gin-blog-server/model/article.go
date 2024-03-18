@@ -42,13 +42,14 @@ func CreateArticle(data *Article) int {
 		runes = runes[:30]
 	}
 	article.Shorttext = string(runes)
+
+	// 使id有一个自增效果，方便后续的寻找和修改
 	var count int64
 	var a Article
 	err := db.Find(&a).Count(&count).Error
 	if err != nil {
 		return errmsg.ERROR
 	}
-	// 使id有一个自增效果，方便后续的寻找和修改
 	if count == 0 {
 		article.Articleid = 0
 	} else {
