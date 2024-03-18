@@ -43,9 +43,7 @@ func SeleBlogSet(c *gin.Context) {
 			"sitebackground": blogset.Sitebackground,
 			"aiswitch":       blogset.Aiswitch,
 			"aicategory":     blogset.Aicategory,
-			"aiurl":          blogset.Aiurl,
 			"commentswitch":  blogset.Commentswitch,
-			"githuburl":      blogset.Githuburl,
 		})
 	}
 }

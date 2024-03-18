@@ -15,6 +15,5 @@ func TestModifyBlogSet(t *testing.T) {
 	blogset.Aiswitch = 0
 	blogset.Aicategory = 1
 	blogset.Commentswitch = 0
-	blogset.Githuburl = "www.baidu.com"
 	fmt.Println(model.ModifyBlogSet(blogset))
 }

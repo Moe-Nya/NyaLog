@@ -15,10 +15,8 @@ type BlogSet struct {
 	Sitebackground string    `gorm:"type:varchar(1000)" json:"sitebackground" label:"博客头图"`
 	Aiswitch       int       `gorm:"type:int(5);not null;default:0" json:"aiswitch" label:"AI摘要开关"`
 	// 0是GPT 1是通义千问
-	Aicategory    int    `gorm:"type:int(5)" json:"aicategory" label:"使用谁的API"`
-	Aiurl         string `gorm:"type:varchar(1000)" json:"aiurl" label:"API地址"`
-	Commentswitch int    `gorm:"type:int(5);not null;default:0" json:"commentswitch" label:"是否开启评论"`
-	Githuburl     string `gorm:"type:varchar(1000)" json:"githuburl" label:"githubAPI"`
+	Aicategory    int `gorm:"type:int(5)" json:"aicategory" label:"使用谁的API"`
+	Commentswitch int `gorm:"type:int(5);not null;default:0" json:"commentswitch" label:"是否开启评论"`
 }
 
 // 查询博客设置是否创建
@@ -68,12 +66,8 @@ func ModifyBlogSet(data *BlogSet) int {
 	blogsetmap["aiswitch"] = data.Aiswitch
 	if blogsetmap["aiswitch"] == 1 {
 		blogsetmap["aicategory"] = data.Aicategory
-		blogsetmap["aiurl"] = data.Aiurl
 	}
 	blogsetmap["commentswitch"] = data.Commentswitch
-	if blogsetmap["commentswitch"] == 1 {
-		blogsetmap["githuburl"] = data.Githuburl
-	}
 	err := db.Model(&blogset).Where("id = ?", 1).Updates(&blogsetmap).Error
 	if err != nil {
 		fmt.Println(err)
