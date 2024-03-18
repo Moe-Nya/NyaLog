@@ -67,7 +67,7 @@ func CreateArticle(data *Article) int {
 }
 
 // 查询单篇文章
-func SeleOneArticle(articleid int) (Article, int) {
+func SeleOneArticle(articleid int64) (Article, int) {
 	var article Article
 	err := db.Where("articleid = ?", articleid).Find(&article).Error
 	if err != nil {
@@ -116,7 +116,7 @@ func ModifyArticle(data *Article) int {
 }
 
 // 删除文章
-func DeleteArticle(articleid int) int {
+func DeleteArticle(articleid int64) int {
 	var article Article
 	err := db.Where("articleid = ?", articleid).Unscoped().Delete(&article).Error
 	if err != nil {
