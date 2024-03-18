@@ -66,16 +66,25 @@ func EditArticle(data *model.Article) int {
 }
 
 // 删除文章
-func DeleteArticle(articleid int) int {
+func DeleteArticle(articleid int64) int {
 	err := model.DeleteArticle(articleid)
 	if err != errmsg.SUCCESS {
-		return errmsg.ArticleUpdateFailed
+		return errmsg.ArticleDeleteFailed
+	}
+	return errmsg.SUCCESS
+}
+
+// 删除某cid下的文章
+func DeleCid(cid int) int {
+	err := model.DeleCid(cid)
+	if err != errmsg.SUCCESS {
+		return errmsg.ArticleDeleteFailed
 	}
 	return errmsg.SUCCESS
 }
 
 // 查询单篇文章
-func SeleOneArticle(articleid int) (model.Article, int) {
+func SeleOneArticle(articleid int64) (model.Article, int) {
 	var article model.Article
 	article, err := model.SeleOneArticle(articleid)
 	if err != errmsg.SUCCESS {
@@ -84,4 +93,28 @@ func SeleOneArticle(articleid int) (model.Article, int) {
 	return article, errmsg.SUCCESS
 }
 
+// 查询文章列表就所需要的结构体
+type ArticleList struct {
+	PageSize int `json:"pagesize"`
+	PageNum  int `json:"pagenum"`
+}
+
 // 查询文章列表
+func SeleListArticle(data *ArticleList) ([]model.Article, int, int64) {
+	var articleList []model.Article
+	articleList, err, total := model.SeleListArticle(data.PageSize, data.PageNum)
+	if err != errmsg.SUCCESS {
+		return articleList, errmsg.ArticleQueryFailed, total
+	}
+	return articleList, errmsg.SUCCESS, total
+}
+
+// 查询同cid文章列表
+func SameCidArt(cid int) ([]model.Article, int) {
+	var articleList []model.Article
+	articleList, err := model.SameCidArt(cid)
+	if err != errmsg.SUCCESS {
+		return articleList, errmsg.ArticleQueryFailed
+	}
+	return articleList, errmsg.SUCCESS
+}
