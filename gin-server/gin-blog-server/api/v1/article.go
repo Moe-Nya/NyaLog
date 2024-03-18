@@ -109,7 +109,7 @@ func DeleteArticle(c *gin.Context) {
 	}
 }
 
-// 删除同CID下的文章
+// 删除某CID
 func DeleCid(c *gin.Context) {
 	var article model.Article
 	_ = c.ShouldBindJSON(&article)
