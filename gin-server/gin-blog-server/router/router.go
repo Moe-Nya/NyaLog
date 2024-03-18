@@ -26,6 +26,12 @@ func IniRouter() {
 	// 重置密码-用户验证
 	normalrouter.POST("/resetpwd", v1.ValidateReset)
 
+	// 文章设置
+	// 文章设置-查询单篇文章
+	normalrouter.GET("/article/:id", v1.SeleOneArticle)
+	// 文章设置-查询文章列表
+	normalrouter.GET("/articlelist", v1.SeleListArticle)
+
 	authrouter := routerv1.Group("api/v1/" + utils.AdminEntrance)
 	authrouter.Use(middleware.JwtToken())
 	{
@@ -50,10 +56,12 @@ func IniRouter() {
 		// 文章设置
 		// 文章设置-新增文章
 		authrouter.POST("/newarticle", v1.CreateArticle)
-		// 文章设置-查询单篇文章
-		authrouter.GET("/article/:id", v1.SeleOneArticle)
-		// 文章设置-查询文章列表
-		authrouter.GET("/articlelist", v1.SeleListArticle)
+		// 文章设置-编辑文章
+		authrouter.POST("/editarticle", v1.EditArticle)
+		// 文章设置-删除文章
+		authrouter.GET("/deletearticle", v1.DeleteArticle)
+		// 文章设置-删除同CID文章
+		authrouter.GET("/deletecid", v1.DeleCid)
 	}
 
 	_ = routerv1.Run(utils.HttpPort)
