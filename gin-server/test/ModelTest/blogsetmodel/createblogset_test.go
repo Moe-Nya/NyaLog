@@ -15,8 +15,6 @@ func TestCreateBlogSet(t *testing.T) {
 	blogset.Sitebackground = "www.google.com"
 	blogset.Aiswitch = 1
 	blogset.Aicategory = 0
-	blogset.Aiurl = "opai.com"
 	blogset.Commentswitch = 1
-	blogset.Githuburl = "www.github.com"
 	fmt.Println(model.CreateBlogSet(blogset))
 }
