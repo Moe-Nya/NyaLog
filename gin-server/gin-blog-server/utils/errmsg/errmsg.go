@@ -36,6 +36,10 @@ const (
 	// 博客设置
 	BlogNotSet    = 6001
 	BlogSetFailed = 6002
+
+	// 文章管理
+	ArticleUpdateFailed = 7001
+	ArticleQueryFailed  = 7002
 )
 
 var codeMsg = map[int]string{
@@ -74,6 +78,10 @@ var codeMsg = map[int]string{
 	// 博客设置
 	BlogNotSet:    "blog not set",
 	BlogSetFailed: "blog set failed",
+
+	// 文章管理
+	ArticleUpdateFailed: "article update failed",
+	ArticleQueryFailed:  "article query failed",
 }
 
 func GetErrorMsg(code int) string {

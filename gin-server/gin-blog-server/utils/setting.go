@@ -10,6 +10,9 @@ var (
 	// System config
 	PasswordMinLen int
 	AdminEntrance  string
+	AIsummaryURL   string
+	AIsummaryKEY   string
+	GitHubKey      string
 
 	// Server config
 	AppMode  string
@@ -46,6 +49,9 @@ func init() {
 func LoadSystem(file *ini.File) {
 	PasswordMinLen = file.Section("System").Key("PasswordMinLen").MustInt(6)
 	AdminEntrance = file.Section("System").Key("AdminEntrance").MustString("admin")
+	AIsummaryURL = file.Section("System").Key("AIsummaryURL").MustString("nil")
+	AIsummaryKEY = file.Section("System").Key("AIsummaryKEY").MustString("nil")
+	GitHubKey = file.Section("System").Key("GitHubKey").MustString("nil")
 }
 
 func LoadServer(file *ini.File) {
