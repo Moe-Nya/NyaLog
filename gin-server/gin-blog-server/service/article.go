@@ -74,7 +74,7 @@ func DeleteArticle(articleid int64) int {
 	return errmsg.SUCCESS
 }
 
-// 删除某cid下的文章
+// 删除某cid
 func DeleCid(cid int) int {
 	err := model.DeleCid(cid)
 	if err != errmsg.SUCCESS {
