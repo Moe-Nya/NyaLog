@@ -10,16 +10,17 @@ import (
 type Article struct {
 	Category Category `gorm:"foreignkey:Cid"`
 	gorm.Model
-	Articleid    int64  `gorm:"type:bigint;not null;primary_key" json:"articleid" label:"文章id"`
-	Articleimg   string `gorm:"type:varchar(1000)" json:"articleimg" label:"文章头图"`
-	Articletitle string `gorm:"type:text;not null" json:"articletitle" label:"文章标题"`
-	Articlelikes string `gorm:"type:varchar(100);not null;default:0" json:"articlelikes" label:"文章点赞数"`
-	Articleviews string `gorm:"type:varchar(100);not null;default:0" json:"articleviews" label:"文章浏览数"`
-	Cid          int    `gorm:"type:int(5)" json:"cid" label:"文章分类id"`
-	Aiswitch     int    `gorm:"type:int(5);not null;default:0" json:"aiswitch" label:"谋篇文章AI摘要开关"`
-	Aisummary    string `gorm:"type:text" json:"aisummary" label:"AI文章摘要"`
-	Text         string `gorm:"type:text;not null" json:"text" label:"文章内容"`
-	Shorttext    string `gorm:"type:text;not null" json:"shorttext" label:"短原文"`
+	Articleid       int64  `gorm:"type:bigint;not null;primary_key" json:"articleid" label:"文章id"`
+	Articleimg      string `gorm:"type:varchar(1000)" json:"articleimg" label:"文章头图"`
+	Articletitle    string `gorm:"type:text;not null" json:"articletitle" label:"文章标题"`
+	Articlelikes    string `gorm:"type:varchar(100);default:0" json:"articlelikes" label:"文章点赞数"`
+	Articleviews    string `gorm:"type:varchar(100);default:0" json:"articleviews" label:"文章浏览数"`
+	Cid             int    `gorm:"type:int(5)" json:"cid" label:"文章分类id"`
+	Aiswitch        int    `gorm:"type:int(5);not null;default:0" json:"aiswitch" label:"谋篇文章AI摘要开关"`
+	Aisummary       string `gorm:"type:text" json:"aisummary" label:"AI文章摘要"`
+	Text            string `gorm:"type:text;not null" json:"text" label:"文章内容"`
+	Shorttext       string `gorm:"type:text;not null" json:"shorttext" label:"短原文"`
+	Articlecategory int    `gorm:"type:int(5);not null" json:"articlecategory" label:"文章类型(站内or站外)"`
 }
 
 // 新增文章
@@ -33,6 +34,11 @@ func CreateArticle(data *Article) int {
 	article.Aiswitch = data.Aiswitch
 	article.Aisummary = data.Aisummary
 	article.Text = data.Text
+	article.Articlecategory = data.Articlecategory
+	// 如果是站外文章，不开启AI摘要 0是站内 1是站外
+	if article.Articlecategory == 1 {
+		article.Aiswitch = 0
+	}
 	// 短原文截取原文的前30字符
 	// 这样做在列出文章列表是，可以丰富展示框内容，又节约服务器性能
 	// 只截取30字符，交给前端取舍
@@ -103,6 +109,14 @@ func ModifyArticle(data *Article) int {
 	articlemaps["aiswitch"] = data.Aiswitch
 	articlemaps["aisummary"] = data.Aisummary
 	articlemaps["text"] = data.Text
+	articlemaps["articlecategory"] = data.Articlecategory
+
+	// 如果是站外文章，不开启AI摘要 0是站内 1是站外
+	if data.Articlecategory == 1 {
+		articlemaps["aiswitch"] = 0
+		articlemaps["aisummary"] = ""
+	}
+
 	runes := []rune(data.Text)
 	if len(runes) > 30 {
 		runes = runes[:30]
