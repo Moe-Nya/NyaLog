@@ -28,6 +28,7 @@ func CreateArticle(c *gin.Context) {
 	}
 }
 
+// -------------------------------------------
 // 查询单篇文章
 func SeleOneArticle(c *gin.Context) {
 	idStr := c.Param("id")
@@ -73,6 +74,7 @@ func SeleListArticle(c *gin.Context) {
 	}
 }
 
+// -------------------------------------------
 // 编辑文章
 func EditArticle(c *gin.Context) {
 	var article model.Article
@@ -91,6 +93,7 @@ func EditArticle(c *gin.Context) {
 	}
 }
 
+// -------------------------------------------
 // 删除文章
 func DeleteArticle(c *gin.Context) {
 	var article model.Article

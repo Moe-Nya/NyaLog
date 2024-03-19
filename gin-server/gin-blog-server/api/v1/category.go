@@ -27,6 +27,7 @@ func CreateCategory(c *gin.Context) {
 	}
 }
 
+// -------------------------------------------
 // 查询文章分类
 func SeleCategory(c *gin.Context) {
 	var data []model.Category
@@ -44,6 +45,7 @@ func SeleCategory(c *gin.Context) {
 	}
 }
 
+// -------------------------------------------
 // // 编辑文章分类
 func EditCategory(c *gin.Context) {
 	var data model.Category
@@ -62,6 +64,7 @@ func EditCategory(c *gin.Context) {
 	}
 }
 
+// -------------------------------------------
 // 删除文章分类
 func DeleteCategory(c *gin.Context) {
 	var data model.Category

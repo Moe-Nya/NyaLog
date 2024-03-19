@@ -27,6 +27,7 @@ func UpdateBlogSet(c *gin.Context) {
 	}
 }
 
+// -------------------------------------------
 // 读取博客设置
 func SeleBlogSet(c *gin.Context) {
 	blogset, err := service.SeleBlogSet()

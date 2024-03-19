@@ -9,6 +9,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// -------------------------------------------
 // 创建页面
 func CreatePage(c *gin.Context) {
 	var data model.Page
@@ -27,6 +28,7 @@ func CreatePage(c *gin.Context) {
 	}
 }
 
+// -------------------------------------------
 // 查询页面
 func SelePage(c *gin.Context) {
 	purl := c.Param("purl")
@@ -65,6 +67,7 @@ func SelectPageList(c *gin.Context) {
 	}
 }
 
+// -------------------------------------------
 // 编辑页面
 func EditPage(c *gin.Context) {
 	var data model.Page
@@ -83,6 +86,7 @@ func EditPage(c *gin.Context) {
 	}
 }
 
+// -------------------------------------------
 // 删除页面
 func DeletePage(c *gin.Context) {
 	var data model.Page
