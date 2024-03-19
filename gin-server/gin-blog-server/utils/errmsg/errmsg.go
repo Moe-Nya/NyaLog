@@ -41,6 +41,12 @@ const (
 	ArticleUpdateFailed = 7001
 	ArticleQueryFailed  = 7002
 	ArticleDeleteFailed = 7003
+
+	// 文章分类管理
+	CatCreateFailed = 8001
+	CatQueryFailed  = 8002
+	CatUpdateFailed = 8003
+	CatDeleteFailed = 8004
 )
 
 var codeMsg = map[int]string{
@@ -84,6 +90,12 @@ var codeMsg = map[int]string{
 	ArticleUpdateFailed: "article update failed",
 	ArticleQueryFailed:  "article query failed",
 	ArticleDeleteFailed: "article delete failed",
+
+	// 文章分类管理
+	CatCreateFailed: "category create failed",
+	CatQueryFailed:  "category query failed",
+	CatUpdateFailed: "category update failed",
+	CatDeleteFailed: "category delete failed",
 }
 
 func GetErrorMsg(code int) string {
