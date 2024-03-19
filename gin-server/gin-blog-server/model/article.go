@@ -96,6 +96,9 @@ func SeleListArticle(pageSize int, pageNum int) ([]Article, int, int64) {
 	}
 	var total int64
 	db.Model(&articleList).Count(&total)
+	for i := range articleList {
+		articleList[i].Text = ""
+	}
 	return articleList, errmsg.SUCCESS, total
 }
 

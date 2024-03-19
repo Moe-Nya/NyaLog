@@ -47,14 +47,29 @@ func CreatePage(data *Page) int {
 // 查询页面
 func SelePage(purl string) (Page, int) {
 	var page Page
-	err := db.Where("prul = ?", purl).Find(&page).Error
+	err := db.Where("purl = ?", purl).Find(&page).Error
 	if err != nil {
 		return page, errmsg.ERROR
 	}
 	return page, errmsg.SUCCESS
 }
 
-// 编辑页面 todo
+// 查询页面列表
+func SelectPageList(pageSize int, pageNum int) ([]Page, int, int64) {
+	var pages []Page
+	err := db.Select("page.pid, purl, ptitle, created_at, updated_at, pcontent").Limit(pageSize).Offset((pageNum - 1) * pageSize).Order("Created_At DESC").Find(&pages).Error
+	if err != nil {
+		return pages, errmsg.ERROR, 0
+	}
+	var total int64
+	db.Model(&pages).Count(&total)
+	for i := range pages {
+		pages[i].Pcontent = ""
+	}
+	return pages, errmsg.SUCCESS, total
+}
+
+// 编辑页面
 func EditPage(data *Page) int {
 	var page Page
 	pagemaps := make(map[string]interface{})
