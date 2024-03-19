@@ -36,6 +36,10 @@ func IniRouter() {
 	// 文章分类管理-查询文章分类列表
 	normalrouter.GET("/category", v1.SeleCategory)
 
+	// 页面管理
+	// 页面管理-查询页面
+	normalrouter.GET("/:purl", v1.SelePage)
+
 	authrouter := routerv1.Group("api/v1/" + utils.AdminEntrance)
 	authrouter.Use(middleware.JwtToken())
 	{
@@ -74,6 +78,16 @@ func IniRouter() {
 		authrouter.POST("/editcategory", v1.EditCategory)
 		// 文章分类管理-删除文章分类
 		authrouter.GET("/deletecategory", v1.DeleteCategory)
+
+		// 页面管理
+		// 页面管理-创建页面
+		authrouter.POST("/newpage", v1.CreatePage)
+		// 页面管理-查询页面列表
+		authrouter.POST("/pages", v1.SelectPageList)
+		// 页面管理-编辑页面
+		authrouter.POST("/editpage", v1.EditPage)
+		// 页面管理-删除页面
+		authrouter.GET("/deletepage", v1.DeletePage)
 	}
 
 	_ = routerv1.Run(utils.HttpPort)
