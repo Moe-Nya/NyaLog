@@ -47,9 +47,9 @@ func SeleOneArticle(c *gin.Context) {
 		})
 	} else {
 		c.JSON(http.StatusOK, gin.H{
-			"code": err,
+			"code":    err,
+			"article": article,
 		})
-		c.JSON(http.StatusOK, article)
 	}
 }
 
@@ -66,10 +66,10 @@ func SeleListArticle(c *gin.Context) {
 		})
 	} else {
 		c.JSON(http.StatusOK, gin.H{
-			"code":  err,
-			"total": total,
+			"code":     err,
+			"articles": articleList,
+			"total":    total,
 		})
-		c.JSON(http.StatusOK, articleList)
 	}
 }
 
