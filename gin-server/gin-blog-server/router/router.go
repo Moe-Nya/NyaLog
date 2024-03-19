@@ -32,6 +32,10 @@ func IniRouter() {
 	// 文章设置-查询文章列表
 	normalrouter.GET("/articlelist", v1.SeleListArticle)
 
+	// 文章分类管理
+	// 文章分类管理-查询文章分类列表
+	normalrouter.GET("/category", v1.SeleCategory)
+
 	authrouter := routerv1.Group("api/v1/" + utils.AdminEntrance)
 	authrouter.Use(middleware.JwtToken())
 	{
@@ -62,6 +66,14 @@ func IniRouter() {
 		authrouter.GET("/deletearticle", v1.DeleteArticle)
 		// 文章设置-删除同CID文章
 		authrouter.GET("/deletecid", v1.DeleCid)
+
+		// 文章分类管理
+		// 文章分类管理-新增文章分类
+		authrouter.POST("/newcategory", v1.CreateCategory)
+		// 文章分类管理-编辑文章分类
+		authrouter.POST("/editcategory", v1.EditCategory)
+		// 文章分类管理-删除文章分类
+		authrouter.GET("/deletecategory", v1.DeleteCategory)
 	}
 
 	_ = routerv1.Run(utils.HttpPort)
