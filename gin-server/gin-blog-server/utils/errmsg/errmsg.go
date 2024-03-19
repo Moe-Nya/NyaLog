@@ -47,6 +47,12 @@ const (
 	CatQueryFailed  = 8002
 	CatUpdateFailed = 8003
 	CatDeleteFailed = 8004
+
+	// 页面管理
+	PageCreateFailed = 9001
+	PageQueryFailed  = 9002
+	PageEditFailed   = 9003
+	PageDeleteFailed = 9004
 )
 
 var codeMsg = map[int]string{
@@ -96,6 +102,12 @@ var codeMsg = map[int]string{
 	CatQueryFailed:  "category query failed",
 	CatUpdateFailed: "category update failed",
 	CatDeleteFailed: "category delete failed",
+
+	// 页面管理
+	PageCreateFailed: "page create failed",
+	PageQueryFailed:  "page query failed",
+	PageEditFailed:   "page edit failed",
+	PageDeleteFailed: "page delete failed",
 }
 
 func GetErrorMsg(code int) string {
