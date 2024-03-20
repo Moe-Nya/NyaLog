@@ -53,6 +53,10 @@ const (
 	PageQueryFailed  = 9002
 	PageEditFailed   = 9003
 	PageDeleteFailed = 9004
+
+	// 评论管理
+	CreateQueryFailed = 10001
+	GetQueryFailed    = 10002
 )
 
 var codeMsg = map[int]string{
@@ -108,6 +112,10 @@ var codeMsg = map[int]string{
 	PageQueryFailed:  "page query failed",
 	PageEditFailed:   "page edit failed",
 	PageDeleteFailed: "page delete failed",
+
+	// 评论管理
+	CreateQueryFailed: "create query failed",
+	GetQueryFailed:    "get query failed",
 }
 
 func GetErrorMsg(code int) string {

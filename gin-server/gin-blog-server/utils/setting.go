@@ -8,11 +8,13 @@ import (
 
 var (
 	// System config
+	Domain         string
 	PasswordMinLen int
 	AdminEntrance  string
 	AIsummaryURL   string
 	AIsummaryKEY   string
-	GitHubKey      string
+	GitHubID       string
+	GitHUbSecret   string
 
 	// Server config
 	AppMode  string
@@ -29,8 +31,8 @@ var (
 	DbName     string
 
 	// Email server
-	Stmphost      string
-	Stmpport      string
+	Smtphost      string
+	Smtpport      string
 	Emailusername string
 	Emailpassword string
 )
@@ -47,11 +49,13 @@ func init() {
 }
 
 func LoadSystem(file *ini.File) {
+	Domain = file.Section("System").Key("Domain").MustString("http://localhost:8080")
 	PasswordMinLen = file.Section("System").Key("PasswordMinLen").MustInt(6)
 	AdminEntrance = file.Section("System").Key("AdminEntrance").MustString("admin")
 	AIsummaryURL = file.Section("System").Key("AIsummaryURL").MustString("nil")
 	AIsummaryKEY = file.Section("System").Key("AIsummaryKEY").MustString("nil")
-	GitHubKey = file.Section("System").Key("GitHubKey").MustString("nil")
+	GitHubID = file.Section("System").Key("GitHubID").MustString("nil")
+	GitHUbSecret = file.Section("System").Key("GitHUbSecret").MustString("nil")
 }
 
 func LoadServer(file *ini.File) {
@@ -71,8 +75,8 @@ func LoadDatabase(file *ini.File) {
 }
 
 func LoadEmaiInfo(file *ini.File) {
-	Stmphost = file.Section("Email").Key("Stmphost").MustString("127.0.0.1")
-	Stmpport = file.Section("Email").Key("Stmpport").MustString("587")
+	Smtphost = file.Section("Email").Key("Smtphost").MustString("127.0.0.1")
+	Smtpport = file.Section("Email").Key("Smtpport").MustString("587")
 	Emailusername = file.Section("Email").Key("Emailusername").MustString("username")
 	Emailpassword = file.Section("Email").Key("Emailpassword").MustString("password")
 }
