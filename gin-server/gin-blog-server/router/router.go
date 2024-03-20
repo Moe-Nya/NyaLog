@@ -40,6 +40,10 @@ func IniRouter() {
 	// 页面管理-查询页面
 	normalrouter.GET("/:purl", v1.SelePage)
 
+	// 评论登录
+	// 评论登录-获取用户授权码
+	normalrouter.GET("/githuboauthcode", v1.GetUserOauth)
+
 	authrouter := routerv1.Group("api/v1/" + utils.AdminEntrance)
 	authrouter.Use(middleware.JwtToken())
 	{
