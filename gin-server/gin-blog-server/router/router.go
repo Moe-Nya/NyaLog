@@ -44,6 +44,13 @@ func IniRouter() {
 	// 评论登录-获取用户授权码
 	normalrouter.GET("/githuboauthcode", v1.GetUserOauth)
 
+	commentUserAuth := routerv1.Group("api/v1/comment")
+	commentUserAuth.Use(middleware.CommentToken())
+	{
+		// 新增评论
+		commentUserAuth.POST("/newcomment", v1.NewComment)
+	}
+
 	authrouter := routerv1.Group("api/v1/" + utils.AdminEntrance)
 	authrouter.Use(middleware.JwtToken())
 	{
