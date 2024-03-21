@@ -8,14 +8,13 @@ import (
 )
 
 type Article struct {
-	Category Category `gorm:"foreignkey:Cid"`
 	gorm.Model
 	Articleid       int64  `gorm:"type:bigint;not null;primary_key" json:"articleid" label:"文章id"`
 	Articleimg      string `gorm:"type:varchar(1000)" json:"articleimg" label:"文章头图"`
 	Articletitle    string `gorm:"type:text;not null" json:"articletitle" label:"文章标题"`
 	Articlelikes    string `gorm:"type:varchar(100);default:0" json:"articlelikes" label:"文章点赞数"`
 	Articleviews    string `gorm:"type:varchar(100);default:0" json:"articleviews" label:"文章浏览数"`
-	Cid             int    `gorm:"type:int(5)" json:"cid" label:"文章分类id"`
+	Cid             int    `gorm:"type:int(5);not null;primary_key" json:"cid" label:"文章分类id"`
 	Aiswitch        int    `gorm:"type:int(5);not null;default:0" json:"aiswitch" label:"谋篇文章AI摘要开关"`
 	Aisummary       string `gorm:"type:text" json:"aisummary" label:"AI文章摘要"`
 	Text            string `gorm:"type:text;not null" json:"text" label:"文章内容"`

@@ -3,12 +3,12 @@ package model
 import (
 	"NyaLog/gin-blog-server/utils"
 	"NyaLog/gin-blog-server/utils/errmsg"
+	"fmt"
 
 	"gorm.io/gorm"
 )
 
 type Comment struct {
-	Article Article `gorm:"foreignkey:Article"`
 	gorm.Model
 	Comid        string `gorm:"type:varchar(20);not null;primary_key" json:"comid" label:"评论id"`
 	Articleid    int64  `gorm:"type:bigint;not null" json:"articleid" label:"文章id"`
@@ -16,7 +16,7 @@ type Comment struct {
 	Profilephoto string `gorm:"type:varchar(1000);not null" json:"profilephoto" label:"用户头像"`
 	Usersite     string `gorm:"type:varchar(1000)" json:"usersite" label:"用户主页"`
 	Recomid      string `gorm:"type:varchar(20)" json:"recomid" label:"回复评论id"`
-	Comment      string `gorm:"type:text;not null" json:"comment" label:"评论内容"`
+	Commenttext  string `gorm:"type:text;not null" json:"commenttext" label:"评论内容"`
 }
 
 // 新增评论
@@ -52,22 +52,26 @@ func CreateCom(comment *Comment) int {
 
 // 查询某文章的评论
 func SeleCom(articleid int64, pageSize int, pageNum int) ([]Comment, int) {
-	var comment []Comment
-	err := db.Select("comment.articleid, userid, profilephoto, created_at, updated_at, usersite, recomid, comment").Where("articleid = ?", articleid).Limit(pageSize).Offset((pageNum - 1) * pageSize).Order("Created_At DESC").Find(&comment).Error
+	var comments []Comment
+	err := db.Where("articleid = ?", articleid).Select("comment.comid, userid, profilephoto, created_at, updated_at, usersite, recomid, commenttext").Limit(pageSize).Offset((pageNum - 1) * pageSize).Order("Created_At DESC").Find(&comments).Error
+	fmt.Println(comments)
 	if err != nil {
 		return nil, errmsg.ERROR
 	}
-	return comment, errmsg.SUCCESS
+	return comments, errmsg.SUCCESS
 }
 
-// // 查询所有的评论
-func SeleAllCom(pageSize int, pageNum int) ([]Comment, int) {
-	var comment []Comment
-	err := db.Select("comment.comid, articleid, userid, profilephoto, created_at, updated_at, usersite, recomid, comment").Limit(pageSize).Offset((pageNum - 1) * pageSize).Order("Created_At DESC").Find(&comment).Error
+// 查询所有的评论
+func SeleAllCom(pageSize int, pageNum int) ([]Comment, int, int64) {
+	var commentList []Comment
+	err := db.Select("comment.comid, articleid, userid, profilephoto, created_at, usersite, recomid, commenttext").Limit(pageSize).Offset((pageNum - 1) * pageSize).Order("Created_At DESC").Find(&commentList).Error
+	// err := db.Find(&commentList).Error
 	if err != nil {
-		return nil, errmsg.ERROR
+		return nil, errmsg.ERROR, 0
 	}
-	return comment, errmsg.SUCCESS
+	var total int64
+	db.Model(&commentList).Count(&total)
+	return commentList, errmsg.SUCCESS, total
 }
 
 // 删除评论
@@ -81,7 +85,7 @@ func DeleteCom(comid string) int {
 }
 
 // 删除某篇文章的所有评论
-func DeleteAllCom(articleid int) int {
+func DeleteAllCom(articleid int64) int {
 	var comment Comment
 	err := db.Where("articleid = ?", articleid).Unscoped().Delete(&comment).Error
 	if err != nil {
