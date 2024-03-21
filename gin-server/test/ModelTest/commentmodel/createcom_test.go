@@ -13,7 +13,7 @@ func TestCreateCom(t *testing.T) {
 	com.Userid = "moenya"
 	com.Profilephoto = "www.google.com"
 	com.Usersite = "www.youtube.com"
-	com.Comment = "测试回复2"
+	com.Commenttext = "测试回复2"
 	com.Recomid = "0"
 	fmt.Println(model.CreateCom(com))
 }
