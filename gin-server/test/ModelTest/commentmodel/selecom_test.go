@@ -9,6 +9,6 @@ import (
 func TestSeleCom(t *testing.T) {
 	model.InitDb()
 	var com []model.Comment
-	com, _ = model.SeleCom(1)
+	com, _ = model.SeleCom(1, 1, 1)
 	fmt.Println(com)
 }
