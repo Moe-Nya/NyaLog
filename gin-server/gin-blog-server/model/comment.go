@@ -21,6 +21,11 @@ type Comment struct {
 
 // 新增评论
 func CreateCom(comment *Comment) int {
+	var article Article
+	e := db.First(&article, "articleid = ?", comment.Articleid)
+	if e.Error != nil {
+		return errmsg.ERROR
+	}
 	var count int64
 	var c Comment
 	err := db.Find(&c).Count(&count).Error
@@ -46,9 +51,19 @@ func CreateCom(comment *Comment) int {
 }
 
 // 查询某文章的评论
-func SeleCom(articleid int64) ([]Comment, int) {
+func SeleCom(articleid int64, pageSize int, pageNum int) ([]Comment, int) {
 	var comment []Comment
-	err := db.Where("articleid = ?", articleid).Find(&comment).Error
+	err := db.Select("comment.articleid, userid, profilephoto, created_at, updated_at, usersite, recomid, comment").Where("articleid = ?", articleid).Limit(pageSize).Offset((pageNum - 1) * pageSize).Order("Created_At DESC").Find(&comment).Error
+	if err != nil {
+		return nil, errmsg.ERROR
+	}
+	return comment, errmsg.SUCCESS
+}
+
+// // 查询所有的评论
+func SeleAllCom(pageSize int, pageNum int) ([]Comment, int) {
+	var comment []Comment
+	err := db.Select("comment.comid, articleid, userid, profilephoto, created_at, updated_at, usersite, recomid, comment").Limit(pageSize).Offset((pageNum - 1) * pageSize).Order("Created_At DESC").Find(&comment).Error
 	if err != nil {
 		return nil, errmsg.ERROR
 	}
