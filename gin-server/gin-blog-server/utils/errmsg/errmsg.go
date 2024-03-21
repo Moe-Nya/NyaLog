@@ -57,6 +57,7 @@ const (
 	// 评论管理
 	CreateQueryFailed = 10001
 	GetQueryFailed    = 10002
+	SendCommentFailed = 10003
 )
 
 var codeMsg = map[int]string{
@@ -116,6 +117,7 @@ var codeMsg = map[int]string{
 	// 评论管理
 	CreateQueryFailed: "create query failed",
 	GetQueryFailed:    "get query failed",
+	SendCommentFailed: "send comment failed",
 }
 
 func GetErrorMsg(code int) string {
