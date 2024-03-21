@@ -105,6 +105,8 @@ func DeleteArticle(c *gin.Context) {
 			"message": errmsg.GetErrorMsg(err),
 		})
 	} else {
+		// 删除文章的时候把对应的评论删掉
+		_ = service.DeleteAllCom(article.Articleid)
 		c.JSON(http.StatusOK, gin.H{
 			"code":    err,
 			"message": "article delete success",
