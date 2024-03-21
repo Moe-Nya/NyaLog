@@ -99,5 +99,3 @@ func CommentToken() gin.HandlerFunc {
 		c.Next()
 	}
 }
-
-// todo--1.优化代码（建立中间件）2.写好评论功能 3.建立friend link model层 4.可以做nav、findme、friend link的api
