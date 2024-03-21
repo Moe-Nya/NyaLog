@@ -40,17 +40,20 @@ func IniRouter() {
 	// 页面管理-查询页面
 	normalrouter.GET("/:purl", v1.SelePage)
 
-	// 评论登录
+	// 评论
 	// 评论登录-获取用户授权码
 	normalrouter.GET("/githuboauthcode", v1.GetUserOauth)
-
+	// 评论登录-权限控制
 	commentUserAuth := routerv1.Group("api/v1/comment")
 	commentUserAuth.Use(middleware.CommentToken())
 	{
-		// 新增评论
+		// 评论-新增评论
 		commentUserAuth.POST("/newcomment", v1.NewComment)
 	}
+	// 评论-读取某篇文章的评论
+	normalrouter.GET("/comments", v1.SeleCom)
 
+	// 管理员用户权限控制
 	authrouter := routerv1.Group("api/v1/" + utils.AdminEntrance)
 	authrouter.Use(middleware.JwtToken())
 	{
@@ -99,6 +102,12 @@ func IniRouter() {
 		authrouter.POST("/editpage", v1.EditPage)
 		// 页面管理-删除页面
 		authrouter.GET("/deletepage", v1.DeletePage)
+
+		// 评论
+		// 评论-读取所有评论
+		authrouter.GET("/allcomments", v1.SeleAllCom)
+		// 评论-删除评论
+		authrouter.GET("/deletecomments", v1.DeleteCom)
 	}
 
 	_ = routerv1.Run(utils.HttpPort)
