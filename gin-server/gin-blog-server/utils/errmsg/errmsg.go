@@ -55,9 +55,11 @@ const (
 	PageDeleteFailed = 9004
 
 	// 评论管理
-	CreateQueryFailed = 10001
-	GetQueryFailed    = 10002
-	SendCommentFailed = 10003
+	CreateQueryFailed   = 10001
+	GetQueryFailed      = 10002
+	SendCommentFailed   = 10003
+	SelectCommentFailed = 10004
+	DeleteCommentFailed = 1005
 )
 
 var codeMsg = map[int]string{
@@ -115,9 +117,11 @@ var codeMsg = map[int]string{
 	PageDeleteFailed: "page delete failed",
 
 	// 评论管理
-	CreateQueryFailed: "create query failed",
-	GetQueryFailed:    "get query failed",
-	SendCommentFailed: "send comment failed",
+	CreateQueryFailed:   "create query failed",
+	GetQueryFailed:      "get query failed",
+	SendCommentFailed:   "send comment failed",
+	SelectCommentFailed: "select comment failed",
+	DeleteCommentFailed: "delete comment failed",
 }
 
 func GetErrorMsg(code int) string {
