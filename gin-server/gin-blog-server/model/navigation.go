@@ -61,7 +61,7 @@ func ModifyNav(data *Navigation) int {
 	navmap["navtitle"] = data.Navtitle
 	navmap["navurl"] = data.Navurl
 	var n Navigation
-	err := db.Find(&n, "nav_id = ?", data.NavId).Error
+	err := db.First(&n, "nav_id = ?", data.NavId).Error
 	if err != nil || err == gorm.ErrRecordNotFound {
 		return errmsg.ERROR
 	}
@@ -76,7 +76,7 @@ func ModifyNav(data *Navigation) int {
 func DeleNav(navid int) int {
 	var nav Navigation
 	var n Navigation
-	err := db.Find(&n, "nav_id = ?", navid).Error
+	err := db.First(&n, "nav_id = ?", navid).Error
 	if err != nil || err == gorm.ErrRecordNotFound {
 		return errmsg.ERROR
 	}
