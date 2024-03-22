@@ -57,6 +57,10 @@ func IniRouter() {
 	// Findme管理-查询Findme
 	normalrouter.GET("/findmes", v1.SeleFindme)
 
+	// 导航栏管理
+	// 导航栏管理-查询所有导航栏列表
+	normalrouter.GET("/navigations", v1.SeleNav)
+
 	// 管理员用户权限控制
 	authrouter := routerv1.Group("api/v1/" + utils.AdminEntrance)
 	authrouter.Use(middleware.JwtToken())
@@ -120,6 +124,14 @@ func IniRouter() {
 		authrouter.POST("/modifyfindme", v1.ModifyFindme)
 		// Findme管理-删除Findme
 		authrouter.GET("/deletefindme", v1.DeleFindme)
+
+		// 导航栏管理
+		// 导航栏管理-新增导航栏
+		authrouter.POST("/newnavigation", v1.CreateNav)
+		// 导航栏管理-修改导航栏
+		authrouter.POST("/editnavigation", v1.ModifyNav)
+		// 导航栏管理-删除导航栏
+		authrouter.GET("/deletenavigation", v1.DeleNav)
 	}
 
 	_ = routerv1.Run(utils.HttpPort)
