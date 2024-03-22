@@ -105,6 +105,7 @@ func SeleAllCom(c *gin.Context) {
 	}
 }
 
+// 删除评论
 func DeleteCom(c *gin.Context) {
 	var commentData service.ArticleComments
 	_ = c.ShouldBindJSON(&commentData)
