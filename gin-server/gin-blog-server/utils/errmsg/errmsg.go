@@ -60,6 +60,12 @@ const (
 	SendCommentFailed   = 10003
 	SelectCommentFailed = 10004
 	DeleteCommentFailed = 1005
+
+	// findme 管理
+	CreateFindMeFailed = 11001
+	FindMeQueryFailed  = 11002
+	FindMeModifyFailed = 11003
+	DeleteFindMeFailed = 11004
 )
 
 var codeMsg = map[int]string{
@@ -122,6 +128,12 @@ var codeMsg = map[int]string{
 	SendCommentFailed:   "send comment failed",
 	SelectCommentFailed: "select comment failed",
 	DeleteCommentFailed: "delete comment failed",
+
+	// findme 管理
+	CreateFindMeFailed: "create findme failed",
+	FindMeQueryFailed:  "findme query failed",
+	FindMeModifyFailed: "findme modify failed",
+	DeleteFindMeFailed: "delete findme failed",
 }
 
 func GetErrorMsg(code int) string {
