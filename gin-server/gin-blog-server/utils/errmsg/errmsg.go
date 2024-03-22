@@ -66,6 +66,12 @@ const (
 	FindMeQueryFailed  = 11002
 	FindMeModifyFailed = 11003
 	DeleteFindMeFailed = 11004
+
+	// 导航栏管理
+	CreateNavFailed = 12001
+	NavQueryFailed  = 12002
+	NavEditFailed   = 12003
+	NavDeleteFailed = 12004
 )
 
 var codeMsg = map[int]string{
@@ -134,6 +140,10 @@ var codeMsg = map[int]string{
 	FindMeQueryFailed:  "findme query failed",
 	FindMeModifyFailed: "findme modify failed",
 	DeleteFindMeFailed: "delete findme failed",
+	CreateNavFailed:    "create navigation failed",
+	NavQueryFailed:     "navigation query failed",
+	NavEditFailed:      "navigation edit failed",
+	NavDeleteFailed:    "navigation delete failed",
 }
 
 func GetErrorMsg(code int) string {
