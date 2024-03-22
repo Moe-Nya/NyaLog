@@ -23,7 +23,7 @@ type Comment struct {
 func CreateCom(comment *Comment) int {
 	var article Article
 	e := db.First(&article, "articleid = ?", comment.Articleid)
-	if e.Error != nil {
+	if e.Error != nil || err == gorm.ErrRecordNotFound {
 		return errmsg.ERROR
 	}
 	var count int64
@@ -53,7 +53,12 @@ func CreateCom(comment *Comment) int {
 // 查询某文章的评论
 func SeleCom(articleid int64, pageSize int, pageNum int) ([]Comment, int) {
 	var comments []Comment
-	err := db.Where("articleid = ?", articleid).Select("comment.comid, userid, profilephoto, created_at, updated_at, usersite, recomid, commenttext").Limit(pageSize).Offset((pageNum - 1) * pageSize).Order("Created_At DESC").Find(&comments).Error
+	var c Comment
+	err := db.First(&c, "articleid = ?", articleid).Error
+	if err != nil || err == gorm.ErrRecordNotFound {
+		return comments, errmsg.ERROR
+	}
+	err = db.Where("articleid = ?", articleid).Select("comment.comid, userid, profilephoto, created_at, updated_at, usersite, recomid, commenttext").Limit(pageSize).Offset((pageNum - 1) * pageSize).Order("Created_At DESC").Find(&comments).Error
 	fmt.Println(comments)
 	if err != nil {
 		return nil, errmsg.ERROR
@@ -77,7 +82,12 @@ func SeleAllCom(pageSize int, pageNum int) ([]Comment, int, int64) {
 // 删除评论
 func DeleteCom(comid string) int {
 	var comment Comment
-	err := db.Where("comid = ?", comid).Unscoped().Delete(&comment).Error
+	var c Comment
+	err := db.First(&c, "comid = ?", comid).Error
+	if err != nil || err == gorm.ErrRecordNotFound {
+		return errmsg.ERROR
+	}
+	err = db.Where("comid = ?", comid).Unscoped().Delete(&comment).Error
 	if err != nil {
 		return errmsg.ERROR
 	}
@@ -87,7 +97,12 @@ func DeleteCom(comid string) int {
 // 删除某篇文章的所有评论
 func DeleteAllCom(articleid int64) int {
 	var comment Comment
-	err := db.Where("articleid = ?", articleid).Unscoped().Delete(&comment).Error
+	var c Comment
+	err := db.First(&c, "articleid = ?", articleid).Error
+	if err != nil || err == gorm.ErrRecordNotFound {
+		return errmsg.ERROR
+	}
+	err = db.Where("articleid = ?", articleid).Unscoped().Delete(&comment).Error
 	if err != nil {
 		return errmsg.ERROR
 	}

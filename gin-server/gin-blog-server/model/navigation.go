@@ -60,7 +60,12 @@ func ModifyNav(data *Navigation) int {
 	var navmap = make(map[string]interface{})
 	navmap["navtitle"] = data.Navtitle
 	navmap["navurl"] = data.Navurl
-	err := db.Model(&nav).Where("nav_id = ?", data.NavId).Updates(navmap).Error
+	var n Navigation
+	err := db.Find(&n, "nav_id = ?", data.NavId).Error
+	if err != nil || err == gorm.ErrRecordNotFound {
+		return errmsg.ERROR
+	}
+	err = db.Model(&nav).Where("nav_id = ?", data.NavId).Updates(navmap).Error
 	if err != nil {
 		return errmsg.ERROR
 	}
@@ -70,7 +75,12 @@ func ModifyNav(data *Navigation) int {
 // 删除导航标签
 func DeleNav(navid int) int {
 	var nav Navigation
-	err := db.Where("nav_id = ?", navid).Unscoped().Delete(&nav).Error
+	var n Navigation
+	err := db.Find(&n, "nav_id = ?", navid).Error
+	if err != nil || err == gorm.ErrRecordNotFound {
+		return errmsg.ERROR
+	}
+	err = db.Where("nav_id = ?", navid).Unscoped().Delete(&nav).Error
 	if err != nil {
 		return errmsg.ERROR
 	}

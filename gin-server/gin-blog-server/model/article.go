@@ -75,7 +75,7 @@ func CreateArticle(data *Article) int {
 func SeleOneArticle(articleid int64) (Article, int) {
 	var article Article
 	err := db.Where("articleid = ?", articleid).Find(&article).Error
-	if err != nil {
+	if err != nil || article.Articletitle == "" {
 		return article, errmsg.ERROR
 	}
 	newViews := utils.BigNumAdd(article.Articleviews)
@@ -124,6 +124,9 @@ func ModifyArticle(data *Article) int {
 		runes = runes[:30]
 	}
 	articlemaps["shorttext"] = string(runes)
+	if data.Articletitle == "" {
+		return errmsg.ERROR
+	}
 	err := db.Model(&article).Where("articleid = ?", data.Articleid).Updates(articlemaps).Error
 	if err != nil {
 		return errmsg.ERROR
@@ -146,6 +149,9 @@ func AddLike(articleid int) int {
 	var article Article
 	err := db.Where("articleid = ?", articleid).Find(&article).Error
 	if err != nil {
+		return errmsg.ERROR
+	}
+	if article.Articletitle == "" {
 		return errmsg.ERROR
 	}
 	articlelikes := article.Articlelikes

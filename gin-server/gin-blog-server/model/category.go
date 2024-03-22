@@ -53,7 +53,12 @@ func ModifyCat(data *Category) int {
 	var cat Category
 	var catmap = make(map[string]interface{})
 	catmap["categorytext"] = data.Categorytext
-	err := db.Model(&cat).Where("cid = ?", data.Cid).Updates(catmap).Error
+	var c Category
+	err := db.First(&c, "cid = ?", data.Cid).Error
+	if err != nil || err == gorm.ErrRecordNotFound {
+		return errmsg.ERROR
+	}
+	err = db.Model(&cat).Where("cid = ?", data.Cid).Updates(catmap).Error
 	if err != nil {
 		return errmsg.ERROR
 	}
@@ -63,7 +68,12 @@ func ModifyCat(data *Category) int {
 // 删除文章分类
 func DeleCat(cid int) int {
 	var cat Category
-	err := db.Where("cid = ?", cid).Unscoped().Delete(&cat).Error
+	var c Category
+	err := db.First(&c, "cid = ?", cid).Error
+	if err != nil || err == gorm.ErrRecordNotFound {
+		return errmsg.ERROR
+	}
+	err = db.Where("cid = ?", cid).Unscoped().Delete(&cat).Error
 	if err != nil {
 		return errmsg.ERROR
 	}

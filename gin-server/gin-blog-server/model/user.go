@@ -169,7 +169,12 @@ func DeleteUser() int {
 	if err == errmsg.ERROR {
 		return errmsg.ERROR
 	}
-	e := db.Where("uid = ?", user.Uid).Unscoped().Delete(&user).Error
+	var u User
+	e := db.Find(&u, "uid = ?", user.Uid).Error
+	if e != nil || e == gorm.ErrRecordNotFound {
+		return errmsg.ERROR
+	}
+	e = db.Where("uid = ?", user.Uid).Unscoped().Delete(&user).Error
 	if e != nil {
 		return errmsg.ERROR
 	}

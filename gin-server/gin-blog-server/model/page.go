@@ -47,8 +47,8 @@ func CreatePage(data *Page) int {
 // 查询页面
 func SelePage(purl string) (Page, int) {
 	var page Page
-	err := db.Where("purl = ?", purl).Find(&page).Error
-	if err != nil {
+	err = db.Where("purl = ?", purl).Find(&page).Error
+	if err != nil || err == gorm.ErrRecordNotFound {
 		return page, errmsg.ERROR
 	}
 	return page, errmsg.SUCCESS
@@ -76,7 +76,12 @@ func EditPage(data *Page) int {
 	pagemaps["purl"] = data.Purl
 	pagemaps["ptitle"] = data.Ptitle
 	pagemaps["pcontent"] = data.Pcontent
-	err := db.Model(&page).Where("pid = ?", data.Pid).Updates(&pagemaps).Error
+	var p Page
+	err := db.Find(&p, "pid = ?", data.Pid).Error
+	if err != nil || err == gorm.ErrRecordNotFound {
+		return errmsg.ERROR
+	}
+	err = db.Model(&page).Where("pid = ?", data.Pid).Updates(&pagemaps).Error
 	if err != nil {
 		return errmsg.ERROR
 	}
@@ -86,7 +91,12 @@ func EditPage(data *Page) int {
 // 删除页面
 func DeletePage(pid int) int {
 	var page Page
-	err := db.Where("pid = ?", pid).Unscoped().Delete(&page).Error
+	var p Page
+	err := db.Find(&p, "pid = ?", pid).Error
+	if err != nil || err == gorm.ErrRecordNotFound {
+		return errmsg.ERROR
+	}
+	err = db.Where("pid = ?", pid).Unscoped().Delete(&page).Error
 	if err != nil {
 		return errmsg.ERROR
 	}

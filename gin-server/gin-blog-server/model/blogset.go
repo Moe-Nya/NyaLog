@@ -2,7 +2,6 @@ package model
 
 import (
 	"NyaLog/gin-blog-server/utils/errmsg"
-	"fmt"
 	"time"
 
 	"gorm.io/gorm"
@@ -68,9 +67,13 @@ func ModifyBlogSet(data *BlogSet) int {
 		blogsetmap["aicategory"] = data.Aicategory
 	}
 	blogsetmap["commentswitch"] = data.Commentswitch
-	err := db.Model(&blogset).Where("id = ?", 1).Updates(&blogsetmap).Error
+	var b BlogSet
+	err := db.First(&b, "id = ?", 1).Error
+	if err != nil || err == gorm.ErrRecordNotFound {
+		return errmsg.ERROR
+	}
+	err = db.Model(&blogset).Where("id = ?", 1).Updates(&blogsetmap).Error
 	if err != nil {
-		fmt.Println(err)
 		return errmsg.ERROR
 	}
 	return errmsg.SUCCESS

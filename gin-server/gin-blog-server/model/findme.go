@@ -61,7 +61,12 @@ func ModifyFindme(data *FindMe) int {
 	findmap["icon"] = data.Icon
 	findmap["herf"] = data.Herf
 	findmap["text"] = data.Text
-	err := db.Model(&findme).Where("find_id = ?", data.FindId).Updates(findmap).Error
+	var f FindMe
+	err := db.First(&f, "find_id = ?", data.FindId).Error
+	if err != nil || err == gorm.ErrRecordNotFound {
+		return errmsg.ERROR
+	}
+	err = db.Model(&findme).Where("find_id = ?", data.FindId).Updates(findmap).Error
 	if err != nil {
 		return errmsg.ERROR
 	}
@@ -71,7 +76,12 @@ func ModifyFindme(data *FindMe) int {
 // 删除Findme
 func DeleFindme(findid int) int {
 	var findme FindMe
-	err := db.Where("find_id = ?", findid).Unscoped().Delete(&findme).Error
+	var f FindMe
+	err := db.First(&f, "find_id = ?", findid).Error
+	if err != nil || err == gorm.ErrRecordNotFound {
+		return errmsg.ERROR
+	}
+	err = db.Where("find_id = ?", findid).Unscoped().Delete(&findme).Error
 	if err != nil {
 		return errmsg.ERROR
 	}
