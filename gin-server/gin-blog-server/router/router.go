@@ -53,6 +53,10 @@ func IniRouter() {
 	// 评论-读取某篇文章的评论
 	normalrouter.GET("/comments", v1.SeleCom)
 
+	// Findme管理
+	// Findme管理-查询Findme
+	normalrouter.GET("/findmes", v1.SeleFindme)
+
 	// 管理员用户权限控制
 	authrouter := routerv1.Group("api/v1/" + utils.AdminEntrance)
 	authrouter.Use(middleware.JwtToken())
@@ -108,6 +112,14 @@ func IniRouter() {
 		authrouter.GET("/allcomments", v1.SeleAllCom)
 		// 评论-删除评论
 		authrouter.GET("/deletecomments", v1.DeleteCom)
+
+		// Findme管理
+		// Findme管理-新增Findme
+		authrouter.POST("/newfindme", v1.CreateFindme)
+		// Findme管理-修改Findme
+		authrouter.POST("/modifyfindme", v1.ModifyFindme)
+		// Findme管理-删除Findme
+		authrouter.GET("/deletefindme", v1.DeleFindme)
 	}
 
 	_ = routerv1.Run(utils.HttpPort)
