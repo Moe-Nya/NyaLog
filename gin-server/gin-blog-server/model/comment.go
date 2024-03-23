@@ -70,7 +70,6 @@ func SeleCom(articleid int64, pageSize int, pageNum int) ([]Comment, int) {
 func SeleAllCom(pageSize int, pageNum int) ([]Comment, int, int64) {
 	var commentList []Comment
 	err := db.Select("comment.comid, articleid, userid, profilephoto, created_at, usersite, recomid, commenttext").Limit(pageSize).Offset((pageNum - 1) * pageSize).Order("Created_At DESC").Find(&commentList).Error
-	// err := db.Find(&commentList).Error
 	if err != nil {
 		return nil, errmsg.ERROR, 0
 	}
