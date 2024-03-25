@@ -72,6 +72,12 @@ const (
 	NavQueryFailed  = 12002
 	NavEditFailed   = 12003
 	NavDeleteFailed = 12004
+
+	// 友链管理
+	CreateFriendLinkFailed = 13001
+	FriendLinkQueryFailed  = 13002
+	FriendLinkModifyFailed = 13003
+	FriendLinkDeleteFailed = 13004
 )
 
 var codeMsg = map[int]string{
@@ -144,6 +150,12 @@ var codeMsg = map[int]string{
 	NavQueryFailed:     "navigation query failed",
 	NavEditFailed:      "navigation edit failed",
 	NavDeleteFailed:    "navigation delete failed",
+
+	// 友链管理
+	CreateFriendLinkFailed: "create friend link failed",
+	FriendLinkQueryFailed:  "friend link query failed",
+	FriendLinkModifyFailed: "friend link modify failed",
+	FriendLinkDeleteFailed: "friend link delete failed",
 }
 
 func GetErrorMsg(code int) string {
