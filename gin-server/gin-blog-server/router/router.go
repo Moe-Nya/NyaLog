@@ -139,9 +139,9 @@ func IniRouter() {
 
 		// 友链管理
 		// 友链管理-增加友链
-		authrouter.GET("/newfriendlink", v1.CreateFriendLink)
+		authrouter.POST("/newfriendlink", v1.CreateFriendLink)
 		// 友链管理-修改友链
-		authrouter.GET("/modifyfriendlink", v1.ModifyFriendLink)
+		authrouter.POST("/modifyfriendlink", v1.ModifyFriendLink)
 		// 友链管理-删除友链
 		authrouter.GET("/deletefriendlink", v1.DeleFriendLink)
 	}
