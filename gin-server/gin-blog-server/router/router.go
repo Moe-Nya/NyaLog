@@ -61,6 +61,10 @@ func IniRouter() {
 	// 导航栏管理-查询所有导航栏列表
 	normalrouter.GET("/navigations", v1.SeleNav)
 
+	// 友链管理
+	// 友链管理-查询友链
+	normalrouter.GET("/friendlinks", v1.SeleFriendLink)
+
 	// 管理员用户权限控制
 	authrouter := routerv1.Group("api/v1/" + utils.AdminEntrance)
 	authrouter.Use(middleware.JwtToken())
@@ -132,6 +136,14 @@ func IniRouter() {
 		authrouter.POST("/editnavigation", v1.ModifyNav)
 		// 导航栏管理-删除导航栏
 		authrouter.GET("/deletenavigation", v1.DeleNav)
+
+		// 友链管理
+		// 友链管理-增加友链
+		authrouter.GET("/newfriendlink", v1.CreateFriendLink)
+		// 友链管理-修改友链
+		authrouter.GET("/modifyfriendlink", v1.ModifyFriendLink)
+		// 友链管理-删除友链
+		authrouter.GET("/deletefriendlink", v1.DeleFriendLink)
 	}
 
 	_ = routerv1.Run(utils.HttpPort)
