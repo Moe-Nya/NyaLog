@@ -11,10 +11,10 @@ import (
 )
 
 // 接收授权码
-func GetOauthCode(code string) string {
+func GetOauthCode(url string) string {
 	return fmt.Sprintf(
 		"https://github.com/login/oauth/access_token?client_id=%s&client_secret=%s&code=%s",
-		utils.GitHubID, utils.GitHUbSecret, code,
+		utils.GitHubID, utils.GitHUbSecret, url,
 	)
 }
 
