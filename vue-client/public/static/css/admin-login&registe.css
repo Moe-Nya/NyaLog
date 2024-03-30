@@ -36,6 +36,12 @@
     text-align: center;
 }
 
+.registelogo{
+    font-size: 17px;
+    font-weight: bold;
+    text-align: center;
+}
+
 .loginlogo-sitename{
     font-weight: bold;
 }
