@@ -1,0 +1,101 @@
+.pageback{
+    display: flex;
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+    position: relative;
+    background:
+        linear-gradient(217deg, #f7f5f5, rgba(255,0,0,0) 70.71%),
+        linear-gradient(127deg, #FDF2F8, rgba(0,255,0,0) 70.71%),
+        linear-gradient(336deg, #C8E7FB, rgba(0,0,255,0) 70.71%);
+}
+
+.loginbox{
+    background-color: white;
+    border-radius: 20px;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    margin: 0;
+    padding: 0;
+    width: 500px;
+    height: auto;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.loginbox-logo{
+    position: relative;
+    width: 100%;
+    height: auto;
+}
+
+.loginlogo{
+    font-size: 17px;
+    text-align: center;
+}
+
+.loginlogo-sitename{
+    font-weight: bold;
+}
+
+.login-card{
+    width : 280px;
+    position: relative;
+    bottom: 10px;
+    left: 50%;
+    transform: translate(-50%);
+}
+
+.forgetpwd{
+    float: right;
+}
+
+.inputbox{
+    margin-top: 10px;
+}
+
+.btn{
+    margin-top: 20px;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.input-text{
+    font-weight: bold;
+    font-size: 15px;
+}
+
+.userid{
+    background: url("../../img/user.svg") no-repeat;
+    background-size: 20px 20px;
+    background-position: center center;
+    height: 20px;
+    width: 20px;
+    display: inline-block;
+    position: relative;
+    top:3px;
+}
+
+.userpwd{
+    background: url("../../img/sq-password.svg") no-repeat;
+    background-size: 20px 20px;
+    background-position: center center;
+    height: 20px;
+    width: 20px;
+    display: inline-block;
+    position: relative;
+    top:3px;
+}
+
+.vertify{
+    background: url("../../img/vertify.svg") no-repeat;
+    background-size: 20px 20px;
+    background-position: center center;
+    height: 20px;
+    width: 20px;
+    display: inline-block;
+    position: relative;
+    top:3px;
+}

@@ -1,0 +1,34 @@
+{
+  "name": "nyalog-vue-client",
+  "private": false,
+  "version": "0.0.1",
+  "description": "写代码是热爱！写到世界充满爱！",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "vue": "^3.4.21"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^5.0.4",
+    "axios": "^1.6.8",
+    "naive-ui": "^2.38.1",
+    "pinia": "^2.1.7",
+    "unplugin-auto-import": "^0.17.5",
+    "unplugin-vue-components": "^0.26.0",
+    "vfonts": "^0.0.3",
+    "vite": "^5.2.0",
+    "vite-auto-import-resolvers": "^3.2.1",
+    "vue-router": "^4.3.0"
+  },
+  "main": "vite.config.js",
+  "author": {
+    "name": "Moe_Nya",
+    "email": "i@moenya.cat",
+    "url": "https://moenya.cat"
+  },
+  "license": "MIT"
+}
