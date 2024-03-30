@@ -17,15 +17,14 @@ func IniRouter() {
 	normalrouter.Use(middleware.Cors())
 	// 用户是否存在
 	normalrouter.GET("/adminexist", v1.UserExist)
-
 	// 注册用户
 	normalrouter.POST("/adminregistration", v1.CreateUser)
-
 	// 用户登录
 	normalrouter.POST("/login", v1.UserLogin)
-
 	// 重置密码-用户验证
 	normalrouter.POST("/resetpwd", v1.ValidateReset)
+	// 查询用户公开信息
+	normalrouter.GET("/queryuser", v1.QueryUser)
 
 	// 文章设置
 	// 文章设置-查询单篇文章

@@ -284,3 +284,27 @@ func ValidateEmail(data *ValidateEm) int {
 	}
 	return errmsg.SUCCESS
 }
+
+// -------------------------------------------
+// 公开用户信息结构体
+type UserInfo struct {
+	Username     string `json:"username"`
+	Profilephoto string `json:"profilephoto"`
+	Email        string `json:"email"`
+	Slogan       string `json:"slogan"`
+}
+
+// 查询用户可公开信息
+func QueryUser() (UserInfo, int) {
+	var user model.User
+	var userinfo UserInfo
+	user, err := model.QueryUser()
+	if err != errmsg.SUCCESS {
+		return userinfo, errmsg.QueryUserFailed
+	}
+	userinfo.Username = user.Username
+	userinfo.Profilephoto = user.Profilephoto
+	userinfo.Email = user.Email
+	userinfo.Slogan = user.Slogan
+	return userinfo, errmsg.SUCCESS
+}

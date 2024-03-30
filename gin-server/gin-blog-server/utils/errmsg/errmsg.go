@@ -28,6 +28,7 @@ const (
 	PasswordError       = 2008
 	CantLogin           = 2009
 	ResetPasswordFailed = 2010
+	QueryUserFailed     = 2011
 
 	// 邮件发送
 	SendEmailFailed   = 5001
@@ -108,6 +109,7 @@ var codeMsg = map[int]string{
 	PasswordError:       "password error",
 	CantLogin:           "this ipdress can't login agin",
 	ResetPasswordFailed: "reset password failed",
+	QueryUserFailed:     "query user failed",
 
 	// 邮件发送
 	SendEmailFailed:   "email send failed",

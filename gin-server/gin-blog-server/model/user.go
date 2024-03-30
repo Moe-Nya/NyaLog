@@ -77,6 +77,16 @@ func SeleUser() (User, int) {
 	return user, errmsg.SUCCESS
 }
 
+// 查询用户信息(公开)
+func QueryUser() (User, int) {
+	var user User
+	err := db.Limit(1).Select("user.username, profilephoto, email, slogan").Find(&user).Error
+	if err != nil {
+		return user, errmsg.ERROR
+	}
+	return user, errmsg.SUCCESS
+}
+
 // 更新用户信息
 func UpdateUser(uid string, data *User) int {
 	var user User

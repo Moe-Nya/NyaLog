@@ -285,3 +285,21 @@ func ValidateEmail(c *gin.Context) {
 		})
 	}
 }
+
+// -------------------------------------------
+// 查询用户可公开信息
+func QueryUser(c *gin.Context) {
+	var user service.UserInfo
+	user, err := service.QueryUser()
+	if err != errmsg.SUCCESS {
+		c.JSON(http.StatusOK, gin.H{
+			"code":    err,
+			"message": errmsg.GetErrorMsg(err),
+		})
+	} else {
+		c.JSON(http.StatusOK, gin.H{
+			"code":     err,
+			"userinfo": user,
+		})
+	}
+}
