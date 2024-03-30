@@ -12,9 +12,9 @@ func IniRouter() {
 	gin.SetMode(utils.AppMode)
 	routerv1 := gin.Default()
 	routerv1.RedirectTrailingSlash = false
+	routerv1.Use(middleware.Cors())
 
 	normalrouter := routerv1.Group("api/v1")
-	normalrouter.Use(middleware.Cors())
 	// 用户是否存在
 	normalrouter.GET("/adminexist", v1.UserExist)
 	// 注册用户
@@ -47,7 +47,6 @@ func IniRouter() {
 	normalrouter.GET("/githuboauthcode", v1.GetUserOauth)
 	// 评论登录-权限控制
 	commentUserAuth := routerv1.Group("api/v1/comment")
-	commentUserAuth.Use(middleware.Cors())
 	commentUserAuth.Use(middleware.CommentToken())
 	{
 		// 评论-新增评论
@@ -70,7 +69,6 @@ func IniRouter() {
 
 	// 管理员用户权限控制
 	authrouter := routerv1.Group("api/v1/" + utils.AdminEntrance)
-	authrouter.Use(middleware.Cors())
 	authrouter.Use(middleware.JwtToken())
 	{
 		// 发送邮件验证码
