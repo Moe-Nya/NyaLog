@@ -9,14 +9,17 @@ import (
 type Friendlink struct {
 	gorm.Model
 	Friendlinkid      int    `gorm:"type:int(10);not null;primary_key" json:"friendlinkid" label:"友链id"`
-	Friendname        string `gorm:"type:varchar(20)" json:"friendname" label:"站点名字"`
-	Friendsite        string `gorm:"type:varchar(1000)" json:"friendsite" label:"站点地址"`
+	Friendname        string `gorm:"type:varchar(20);not null" json:"friendname" label:"站点名字"`
+	Friendsite        string `gorm:"type:varchar(1000);not null" json:"friendsite" label:"站点地址"`
 	Friendprofile     string `gorm:"type:varchar(1000)" json:"friendprofile" label:"站点图标"`
 	Frienddescription string `gorm:"type:text" json:"frienddescription" label:"站点描述"`
 }
 
 // 新增友链
 func CreateFriendLink(data *Friendlink) int {
+	if data.Friendname == "" || data.Friendsite == "" {
+		return errmsg.ERROR
+	}
 	var friendlink Friendlink
 	friendlink.Friendname = data.Friendname
 	friendlink.Friendsite = data.Friendsite
@@ -60,6 +63,9 @@ func SeleFriendLink(pageSize int, pageNum int) ([]Friendlink, int, int64) {
 
 // 修改友链
 func ModifyFriendLink(data *Friendlink) int {
+	if data.Friendname == "" || data.Friendsite == "" {
+		return errmsg.ERROR
+	}
 	var friendlink Friendlink
 	var f Friendlink
 	var friendlinkmaps = make(map[string]interface{})

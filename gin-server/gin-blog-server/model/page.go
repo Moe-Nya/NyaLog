@@ -16,6 +16,9 @@ type Page struct {
 
 // 新增页面
 func CreatePage(data *Page) int {
+	if data.Purl == "" || data.Ptitle == "" {
+		return errmsg.ERROR
+	}
 	var page Page
 	page.Purl = data.Purl
 	page.Ptitle = data.Ptitle
@@ -71,6 +74,9 @@ func SelectPageList(pageSize int, pageNum int) ([]Page, int, int64) {
 
 // 编辑页面
 func EditPage(data *Page) int {
+	if data.Purl == "" || data.Ptitle == "" {
+		return errmsg.ERROR
+	}
 	var page Page
 	pagemaps := make(map[string]interface{})
 	pagemaps["purl"] = data.Purl

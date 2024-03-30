@@ -14,7 +14,7 @@ type Article struct {
 	Articletitle    string `gorm:"type:text;not null" json:"articletitle" label:"文章标题"`
 	Articlelikes    string `gorm:"type:varchar(100);default:0" json:"articlelikes" label:"文章点赞数"`
 	Articleviews    string `gorm:"type:varchar(100);default:0" json:"articleviews" label:"文章浏览数"`
-	Cid             int    `gorm:"type:int(5);not null;primary_key" json:"cid" label:"文章分类id"`
+	Cid             int    `gorm:"type:int(5);primary_key" json:"cid" label:"文章分类id"`
 	Aiswitch        int    `gorm:"type:int(5);not null;default:0" json:"aiswitch" label:"谋篇文章AI摘要开关"`
 	Aisummary       string `gorm:"type:text" json:"aisummary" label:"AI文章摘要"`
 	Text            string `gorm:"type:text;not null" json:"text" label:"文章内容"`
@@ -24,11 +24,14 @@ type Article struct {
 
 // 新增文章
 func CreateArticle(data *Article) int {
+	if data.Articletitle == "" || data.Text == "" {
+		return errmsg.ERROR
+	}
 	var article Article
 	article.Articleimg = data.Articleimg
 	article.Articletitle = data.Articletitle
-	article.Articlelikes = data.Articlelikes
-	article.Articleviews = data.Articleviews
+	article.Articlelikes = "0"
+	article.Articleviews = "0"
 	article.Cid = data.Cid
 	article.Aiswitch = data.Aiswitch
 	article.Aisummary = data.Aisummary
@@ -103,6 +106,9 @@ func SeleListArticle(pageSize int, pageNum int) ([]Article, int, int64) {
 
 // 编辑文章
 func ModifyArticle(data *Article) int {
+	if data.Articletitle == "" || data.Text == "" {
+		return errmsg.ERROR
+	}
 	var article Article
 	var articlemaps = make(map[string]interface{})
 	articlemaps["articleimg"] = data.Articleimg

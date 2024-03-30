@@ -57,6 +57,9 @@ func UserValidate() (bool, int) {
 
 // 新增用户
 func NewUser(user *User) int {
+	if user.Username == "" || user.Password == "" || user.Email == "" {
+		return errmsg.ERROR
+	}
 	pw, salt := ScryptPw(user.Password)
 	user.Password = pw
 	user.Salt = salt
@@ -89,6 +92,9 @@ func QueryUser() (User, int) {
 
 // 更新用户信息
 func UpdateUser(uid string, data *User) int {
+	if data.Username == "" || data.Password == "" || data.Email == "" {
+		return errmsg.ERROR
+	}
 	var user User
 	var usermap = make(map[string]interface{})
 	usermap["username"] = data.Username

@@ -303,3 +303,21 @@ func QueryUser(c *gin.Context) {
 		})
 	}
 }
+
+// 更改用户可公开信息
+func ModifyUser(c *gin.Context) {
+	var data service.UserInfo
+	_ = c.ShouldBindJSON(&data)
+	err := service.ModifyUser(&data)
+	if err != errmsg.SUCCESS {
+		c.JSON(http.StatusOK, gin.H{
+			"code":    err,
+			"message": errmsg.GetErrorMsg(err),
+		})
+	} else {
+		c.JSON(http.StatusOK, gin.H{
+			"code":    err,
+			"message": "modify user info success",
+		})
+	}
+}

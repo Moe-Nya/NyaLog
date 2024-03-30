@@ -15,16 +15,18 @@ func IniRouter() {
 	routerv1.Use(middleware.Cors())
 
 	normalrouter := routerv1.Group("api/v1")
-	// 用户是否存在
+	// 用户管理
+	// 用户管理-用户是否存在
 	normalrouter.GET("/adminexist", v1.UserExist)
-	// 注册用户
+	// 用户管理-注册用户
 	normalrouter.POST("/adminregistration", v1.CreateUser)
-	// 用户登录
+	// 用户管理-用户登录
 	normalrouter.POST("/login", v1.UserLogin)
-	// 重置密码-用户验证
+	// 用户管理-重置密码-用户验证
 	normalrouter.POST("/resetpwd", v1.ValidateReset)
-	// 查询用户公开信息
+	// 用户管理-查询用户公开信息
 	normalrouter.GET("/queryuser", v1.QueryUser)
+
 	// 查询博客设置公开信息
 	normalrouter.GET("/queryblogset", v1.QueryBlogSet)
 
@@ -74,14 +76,15 @@ func IniRouter() {
 		// 发送邮件验证码
 		authrouter.GET("/sendemail", v1.SendEmailCode)
 
-		// 验证用户注册信息
+		// 用户管理
+		// 用户管理-验证用户注册信息
 		authrouter.POST("/adminvalidate", v1.ValidateUser)
-
-		// 登录注销
+		// 用户管理-登录注销
 		authrouter.POST("/loginout", v1.UserLoginOut)
-
-		// 重置密码-邮箱验证
+		// 用户管理-重置密码-邮箱验证
 		authrouter.POST("/resetpwdcode", v1.ValidateEmail)
+		// 用户管理-更改用户信息
+		authrouter.POST("/modifyuser", v1.ModifyUser)
 
 		// 博客设置
 		// 更新设置

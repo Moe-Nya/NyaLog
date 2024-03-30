@@ -11,7 +11,7 @@ func Test_ModifyFindme(t *testing.T) {
 	var findme = &model.FindMe{}
 	findme.FindId = 0
 	findme.Icon = "www.google.com"
-	findme.Herf = "www.youtube.com"
+	findme.Href = "www.youtube.com"
 	findme.Text = "油管"
 	fmt.Println(model.ModifyFindme(findme))
 }

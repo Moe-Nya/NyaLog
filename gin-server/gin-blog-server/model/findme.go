@@ -10,15 +10,18 @@ type FindMe struct {
 	gorm.Model
 	FindId int    `gorm:"type:int(10);not null;primary_key" json:"findid" label:"找到我ID"`
 	Icon   string `gorm:"type:varchar(1000);not null" json:"icon" label:"图标"`
-	Herf   string `gorm:"type:varchar(1000)not null" json:"herf" label:"链接"`
+	Href   string `gorm:"type:varchar(1000)not null" json:"herf" label:"链接"`
 	Text   string `gorm:"type:varchar(50)" json:"text" label:"文本"`
 }
 
 // 新增Findme
 func CreateFindme(data *FindMe) int {
+	if data.Icon == "" || data.Href == "" {
+		return errmsg.ERROR
+	}
 	var findme FindMe
 	findme.Icon = data.Icon
-	findme.Herf = data.Herf
+	findme.Href = data.Href
 	findme.Text = data.Text
 	var count int64
 	var f FindMe
@@ -56,10 +59,13 @@ func SeleFindme() ([]FindMe, int) {
 
 // 修改Findme
 func ModifyFindme(data *FindMe) int {
+	if data.Icon == "" || data.Href == "" {
+		return errmsg.ERROR
+	}
 	var findme FindMe
 	var findmap = make(map[string]interface{})
 	findmap["icon"] = data.Icon
-	findmap["herf"] = data.Herf
+	findmap["herf"] = data.Href
 	findmap["text"] = data.Text
 	var f FindMe
 	err := db.First(&f, "find_id = ?", data.FindId).Error

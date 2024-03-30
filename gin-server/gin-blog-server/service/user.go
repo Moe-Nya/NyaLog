@@ -308,3 +308,29 @@ func QueryUser() (UserInfo, int) {
 	userinfo.Slogan = user.Slogan
 	return userinfo, errmsg.SUCCESS
 }
+
+// 更改用户可公开信息
+func ModifyUser(data *UserInfo) int {
+	var user model.User
+	user, err := model.SeleUser()
+	if err != errmsg.SUCCESS {
+		return errmsg.ModifyUserInfoFailed
+	}
+	if data.Username != "" {
+		user.Username = data.Username
+	}
+	if data.Profilephoto != "" {
+		user.Profilephoto = data.Profilephoto
+	}
+	if data.Email != "" {
+		user.Email = data.Email
+	}
+	if data.Slogan != "" {
+		user.Slogan = data.Slogan
+	}
+	err = model.UpdateUser(user.Uid, &user)
+	if err != errmsg.SUCCESS {
+		return errmsg.ModifyUserInfoFailed
+	}
+	return errmsg.SUCCESS
+}

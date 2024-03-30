@@ -14,6 +14,9 @@ type Category struct {
 
 // 新增文章分类
 func CreateCat(data *Category) int {
+	if data.Categorytext == "" {
+		return errmsg.ERROR
+	}
 	var count int64
 	var c Category
 	err := db.Find(&c).Count(&count).Error
@@ -50,6 +53,9 @@ func SeleCat() ([]Category, int) {
 
 // 编辑分类
 func ModifyCat(data *Category) int {
+	if data.Categorytext == "" {
+		return errmsg.ERROR
+	}
 	var cat Category
 	var catmap = make(map[string]interface{})
 	catmap["categorytext"] = data.Categorytext

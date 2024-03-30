@@ -21,6 +21,9 @@ type Comment struct {
 
 // 新增评论
 func CreateCom(comment *Comment) int {
+	if comment.Userid == "" || comment.Commenttext == "" {
+		return errmsg.ERROR
+	}
 	var article Article
 	e := db.First(&article, "articleid = ?", comment.Articleid)
 	if e.Error != nil || err == gorm.ErrRecordNotFound {

@@ -18,17 +18,18 @@ const (
 	GenerateQRFailed = 4001
 
 	// 管理员用户
-	UserInfoError       = 2001
-	UserExist           = 2002
-	UserNotExist        = 2003
-	UserNotValidate     = 2004
-	CheckUserFailed     = 2005
-	LoginError          = 2006
-	UidError            = 2007
-	PasswordError       = 2008
-	CantLogin           = 2009
-	ResetPasswordFailed = 2010
-	QueryUserFailed     = 2011
+	UserInfoError        = 2001
+	UserExist            = 2002
+	UserNotExist         = 2003
+	UserNotValidate      = 2004
+	CheckUserFailed      = 2005
+	LoginError           = 2006
+	UidError             = 2007
+	PasswordError        = 2008
+	CantLogin            = 2009
+	ResetPasswordFailed  = 2010
+	QueryUserFailed      = 2011
+	ModifyUserInfoFailed = 2012
 
 	// 邮件发送
 	SendEmailFailed   = 5001
@@ -100,17 +101,18 @@ var codeMsg = map[int]string{
 	GenerateQRFailed: "generate qrcode failed",
 
 	// 管理员用户
-	UserInfoError:       "user information error",
-	UserExist:           "user exist",
-	UserNotExist:        "user not exist",
-	UserNotValidate:     "user not validate",
-	CheckUserFailed:     "check user failed",
-	LoginError:          "an error occurred while logging in",
-	UidError:            "uid error",
-	PasswordError:       "password error",
-	CantLogin:           "this ipdress can't login agin",
-	ResetPasswordFailed: "reset password failed",
-	QueryUserFailed:     "query user failed",
+	UserInfoError:        "user information error",
+	UserExist:            "user exist",
+	UserNotExist:         "user not exist",
+	UserNotValidate:      "user not validate",
+	CheckUserFailed:      "check user failed",
+	LoginError:           "an error occurred while logging in",
+	UidError:             "uid error",
+	PasswordError:        "password error",
+	CantLogin:            "this ipdress can't login agin",
+	ResetPasswordFailed:  "reset password failed",
+	QueryUserFailed:      "query user failed",
+	ModifyUserInfoFailed: "modify user info failed",
 
 	// 邮件发送
 	SendEmailFailed:   "email send failed",

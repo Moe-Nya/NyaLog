@@ -2,8 +2,6 @@
 import { watch } from 'vue'
 import axios from 'axios'
 import '../../../public/static/css/admin-login&registe.css'
-import { useMessage } from "naive-ui";
-import messageapivue from "../../components/message.vue"
 import { useBlogSetStore } from '../../stores/blogset'
 // 获取站点名称
 const sitename = useBlogSetStore();
@@ -30,6 +28,18 @@ function loginBtn() {
             window.$message.error('密码错误')
         } else if (response.data.code === 2007) {
             window.$message.error('UID错误')
+        }
+        switch(response.data.code) {
+            case 3002: 
+                window.$message.error('2FA验证码错误')
+                break;
+            case 2008: 
+                window.$message.error('密码错误')
+                break;
+            case 2007: 
+                window.$message.error('UID错误')
+            case 2009: 
+                window.$message.error('IP登录受限')
         }
     });
     

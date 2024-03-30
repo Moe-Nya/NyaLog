@@ -15,6 +15,9 @@ type Navigation struct {
 
 // 增加导航标签
 func CreateNav(data *Navigation) int {
+	if data.Navtitle == "" {
+		return errmsg.ERROR
+	}
 	var nav Navigation
 	nav.Navtitle = data.Navtitle
 	nav.Navurl = data.Navurl
@@ -56,6 +59,9 @@ func SeleNav() ([]Navigation, int) {
 
 // 修改导航标签
 func ModifyNav(data *Navigation) int {
+	if data.Navtitle == "" {
+		return errmsg.ERROR
+	}
 	var nav Navigation
 	var navmap = make(map[string]interface{})
 	navmap["navtitle"] = data.Navtitle

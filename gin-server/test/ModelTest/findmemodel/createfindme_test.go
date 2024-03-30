@@ -10,7 +10,7 @@ func Test_CreateFindme(t *testing.T) {
 	model.InitDb()
 	var findme = &model.FindMe{}
 	findme.Icon = "www.google.com"
-	findme.Herf = "www.bilibili.com"
+	findme.Href = "www.bilibili.com"
 	findme.Text = "哔哩哔哩"
 	fmt.Println(model.CreateFindme(findme))
 }
