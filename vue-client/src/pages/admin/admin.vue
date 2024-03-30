@@ -1,4 +1,6 @@
 <script setup>
+import { useRouter } from 'vue-router';
+const router = useRouter();
     const menuOptions = [
         {
             label: "且听风吟",
@@ -68,11 +70,17 @@
             ]
         }
     ];
+
+    function btnDown() {
+        window.localStorage.clear('token')
+        router.push('/login')
+    }
 </script>
 
 
 <template>
     你好,这里是admin页面。
+    <n-button @click="btnDown">Default</n-button>
     <n-space vertical>
         <n-layout has-sider>
             <n-layout-sider

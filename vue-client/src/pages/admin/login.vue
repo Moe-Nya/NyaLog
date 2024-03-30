@@ -1,8 +1,13 @@
 <script setup>
-import { watch } from 'vue'
+import { onMounted, watch } from 'vue'
 import axios from 'axios'
+import { useRouter } from 'vue-router';
+import MessageAPI from '../../components/message.vue'
 import '../../../public/static/css/admin-login&registe.css'
 import { useBlogSetStore } from '../../stores/blogset'
+// 实例化路由管理，方便后面的路由跳转
+const router = useRouter();
+
 // 获取站点名称
 const sitename = useBlogSetStore();
 sitename.GetBlogInfo();
@@ -22,28 +27,37 @@ watch([username, password, twoFA], () => {
 
 function loginBtn() {
     axios.post("/login", {"uid": username.value, "password": password.value, "twofacode": twoFA.value}).then(response => {
-        if (response.data.code === 3002) {
-            window.$message.error('2FA验证码错误')
-        } else if(response.data.code === 2008) {
-            window.$message.error('密码错误')
-        } else if (response.data.code === 2007) {
-            window.$message.error('UID错误')
-        }
         switch(response.data.code) {
             case 3002: 
-                window.$message.error('2FA验证码错误')
+                window.$message.error('2FA验证码错误');
                 break;
             case 2008: 
-                window.$message.error('密码错误')
+                window.$message.error('密码错误');
                 break;
             case 2007: 
-                window.$message.error('UID错误')
+                window.$message.error('UID错误');
+                break;
             case 2009: 
-                window.$message.error('IP登录受限')
+                window.$message.error('IP登录受限');
+                break;
+            case 200:
+                window.$message.success('登录成功');
+                break;
+        }
+        if (response.data.code == 200) {
+            window.localStorage.setItem('token', response.data.token)
+            router.push('/admin');
         }
     });
-    
 }
+
+// 访问login页面时，清空token
+function init() {
+    window.localStorage.clear('token')
+}
+onMounted(() => {
+    init();
+});
 </script>
 
 <template>
