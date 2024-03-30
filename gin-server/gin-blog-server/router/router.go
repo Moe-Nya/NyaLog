@@ -25,6 +25,8 @@ func IniRouter() {
 	normalrouter.POST("/resetpwd", v1.ValidateReset)
 	// 查询用户公开信息
 	normalrouter.GET("/queryuser", v1.QueryUser)
+	// 查询博客设置公开信息
+	normalrouter.GET("/queryblogset", v1.QueryBlogSet)
 
 	// 文章设置
 	// 文章设置-查询单篇文章

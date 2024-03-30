@@ -55,6 +55,20 @@ func SeleBlogSet() (BlogSet, int) {
 	return blogset, errmsg.SUCCESS
 }
 
+// 读取博客设置信息(公开)
+func QueryBlogSet() (BlogSet, int) {
+	var blogset BlogSet
+	e, ex := ValidateBlogSet()
+	if e != errmsg.SUCCESS || ex == 0 {
+		return blogset, errmsg.ERROR
+	}
+	err := db.Limit(1).Select("blog_set.sitename, sitecreatetime, sitebackground").Find(&blogset).Error
+	if err != nil {
+		return blogset, errmsg.ERROR
+	}
+	return blogset, errmsg.SUCCESS
+}
+
 // 修改博客设置信息
 func ModifyBlogSet(data *BlogSet) int {
 	var blogset BlogSet

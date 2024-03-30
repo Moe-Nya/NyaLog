@@ -38,13 +38,24 @@ func SeleBlogSet(c *gin.Context) {
 		})
 	} else {
 		c.JSON(http.StatusOK, gin.H{
-			"code":           err,
-			"sitename":       blogset.Sitename,
-			"sitecreatetime": blogset.Sitecreatetime,
-			"sitebackground": blogset.Sitebackground,
-			"aiswitch":       blogset.Aiswitch,
-			"aicategory":     blogset.Aicategory,
-			"commentswitch":  blogset.Commentswitch,
+			"code":        err,
+			"blogsetinfo": blogset,
+		})
+	}
+}
+
+// 读取博客设置信息(公开)
+func QueryBlogSet(c *gin.Context) {
+	blogset, err := service.QueryBlogSet()
+	if err != errmsg.SUCCESS {
+		c.JSON(http.StatusOK, gin.H{
+			"code":    err,
+			"message": errmsg.GetErrorMsg(err),
+		})
+	} else {
+		c.JSON(http.StatusOK, gin.H{
+			"code":        err,
+			"blogsetinfo": blogset,
 		})
 	}
 }

@@ -35,8 +35,9 @@ const (
 	ValidateCodeError = 5002
 
 	// 博客设置
-	BlogNotSet    = 6001
-	BlogSetFailed = 6002
+	BlogNotSet         = 6001
+	BlogSetFailed      = 6002
+	QueryBlogSetFailed = 6003
 
 	// 文章管理
 	ArticleUpdateFailed = 7001
@@ -116,8 +117,9 @@ var codeMsg = map[int]string{
 	ValidateCodeError: "validate coede error",
 
 	// 博客设置
-	BlogNotSet:    "blog not set",
-	BlogSetFailed: "blog set failed",
+	BlogNotSet:         "blog not set",
+	BlogSetFailed:      "blog set failed",
+	QueryBlogSetFailed: "query blogset failed",
 
 	// 文章管理
 	ArticleUpdateFailed: "article update failed",
