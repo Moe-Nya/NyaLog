@@ -35,8 +35,6 @@
             seconds.value = Math.floor((timeDiff.value % (1000 * 60)) / 1000);
         }, 1000);
     }
-
-    
 </script>
 
 <style scoped>
@@ -64,7 +62,7 @@
     }
 
     .cuteword{
-        animation: shakeAnimation 0.5s infinite;
+        animation: shakeAnimation 1s infinite;
         display: inline-block;
     }
 
@@ -147,8 +145,7 @@
         <p>
         版权所有 ©{{ createYear }}-{{ currentYear }} {{ userinfo.data.username }}<br>
         <a href="https://github.com/Moe-Nya/NyaLog" target="_blank" style="color: black; text-decoration: none;"><span>NyaLog</span></a> By <a href="https://github.com/Moe-Nya" target="_blank" style="color: black; text-decoration: none;"><span>Moe_Nya</span></a> With <i class="footer-heart"></i> | All Rights Reserved<br>
-        <span class="cuteword">(●'◡'●)ﾉ</span>本博客已萌萌哒运行了{{ days }}天{{ hours }}小时{{ minutes }}分{{ seconds }}秒<br>
-        {{  }}
+        <span class="cuteword">(●'◡'●)ﾉ</span>本博客可爱地运行了{{ days }}天{{ hours }}小时{{ minutes }}分{{ seconds }}秒<br>
         </p>
     </footer>
 </template>

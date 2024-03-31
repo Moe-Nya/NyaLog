@@ -4,7 +4,7 @@ import { reactive } from 'vue'
 
 export const useBlogSetStore = defineStore('blogset', () => {
     const data = reactive({
-        sitename: "一个神秘用户",
+        sitename: "一个神秘站点",
         sitecreatetime: "",
         sitebackground: ""
     })
