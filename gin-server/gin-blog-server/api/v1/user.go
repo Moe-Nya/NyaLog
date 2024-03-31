@@ -295,6 +295,7 @@ func ValidateEmail(c *gin.Context) {
 	_ = c.ShouldBindJSON(&user)
 	err := service.ValidateEmail(&user)
 	if err != errmsg.SUCCESS {
+		middleware.CheckLoginError(c.ClientIP())
 		c.JSON(http.StatusOK, gin.H{
 			"code":    err,
 			"message": errmsg.GetErrorMsg(err),

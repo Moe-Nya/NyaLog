@@ -152,10 +152,12 @@ var codeMsg = map[int]string{
 	FindMeQueryFailed:  "findme query failed",
 	FindMeModifyFailed: "findme modify failed",
 	DeleteFindMeFailed: "delete findme failed",
-	CreateNavFailed:    "create navigation failed",
-	NavQueryFailed:     "navigation query failed",
-	NavEditFailed:      "navigation edit failed",
-	NavDeleteFailed:    "navigation delete failed",
+
+	// 导航栏管理
+	CreateNavFailed: "create navigation failed",
+	NavQueryFailed:  "navigation query failed",
+	NavEditFailed:   "navigation edit failed",
+	NavDeleteFailed: "navigation delete failed",
 
 	// 友链管理
 	CreateFriendLinkFailed: "create friend link failed",
