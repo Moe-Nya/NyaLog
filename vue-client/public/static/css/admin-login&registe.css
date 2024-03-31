@@ -1,16 +1,4 @@
-.pageback{
-    display: flex;
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    width: 100%;
-    position: relative;
-    background:
-        linear-gradient(217deg, #f7f5f5, rgba(255,0,0,0) 70.71%),
-        linear-gradient(127deg, #FDF2F8, rgba(0,255,0,0) 70.71%),
-        linear-gradient(336deg, #C8E7FB, rgba(0,0,255,0) 70.71%);
-}
-
+/*卡片框样式*/
 .loginbox{
     background-color: white;
     border-radius: 20px;
@@ -31,6 +19,7 @@
     height: auto;
 }
 
+/*Title样式*/
 .loginlogo{
     font-size: 17px;
     text-align: center;
@@ -46,33 +35,7 @@
     font-weight: bold;
 }
 
-.login-card{
-    width : 280px;
-    position: relative;
-    bottom: 10px;
-    left: 50%;
-    transform: translate(-50%);
-}
-
-.forgetpwd{
-    float: right;
-}
-
-.inputbox{
-    margin-top: 10px;
-}
-
-.btn{
-    margin-top: 20px;
-    margin-bottom: 10px;
-    text-align: center;
-}
-
-.input-text{
-    font-weight: bold;
-    font-size: 15px;
-}
-
+/*输入框icon样式*/
 .userid{
     background: url("../../img/user.svg") no-repeat;
     background-size: 20px 20px;
@@ -104,4 +67,54 @@
     display: inline-block;
     position: relative;
     top:3px;
+}
+
+.email{
+    background: url("../../img/email.svg") no-repeat;
+    background-size: 20px 20px;
+    background-position: center center;
+    height: 20px;
+    width: 20px;
+    display: inline-block;
+    position: relative;
+    top:3px;
+}
+
+/*登录框样式*/
+.login-card{
+    width : 300px;
+    position: relative;
+    bottom: 10px;
+    left: 50%;
+    transform: translate(-50%);
+}
+
+.inputbox{
+    margin-top: 10px;
+}
+
+.btn{
+    margin-top: 20px;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.input-text{
+    font-weight: bold;
+    font-size: 15px;
+}
+
+/*自适应样式*/
+@media (max-width: 740px) {
+    .loginbox{
+        width: 100%;
+    }
+}
+
+@media (max-width: 740px) {
+    .login-card{
+        width : 97%;
+        margin-left: 1%;
+        margin-right: 2%;
+    }
 }
