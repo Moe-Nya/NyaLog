@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useRouter } from 'vue-router';
 import MessageAPI from '../../components/message.vue'
 import '../../../public/static/css/admin-login&registe.css'
+import errmsg from '../../modules/errmsg';
 // 实例化路由管理，方便后面的路由跳转
 const router = useRouter();
 // 获取UID、用户名、密码、邮箱地址
@@ -55,7 +56,7 @@ function nextBtn() {
                 if (res.data.code == 200) {
                     window.$message.success('邮件发送成功');
                 } else {
-                    window.$message.error('邮件发送失败,请检查邮箱地址');
+                    errmsg(res.data.code)
                 }
             });
         }

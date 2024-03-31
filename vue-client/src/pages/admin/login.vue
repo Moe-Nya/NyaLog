@@ -5,6 +5,7 @@ import { useRouter } from 'vue-router';
 import MessageAPI from '../../components/message.vue'
 import '../../../public/static/css/admin-login&registe.css'
 import { useBlogSetStore } from '../../stores/blogset'
+import errmsg from '../../modules/errmsg';
 // 实例化路由管理，方便后面的路由跳转
 const router = useRouter();
 
@@ -22,11 +23,19 @@ const reuid = ref('')
 const reemail = ref('')
 const retwoFA = ref('')
 
+// 获取修改密码的uid、新密码、邮箱验证码
+const newuid = ref('')
+const newpwd = ref('')
+const emailcode = ref('')
+
 const btnDown = ref(true);
+const rePwdBtnDown = ref(true);
+const newPwdBtnDown = ref(true);
 
 // 忘记密码弹出框状态
 const modifyPwdBox = {width: "550px"};
-const showModifyPwdBox = ref(false)
+const showModifyPwdBox = ref(false);
+const showModifyPwdvertifyBox = ref(false);
 
 // 监听函数，监听这4个值
 watch([username, password, twoFA], () => {
@@ -39,24 +48,20 @@ watch([reuid, reemail, retwoFA], () => {
     rePwdBtnDown.value = ![reuid.value, reemail.value, retwoFA.value].every(value => value !== '');
 });
 
+// 监听新密码信息值
+watch([newuid, newpwd, emailcode], () => {
+    const isPasswordValid = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]).*$/.test(newpwd.value);
+    newPwdBtnDown.value = ![newuid.value, newpwd.value, emailcode.value].every(value => value !== '') || !isPasswordValid;
+});
+
 function loginBtn() {
     axios.post("/login", {"uid": username.value, "password": password.value, "twofacode": twoFA.value}).then(response => {
         switch(response.data.code) {
-            case 3002: 
-                window.$message.error('2FA验证码错误');
-                break;
-            case 2008: 
-                window.$message.error('密码错误');
-                break;
-            case 2007: 
-                window.$message.error('UID错误');
-                break;
-            case 2009: 
-                window.$message.error('IP登录受限');
-                break;
             case 200:
                 window.$message.success('登录成功');
                 break;
+            default:
+                errmsg(response.data.code);
         }
         if (response.data.code == 200) {
             window.localStorage.setItem('token', response.data.token)
@@ -67,7 +72,31 @@ function loginBtn() {
 
 // 忘记密码按钮
 function forGetPwd() {
-    showModifyPwdBox.value = true
+    showModifyPwdBox.value = true;
+}
+// 忘记密码信息下一步按钮
+function forgetPwdBtn() {
+    showModifyPwdBox.value = false;
+    axios.post("/resetpwd", {"uid":reuid.value, "email": reemail.value, "twofacode": retwoFA.value}).then(res => {
+        if (res.data.code == 200) {
+            showModifyPwdvertifyBox.value = true;
+            window.localStorage.getItem('token', res.data.token);
+            axios.post("/admin/sendemail", {"uid": reuid.value, "email": reemail.value}, {headers: {Authorization: window.localStorage.getItem("token")}}).then(emaires => {
+                if (res.data.code == 200) {
+                    window.$message.success('邮件发送成功');
+                } else {
+                    errmsg(res.data.code);
+                }
+            });
+        } else {
+            errmsg(res.data.code);
+        }
+    });
+}
+// 修改密码信息
+// todo
+function newPwdBtn() {
+
 }
 
 // 访问login页面时，清空token
@@ -160,8 +189,46 @@ onMounted(() => {
             </div>
         <template #footer>
             <div class="btn">
-                <n-button :disabled="rePwdBtnDown" @click="forGetPwd" strong round type="primary" size="large">
+                <n-button :disabled="rePwdBtnDown" @click="forgetPwdBtn" strong round type="primary" size="large">
                     下一步
+                </n-button>
+            </div>
+        </template>
+  </n-modal>
+  <n-modal
+        v-model:show="showModifyPwdvertifyBox"
+        class="custom-card vertifybox"
+        preset="card"
+        :style="modifyPwdBox"
+        title="修改密码"
+        size="huge"
+        :bordered="false"
+    >
+            <div class="inputbox">
+                <i class="userid"></i>
+                <span class="input-text"> 用户UID</span>
+                <n-input v-model:value="newuid" type="text" placeholder="用户UID"/>
+            </div>
+            <div class="inputbox">
+                <i class="userpwd"></i>
+                <span class="input-text"> 密码</span>
+                <n-input
+                v-model:value="newpwd"
+                type="password"
+                show-password-on="mousedown"
+                placeholder="由数字、大小写字母、标点符号组成"
+                :maxlength="20"
+                />
+            </div>
+            <div class="inputbox">
+                <i class="email"></i>
+                <span class="input-text"> 邮箱验证码</span>
+                <n-input v-model:value="emailcode" type="text" placeholder="邮箱验证码"/>
+            </div>
+        <template #footer>
+            <div class="btn">
+                <n-button :disabled="newPwdBtnDown" @click="newPwdBtn" strong round type="primary" size="large">
+                    修改密码
                 </n-button>
             </div>
         </template>
