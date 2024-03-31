@@ -14,21 +14,44 @@ import (
 // 判断用户是否存在
 func UserExist(c *gin.Context) {
 	userexist, err := service.UserExist()
-	if err == errmsg.ERROR {
+	if err != errmsg.SUCCESS {
 		c.JSON(http.StatusOK, gin.H{
 			"code":    errmsg.ERROR,
 			"message": "User system error",
 		})
+	} else {
+		if userexist {
+			c.JSON(http.StatusOK, gin.H{
+				"code":    errmsg.ERROR,
+				"message": "User exist",
+			})
+		} else {
+			c.JSON(http.StatusOK, gin.H{
+				"code": errmsg.SUCCESS,
+			})
+		}
 	}
-	if userexist {
+}
+
+// 判断用户是否验证
+func UserValidate(c *gin.Context) {
+	uservalidate, err := service.UserValidate()
+	if err != errmsg.SUCCESS {
 		c.JSON(http.StatusOK, gin.H{
 			"code":    errmsg.ERROR,
-			"message": "User exist",
+			"message": "User system error",
 		})
 	} else {
-		c.JSON(http.StatusOK, gin.H{
-			"code": errmsg.SUCCESS,
-		})
+		if uservalidate {
+			c.JSON(http.StatusOK, gin.H{
+				"code":    errmsg.ERROR,
+				"message": "User validated",
+			})
+		} else {
+			c.JSON(http.StatusOK, gin.H{
+				"code": errmsg.SUCCESS,
+			})
+		}
 	}
 }
 

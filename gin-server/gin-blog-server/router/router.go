@@ -18,6 +18,8 @@ func IniRouter() {
 	// 用户管理
 	// 用户管理-用户是否存在
 	normalrouter.GET("/adminexist", v1.UserExist)
+	// 用户管理-用户是否验证
+	normalrouter.GET("/adminvalidate", v1.UserValidate)
 	// 用户管理-注册用户
 	normalrouter.POST("/adminregistration", v1.CreateUser)
 	// 用户管理-用户登录
@@ -74,7 +76,7 @@ func IniRouter() {
 	authrouter.Use(middleware.JwtToken())
 	{
 		// 发送邮件验证码
-		authrouter.GET("/sendemail", v1.SendEmailCode)
+		authrouter.POST("/sendemail", v1.SendEmailCode)
 
 		// 用户管理
 		// 用户管理-验证用户注册信息

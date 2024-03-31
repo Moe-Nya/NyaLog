@@ -15,6 +15,11 @@ func UserExist() (bool, int) {
 	return model.UserExist()
 }
 
+// 判断用户是否验证
+func UserValidate() (bool, int) {
+	return model.UserValidate()
+}
+
 // -------------------------------------------
 
 // 发送邮箱时需要的结构体
@@ -96,7 +101,10 @@ func CreateUser(user *model.User) ([]byte, int) {
 	// 正则判断密码是否含有数字、大小写字母、标点符号；密码长度需要大于6
 	re := regexp.MustCompile(`[0-9]+[a-zA-Z]+[!@#$%^&*().]+`)
 	match := re.MatchString(user.Password)
-	if user.Uid == "" || user.Username == "" || !match || len(user.Password) <= utils.PasswordMinLen || user.Email == "" {
+	emaiRe := regexp.MustCompile(`^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$`)
+	emaiMatch := emaiRe.MatchString(user.Email)
+
+	if user.Uid == "" || user.Username == "" || !match || !emaiMatch || len(user.Password) <= utils.PasswordMinLen || user.Email == "" {
 		return nil, errmsg.UserInfoError
 	}
 
@@ -268,6 +276,12 @@ type ValidateEm struct {
 
 // 验证邮箱
 func ValidateEmail(data *ValidateEm) int {
+	// 正则判断密码是否含有数字、大小写字母、标点符号；密码长度需要大于6
+	re := regexp.MustCompile(`[0-9]+[a-zA-Z]+[!@#$%^&*().]+`)
+	match := re.MatchString(data.Password)
+	if !match {
+		return errmsg.ResetPasswordFailed
+	}
 	code, useplace, err := middleware.GetCode(data.Uid)
 	if err != errmsg.SUCCESS {
 		return errmsg.ValidateCodeError
@@ -321,6 +335,11 @@ func ModifyUser(data *UserInfo) int {
 	}
 	if data.Profilephoto != "" {
 		user.Profilephoto = data.Profilephoto
+	}
+	emaiRe := regexp.MustCompile(`^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$`)
+	emaiMatch := emaiRe.MatchString(data.Email)
+	if !emaiMatch {
+		return errmsg.ModifyUserInfoFailed
 	}
 	if data.Email != "" {
 		user.Email = data.Email
