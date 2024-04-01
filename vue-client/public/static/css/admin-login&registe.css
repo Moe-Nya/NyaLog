@@ -1,4 +1,16 @@
 /*卡片框样式*/
+.login{
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, 60%);
+}
+
+.registe{
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, 50%);
+}
+
 .loginbox{
     background-color: white;
     border-radius: 20px;
@@ -7,10 +19,6 @@
     padding: 0;
     width: 500px;
     height: auto;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
 }
 
 .loginbox-logo{
