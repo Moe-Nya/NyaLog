@@ -39,14 +39,15 @@
 
 <style scoped>
     .footer{
-        height:auto;
+        min-height:80px;
+        height: auto;
         font-weight: 500;
         font-size: 15px;
         text-align: center;
-        position: absolute;
-        bottom: 5px;
-        left:50%;
-        transform: translate(-50%);
+        z-index: 9999;
+        clear: both;
+        min-width: 50%;
+        bottom: 10px;
     }
 
     .footer-heart{
