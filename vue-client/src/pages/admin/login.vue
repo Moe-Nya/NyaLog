@@ -54,16 +54,24 @@ watch([newuid, newpwd, emailcode], () => {
     newPwdBtnDown.value = ![newuid.value, newpwd.value, emailcode.value].every(value => value !== '') || !isPasswordValid;
 });
 
+// 登录
 function loginBtn() {
+    if (btnDown.value) {
+        return;
+    }
+    window.$loadingBar.start();
     axios.post("/login", {"uid": username.value, "password": password.value, "twofacode": twoFA.value}).then(response => {
         switch(response.data.code) {
             case 200:
+                window.$loadingBar.finish();
                 window.$message.success('登录成功');
                 break;
             default:
+                window.$loadingBar.error();
                 errmsg(response.data.code);
         }
         if (response.data.code == 200) {
+            window.$loadingBar.finish();
             window.localStorage.setItem('token', response.data.token)
             router.push('/admin');
         }
@@ -72,31 +80,54 @@ function loginBtn() {
 
 // 忘记密码按钮
 function forGetPwd() {
+    window.$loadingBar.start();
     showModifyPwdBox.value = true;
+    window.$loadingBar.finish();
 }
 // 忘记密码信息下一步按钮
 function forgetPwdBtn() {
+    if (rePwdBtnDown.value) {
+        return;
+    }
     showModifyPwdBox.value = false;
+    window.$loadingBar.start();
     axios.post("/resetpwd", {"uid":reuid.value, "email": reemail.value, "twofacode": retwoFA.value}).then(res => {
         if (res.data.code == 200) {
             showModifyPwdvertifyBox.value = true;
-            window.localStorage.getItem('token', res.data.token);
+            window.localStorage.setItem('token', res.data.token);
             axios.post("/admin/sendemail", {"uid": reuid.value, "email": reemail.value}, {headers: {Authorization: window.localStorage.getItem("token")}}).then(emaires => {
-                if (res.data.code == 200) {
+                if (emaires.data.code == 200) {
+                    window.$loadingBar.finish();
                     window.$message.success('邮件发送成功');
                 } else {
-                    errmsg(res.data.code);
+                    window.$loadingBar.error();
+                    errmsg(emaires.data.code);
                 }
             });
         } else {
+            window.$loadingBar.error();
             errmsg(res.data.code);
         }
     });
 }
 // 修改密码信息
-// todo
 function newPwdBtn() {
-
+    if (newPwdBtnDown.value) {
+        return;
+    }
+    window.$loadingBar.start();
+    axios.post("/admin/resetpwdcode", {"uid": newuid.value, "password": newpwd.value, "code": emailcode.value}, {headers :{Authorization: window.localStorage.getItem('token')}}).then(resetres => {
+        if (resetres.data.code == 200) {
+            window.$loadingBar.finish();
+            window.$message.success('密码重置成功');
+            window.localStorage.clear('token');
+            router.push('/login');
+            window.location.reload();
+        } else {
+            window.$loadingBar.error();
+            errmsg(resetres.data.code);
+        }
+    });
 }
 
 // 访问login页面时，清空token
@@ -127,7 +158,7 @@ onMounted(() => {
 </style>
 <template>
     <div class="pageback">
-        <div class="loginbox">
+        <div class="loginbox login">
             <div class="loginbox-logo">
                 <p class="loginlogo">登录到 <span class="loginlogo-sitename">{{ sitename.data.sitename }}</span></p>
             </div>
@@ -135,13 +166,14 @@ onMounted(() => {
                 <div class="inputbox">
                     <i class="userid"></i>
                     <span class="input-text"> 用户UID</span>
-                    <n-input v-model:value="username" type="text" placeholder="用户UID"/>
+                    <n-input v-on:keyup.enter="loginBtn" v-model:value="username" type="text" placeholder="用户UID"/>
                 </div>
                 <div class="inputbox">
                     <i class="userpwd"></i>
                     <span class="input-text"> 密码</span>
                     <span class="forgetpwd" ><a href="#" @click="forGetPwd" style="color: gray;">忘记密码?</a></span>
                     <n-input
+                    v-on:keyup.enter="loginBtn"
                     v-model:value="password"
                     type="password"
                     show-password-on="mousedown"
@@ -152,7 +184,7 @@ onMounted(() => {
                 <div class="inputbox">
                     <i class="vertify"></i>
                     <span class="input-text"> 2FA验证码</span>
-                    <n-input v-model:value="twoFA" type="text" placeholder="2FA验证码"/>
+                    <n-input v-on:keyup.enter="loginBtn" v-model:value="twoFA" type="text" placeholder="2FA验证码"/>
                 </div>
                 <div class="btn">
                     <n-button :disabled="btnDown" @click="loginBtn" strong round type="primary" size="large">
@@ -175,17 +207,17 @@ onMounted(() => {
             <div class="inputbox">
                 <i class="userid"></i>
                 <span class="input-text"> 用户UID</span>
-                <n-input v-model:value="reuid" type="text" placeholder="用户UID"/>
+                <n-input v-on:keyup.enter="forgetPwdBtn" v-model:value="reuid" type="text" placeholder="用户UID"/>
             </div>
             <div class="inputbox">
                 <i class="email"></i>
                 <span class="input-text"> Email</span>
-                <n-input v-model:value="reemail" type="text" placeholder="Email"/>
+                <n-input v-on:keyup.enter="forgetPwdBtn" v-model:value="reemail" type="text" placeholder="Email"/>
             </div>
             <div class="inputbox">
                 <i class="vertify"></i>
                 <span class="input-text"> 2FA验证码</span>
-                <n-input v-model:value="retwoFA" type="text" placeholder="2FA验证码"/>
+                <n-input v-on:keyup.enter="forgetPwdBtn" v-model:value="retwoFA" type="text" placeholder="2FA验证码"/>
             </div>
         <template #footer>
             <div class="btn">
@@ -207,12 +239,13 @@ onMounted(() => {
             <div class="inputbox">
                 <i class="userid"></i>
                 <span class="input-text"> 用户UID</span>
-                <n-input v-model:value="newuid" type="text" placeholder="用户UID"/>
+                <n-input v-on:keyup.enter="newPwdBtn" v-model:value="newuid" type="text" placeholder="用户UID"/>
             </div>
             <div class="inputbox">
                 <i class="userpwd"></i>
                 <span class="input-text"> 密码</span>
                 <n-input
+                v-on:keyup.enter="newPwdBtn"
                 v-model:value="newpwd"
                 type="password"
                 show-password-on="mousedown"
@@ -223,7 +256,7 @@ onMounted(() => {
             <div class="inputbox">
                 <i class="email"></i>
                 <span class="input-text"> 邮箱验证码</span>
-                <n-input v-model:value="emailcode" type="text" placeholder="邮箱验证码"/>
+                <n-input v-on:keyup.enter="newPwdBtn" v-model:value="emailcode" type="text" placeholder="邮箱验证码"/>
             </div>
         <template #footer>
             <div class="btn">

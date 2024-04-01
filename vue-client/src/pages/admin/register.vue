@@ -43,6 +43,7 @@ const showVertifyBox = ref(false);
 
 // 点击下一步按钮
 function nextBtn() {
+    window.$loadingBar.start();
     axios.post("/adminregistration", {"uid": uid.value, "username": username.value, "password": password.value, "email": email.value}).then(response => {
         if (response.data.code == 200) {
             qrInfo.value = "data:image/png;base64,"+response.data.qrcode;
@@ -54,22 +55,30 @@ function nextBtn() {
             }
             axios.post("/admin/sendemail", params, {headers: {Authorization: window.localStorage.getItem("temptoken")}}).then(res => {
                 if (res.data.code == 200) {
+                    window.$loadingBar.finish();
                     window.$message.success('邮件发送成功');
                 } else {
-                    errmsg(res.data.code)
+                    window.$loadingBar.error();
+                    errmsg(res.data.code);
                 }
             });
+        } else {
+            window.$loadingBar.error();
+            errmsg(response.data.code);
         }
     });
 }
 //注册按钮
 function registeBtn() {
+    window.$loadingBar.start();
     axios.post("/admin/adminvalidate", {"emailcode": emailcode.value, "twofacode": twoFAcode.value}, {headers: {Authorization: window.localStorage.getItem("temptoken")}}).then(res => {
         if (res.data.code == 200) {
+            window.$loadingBar.finish();
             window.$message.success('用户注册成功');
             window.localStorage.clear("temptoken");
             router.push('/login');
         } else {
+            window.$loadingBar.error();
             window.$message.error('用户注册失败');
             router.push('/registe');
         }
@@ -100,7 +109,7 @@ onMounted(() => {
 </style>
 <template>
     <div class="pageback">
-        <div class="loginbox">
+        <div class="loginbox registe">
             <div class="loginbox-logo">
                 <p class="registelogo">注册</p>
             </div>
