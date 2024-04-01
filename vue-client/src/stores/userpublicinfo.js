@@ -5,7 +5,7 @@ import axios from 'axios'
 export const usePublicUserInfoStore = defineStore('userinfo', () => {
     const data = reactive({
         username: "一个神秘站点",
-        profilephoto: "",
+        profilephoto: "../../public/img/userprofile.png",
         email: "",
         slogan: ""
     })
@@ -13,8 +13,8 @@ export const usePublicUserInfoStore = defineStore('userinfo', () => {
     async function GetUserInfo() {
         const response = await axios.get('/queryuser');
         if (response.data.code === 200) {
-            data.username = response.data.userinfo.username;
-            data.profilephoto = response.data.userinfo.profilephoto;
+            if (response.data.userinfo.username !== "") data.username = response.data.userinfo.username;
+            if (response.data.userinfo.profilephoto !== "") data.profilephoto = response.data.userinfo.profilephoto;
             data.email = response.data.userinfo.email;
             data.slogan = response.data.userinfo.slogan;
         } else {

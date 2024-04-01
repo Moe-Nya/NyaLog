@@ -12,7 +12,7 @@ export const useBlogSetStore = defineStore('blogset', () => {
     async function GetBlogInfo() {
         const response = await axios.get('/queryblogset');
         if (response.data.code === 200) {
-            data.sitename = response.data.blogsetinfo.sitename;
+            if (response.data.blogsetinfo.sitename !== "") data.sitename = response.data.blogsetinfo.sitename;
             data.sitecreatetime = response.data.blogsetinfo.sitecreatetime
             data.sitebackground = response.data.blogsetinfo.sitebackground
         } else {
