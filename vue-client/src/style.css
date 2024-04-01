@@ -1,17 +1,17 @@
 html,
 body,
 #app {
-    display: flex;
     margin: 0;
     padding: 0;
-    height: 100%;
+    height: auto;
     width: 100%;
     position: relative;
     background:
         linear-gradient(217deg, #ffffff, rgba(255,0,0,0) 70.71%),
         linear-gradient(127deg, #faecf3, rgba(0,255,0,0) 70.71%),
         linear-gradient(336deg, #c9e6fa, rgba(0,0,255,0) 70.71%);
-	height: 100%;
+    background-repeat:no-repeat;
+    background-attachment:fixed;
     margin: 0;
     padding: 0;
 }
