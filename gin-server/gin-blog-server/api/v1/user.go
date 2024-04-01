@@ -64,7 +64,7 @@ func SendEmailCode(c *gin.Context) {
 	if middleware.CheckIP(c.ClientIP()) != errmsg.SUCCESS {
 		c.JSON(http.StatusOK, gin.H{
 			"code":    errmsg.SendEmailFailed,
-			"message": "Send code failed",
+			"message": errmsg.GetErrorMsg(errmsg.SendEmailFailed),
 		})
 	} else {
 		var user model.User

@@ -73,6 +73,8 @@ func SendEmailCode(data *SendEmail) int {
 			return err
 		}
 		middleware.CheckUserEmailCode(user.Uid, data.Useplace, string(code))
+	} else {
+		return errmsg.ERROR
 	}
 	return errmsg.SUCCESS
 }
