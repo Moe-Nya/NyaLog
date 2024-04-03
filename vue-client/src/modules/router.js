@@ -19,6 +19,7 @@ const router = createRouter({
             children : [
                 {path : 'userinfo', name: '用户信息管理', component: ()=> import('../pages/admin/userinfo.vue')},
                 {path : 'modifypwd', name: '修改密码', component: ()=> import('../pages/admin/modifypwd.vue')},
+                {path : 'siteset', name: '站点设置', component: ()=> import('../pages/admin/siteset.vue')},
             ]
         }
     ],

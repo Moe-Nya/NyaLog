@@ -51,6 +51,25 @@ const menuOptions = [
             },
             ],
     },
+    {
+        type: "group",
+            label: "系统设置",
+            key: "system",
+            children: [
+            {
+                label: () => h(
+                    RouterLink,
+                    {
+                        to: {
+                            name: '站点设置',
+                        }
+                    },
+                    '站点设置'
+                ),
+                key: "siteset"
+            },
+            ],
+    },
 ];
 
 // 侧边菜单交换按钮

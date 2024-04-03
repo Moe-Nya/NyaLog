@@ -51,6 +51,26 @@ function updateUserinfoBtn() {
         }
     });
 }
+
+// 进入页面权限验证
+function Validate() {
+    window.$loadingBar.start();
+    axios.get("/admin/", {headers: {Authorization: window.localStorage.getItem('token')}}).then(res => {
+        if (res.data.code !== 200) {
+            window.localStorage.clear('token');
+            window.$loadingBar.finish();
+            errmsg(res.data.code);
+            router.push('/login');
+        } else {
+            window.$loadingBar.finish();
+        }
+    });
+}
+
+// 初始化
+onMounted(() => {
+    Validate();
+});
 </script>
 <template>
     <div class="userinfotitlebox">
