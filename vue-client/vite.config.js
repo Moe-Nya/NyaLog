@@ -12,9 +12,10 @@ Components({
   resolvers: [
     NaiveUiResolver(),
   ],
-})
+});
 
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [vue(), DirResolverHelper(), AutoImports({imports : ['vue', 'vue-router', 'pinia'], resolvers: [dirResolver(), NaiveUiResolver(),]}), Components()],
-})
+  server: {host: '192.168.31.145'},
+});
