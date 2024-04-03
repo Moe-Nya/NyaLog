@@ -51,7 +51,7 @@
     }
 
     .footer-heart{
-        background: url("img/heart.svg") no-repeat;
+        background: url("/img/heart.svg") no-repeat;
         background-size: 15px 15px;
         background-position: center center;
         height: 20px;
