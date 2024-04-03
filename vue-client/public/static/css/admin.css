@@ -1,3 +1,4 @@
+/*--------------------------------------------------*/
 /*导航栏内部菜单div*/
 .navi{
     height: auto;
@@ -43,6 +44,10 @@
     animation: slide-in 0.5s ease-out;
 }
 
+#main.disable{
+    display: none;
+}
+
 @keyframes slide-in {
     from {
       transform: translateX(-100%);
@@ -52,6 +57,50 @@
     }
 }
 
+/*用户信息*/
+.userinfo{
+    height: auto;
+    width: auto;
+    margin-left: 10px;
+}
+
+.username {
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.userinfo-des{
+    float:right;
+    margin-right: 20px;
+}
+
+#userinfoDes.change{
+    margin-right: 75%;
+}
+
+.profilephoto{
+    background: url("../../img/profilephoto.svg") no-repeat;
+    background-size: 30px 30px;
+    background-position: center center;
+    height: 30px;
+    width: 20px;
+    display: inline-block;
+    position: relative;
+    top:8px;
+}
+
+.slogan {
+    background: url("../../img/slogan.svg") no-repeat;
+    background-size: 20px 20px;
+    background-position: center center;
+    height: 20px;
+    width: 20px;
+    display: inline-block;
+    position: relative;
+    top:3px;
+}
+
+/*--------------------------------------------------*/
 /*内容模块div*/
 .main{
     float: right;
@@ -65,6 +114,33 @@
     transform: translate(-5%, 0%);
 }
 
+/*内容模块内框*/
+.main-container{
+    min-height: 83vh;
+    width: 92%;
+    margin-left: 4%;
+    margin-top: 4%;
+    margin-bottom: 4%;
+}
+
+/*提示信息*/
+.tips{
+    color: gray;
+    font-size: 13px;
+}
+
+/*用户信息管理*/
+.infotitlebox{
+    width: 100%;
+    min-height: 30px;
+    height: auto;
+}
+
+.infobox{
+    width: 50%;
+}
+
+/*--------------------------------------------------*/
 /*横向导航栏*/
 .horizontalnav{
     display: none;
@@ -115,31 +191,14 @@
     width: 100%;
 }
 
-/*用户信息*/
-.userinfo{
-    height: auto;
-    width: auto;
-    margin-left: 10px;
-}
-
-.username {
-    font-weight: bold;
-    font-size: 20px;
-}
-
-.userinfo-des{
-    float:right;
-    margin-right: 20px;
-}
-
-#userinfoDes.change{
-    margin-right: 75%;
-}
-
+/*--------------------------------------------------*/
 /*自适应样式*/
 @media (max-width: 1650px) {
     .main{
         width: 77%;
+    }
+    .infobox{
+        width: 55%;
     }
 }
 @media (max-width: 1500px) {
@@ -151,6 +210,9 @@
     .main{
         width: 74%;
     }
+    .infobox{
+        width: 58%;
+    }
 }
 @media (max-width: 1300px) {
     .main{
@@ -160,6 +222,9 @@
 @media (max-width: 1200px) {
     .main{
         width: 72%;
+    }
+    .infobox{
+        width: 60%;
     }
 }
 @media (max-width: 1100px) {
@@ -175,6 +240,9 @@
 @media (max-width: 950px) {
     .main{
         width: 68%;
+    }
+    .infobox{
+        width: 65%;
     }
 }
 @media (max-width: 900px) {
@@ -205,6 +273,9 @@
         float:right;
         margin-right: 20px;
     }
+    #main.disable{
+        display: block;
+    }
 }
 @media (max-width: 850px) {
     .horizontalnav{
@@ -224,6 +295,9 @@
     #userinfoDes.change{
         margin-right: 70%;
     }
+    .infobox{
+        width: 80%;
+    }
 }
 @media (max-width: 600px) {
     .main{
@@ -238,6 +312,9 @@
     }
     #userinfoDes.change{
         margin-right: 60%;
+    }
+    .infobox{
+        width: 100%;
     }
 }
 @media (max-width: 450px) {
