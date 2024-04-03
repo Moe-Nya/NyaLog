@@ -77,8 +77,8 @@ func JwtToken() gin.HandlerFunc {
 		if tokenString == "" {
 			code = errmsg.TokenNotExist
 			c.JSON(http.StatusOK, gin.H{
-				"status": code,
-				"info":   errmsg.GetErrorMsg(code),
+				"code":    code,
+				"message": errmsg.GetErrorMsg(code),
 			})
 			c.Abort()
 			return
@@ -87,8 +87,8 @@ func JwtToken() gin.HandlerFunc {
 		_, code = ValidateJWT(tokenString, c.ClientIP())
 		if code != errmsg.SUCCESS {
 			c.JSON(http.StatusOK, gin.H{
-				"status": code,
-				"info":   errmsg.GetErrorMsg(code),
+				"code":    code,
+				"message": errmsg.GetErrorMsg(code),
 			})
 			c.Abort()
 			return

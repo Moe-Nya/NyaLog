@@ -75,6 +75,9 @@ func IniRouter() {
 	authrouter := routerv1.Group("api/v1/" + utils.AdminEntrance)
 	authrouter.Use(middleware.JwtToken())
 	{
+		// token有效性验证
+		authrouter.GET("/", v1.Validate)
+
 		// 发送邮件验证码
 		authrouter.POST("/sendemail", v1.SendEmailCode)
 
