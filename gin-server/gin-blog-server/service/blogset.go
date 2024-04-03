@@ -8,6 +8,9 @@ import (
 
 // 更新博客设置
 func UpdateBlogSet(data *model.BlogSet) int {
+	if data.Sitecreatetime.After(time.Now()) {
+		return errmsg.BlogSetFailed
+	}
 	err, ex := model.ValidateBlogSet()
 	if err != errmsg.SUCCESS {
 		return errmsg.BlogSetFailed
