@@ -3,13 +3,18 @@ import { useRouter } from 'vue-router';
 import MessageAPI from '../../components/message.vue'
 import axios from 'axios'
 import '../../../public/static/css/admin.css'
+import '../../../public/static/css/admin-login&registe.css'
 import errmsg from '../../modules/errmsg';
-import { usePublicUserInfoStore } from '../../stores/userpublicinfo'
-import { useBlogSetStore } from '../../stores/blogset'
 import { onMounted } from 'vue';
+import { useBlogSetStore } from '../../stores/blogset'
+import { usePublicUserInfoStore } from '../../stores/userpublicinfo'
+import { RouterLink } from 'vue-router'
+import { defineComponent, h } from "vue";
 const router = useRouter();
-const userinfo = usePublicUserInfoStore();
 const blogset = useBlogSetStore();
+const userinfo = usePublicUserInfoStore();
+// 定义后台首页
+router.push('/admin/userinfo');
 
 // 控制侧边栏弹出框的显示与否
 const naviconshow = ref(true);
@@ -21,19 +26,37 @@ const menuOptions = [
             key: "user",
             children: [
             {
-                label: "更改用户信息",
-                key: "narrator"
+                label: () => h(
+                    RouterLink,
+                    {
+                        to: {
+                            name: '用户信息管理',
+                        }
+                    },
+                    '用户信息管理'
+                ),
+                key: "userinfo"
             },
             {
-                label: "更改密码",
-                key: "sheep-man"
-            }
-            ]
+                label: () => h(
+                    RouterLink,
+                    {
+                        to: {
+                            name: '修改密码',
+                        }
+                    },
+                    '修改密码'
+                ),
+                key: "modifypwd"
+            },
+            ],
     },
 ];
 
 // 侧边菜单交换按钮
 function navswitch() {
+    const main = document.getElementById('main');
+    main.classList.add('disable')
     const nav = document.getElementById('nav');
     nav.classList.add('visable');
     const userinfoDes = document.getElementById('userinfoDes');
@@ -44,13 +67,15 @@ function closeBtnBox() {
     naviconshow.value = true;
     const nav = document.getElementById('nav');
     nav.classList.remove('visable');
+    const main = document.getElementById('main');
+    main.classList.remove('disable')
 }
 
 // 登出
 function loginOut() {
     window.$loadingBar.start();
     axios.post("/admin/loginout",{},{headers: {Authorization: window.localStorage.getItem('token')}}).then(res => {
-        if (res.data.code == 200) {
+        if (res.data.code === 200) {
             window.$message.success('注销登录成功');
             window.localStorage.clear('token');
             window.$loadingBar.finish();
@@ -65,6 +90,26 @@ function loginOut() {
 function reMain() {
     router.push('/')
 }
+
+// 进入页面权限验证
+function Validate() {
+    window.$loadingBar.start();
+    axios.get("/admin/", {headers: {Authorization: window.localStorage.getItem('token')}}).then(res => {
+        if (res.data.code !== 200) {
+            window.localStorage.clear('token');
+            window.$loadingBar.finish();
+            errmsg(res.data.code);
+            router.push('/login');
+        } else {
+            window.$loadingBar.finish();
+        }
+    });
+}
+
+// 初始化
+onMounted(() => {
+    Validate();
+});
 </script>
 
 
@@ -92,8 +137,9 @@ function reMain() {
                             show-trigger
                         >
                             <n-menu
-                            :collapsed-width="64"
-                            :collapsed-icon-size="22"
+                            @click="closeBtnBox"
+                            default-value="userinfo"
+                            style="min-width: 220px;"
                             :options="menuOptions"
                             />
                         </n-layout>
@@ -106,15 +152,18 @@ function reMain() {
                     :src="userinfo.data.profilephoto"
                     />
                     <div class="userinfo-des" id="userinfoDes">
-                        <span class="username">11</span><br>
+                        <span class="username">{{ userinfo.data.username }}</span><br>
                         <n-button @click="reMain" strong secondary type="primary" size="small">主页</n-button>
                         <n-button style="margin-left: 5px;" @click="loginOut" strong secondary type="error" size="small">登出</n-button>
                     </div>
                 </div>
             </n-space>
         </div>
-        <div class="main">欸嘿嘿嘿{{ userinfo.data.profilephoto }}</div>
-        
+        <div class="main" id="main">
+            <div class="main-container">
+                <router-view />
+            </div>
+        </div>
         <foo />
     </div>
 </template>

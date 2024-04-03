@@ -45,7 +45,7 @@ const showVertifyBox = ref(false);
 function nextBtn() {
     window.$loadingBar.start();
     axios.post("/adminregistration", {"uid": uid.value, "username": username.value, "password": password.value, "email": email.value}).then(response => {
-        if (response.data.code == 200) {
+        if (response.data.code === 200) {
             qrInfo.value = "data:image/png;base64,"+response.data.qrcode;
             window.localStorage.setItem('temptoken', response.data.temptoken);
             showVertifyBox.value = true;
@@ -54,7 +54,7 @@ function nextBtn() {
                 "email": email.value
             }
             axios.post("/admin/sendemail", params, {headers: {Authorization: window.localStorage.getItem("temptoken")}}).then(res => {
-                if (res.data.code == 200) {
+                if (res.data.code === 200) {
                     window.$loadingBar.finish();
                     window.$message.success('邮件发送成功');
                 } else {
@@ -72,7 +72,7 @@ function nextBtn() {
 function registeBtn() {
     window.$loadingBar.start();
     axios.post("/admin/adminvalidate", {"emailcode": emailcode.value, "twofacode": twoFAcode.value}, {headers: {Authorization: window.localStorage.getItem("temptoken")}}).then(res => {
-        if (res.data.code == 200) {
+        if (res.data.code === 200) {
             window.$loadingBar.finish();
             window.$message.success('用户注册成功');
             window.localStorage.clear("temptoken");
@@ -88,7 +88,7 @@ function registeBtn() {
 // 打开页面检查若用户存在则跳转登录
 function init() {
     axios.get("/adminexist").then(response => {
-        if (response.data.code != 200){
+        if (response.data.code !== 200){
             axios.get("/adminvalidate").then(res => {
                 if (res.data.code != 200) {
                     router.push('/login');

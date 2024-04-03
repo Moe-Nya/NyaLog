@@ -70,7 +70,7 @@ function loginBtn() {
                 window.$loadingBar.error();
                 errmsg(response.data.code);
         }
-        if (response.data.code == 200) {
+        if (response.data.code === 200) {
             window.$loadingBar.finish();
             window.localStorage.setItem('token', response.data.token)
             router.push('/admin');
@@ -92,11 +92,11 @@ function forgetPwdBtn() {
     showModifyPwdBox.value = false;
     window.$loadingBar.start();
     axios.post("/resetpwd", {"uid":reuid.value, "email": reemail.value, "twofacode": retwoFA.value}).then(res => {
-        if (res.data.code == 200) {
+        if (res.data.code === 200) {
             showModifyPwdvertifyBox.value = true;
             window.localStorage.setItem('token', res.data.token);
             axios.post("/admin/sendemail", {"uid": reuid.value, "email": reemail.value}, {headers: {Authorization: window.localStorage.getItem("token")}}).then(emaires => {
-                if (emaires.data.code == 200) {
+                if (emaires.data.code === 200) {
                     window.$loadingBar.finish();
                     window.$message.success('邮件发送成功');
                 } else {
