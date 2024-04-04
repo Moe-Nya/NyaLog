@@ -5,7 +5,9 @@ body,
     padding: 0;
     height: auto;
     width: 100%;
-    position: relative;
+    position: absolute;
+    top: 0;
+    left: 0;
     background:
         linear-gradient(217deg, #ffffff, rgba(255,0,0,0) 70.71%),
         linear-gradient(127deg, #faecf3, rgba(0,255,0,0) 70.71%),
