@@ -20,6 +20,8 @@ const router = createRouter({
                 {path : 'userinfo', name: '用户信息管理', component: ()=> import('../pages/admin/userinfo.vue')},
                 {path : 'modifypwd', name: '修改密码', component: ()=> import('../pages/admin/modifypwd.vue')},
                 {path : 'siteset', name: '站点设置', component: ()=> import('../pages/admin/siteset.vue')},
+                {path : 'articlelist', name: '文章管理', component: ()=> import('../pages/admin/articlelist.vue')},
+                {path : 'articleedit', name: '文章编辑', component: ()=> import('../pages/admin/article.vue')},
             ]
         }
     ],
