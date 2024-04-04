@@ -11,8 +11,10 @@ var (
 	Domain         string
 	PasswordMinLen int
 	AdminEntrance  string
-	AIsummaryURL   string
-	AIsummaryKEY   string
+	GPTURL         string
+	GPTKey         string
+	QWURL          string
+	QWKey          string
 	GitHubID       string
 	GitHUbSecret   string
 
@@ -52,8 +54,10 @@ func LoadSystem(file *ini.File) {
 	Domain = file.Section("System").Key("Domain").MustString("http://localhost:8080")
 	PasswordMinLen = file.Section("System").Key("PasswordMinLen").MustInt(6)
 	AdminEntrance = file.Section("System").Key("AdminEntrance").MustString("admin")
-	AIsummaryURL = file.Section("System").Key("AIsummaryURL").MustString("nil")
-	AIsummaryKEY = file.Section("System").Key("AIsummaryKEY").MustString("nil")
+	GPTURL = file.Section("System").Key("GPTURL").MustString("nil")
+	GPTKey = file.Section("System").Key("GPTKey").MustString("nil")
+	QWURL = file.Section("System").Key("QWURL").MustString("nil")
+	QWKey = file.Section("System").Key("QWKey").MustString("nil")
 	GitHubID = file.Section("System").Key("GitHubID").MustString("nil")
 	GitHUbSecret = file.Section("System").Key("GitHUbSecret").MustString("nil")
 }

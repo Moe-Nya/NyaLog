@@ -36,7 +36,7 @@ func IniRouter() {
 	// 文章设置-查询单篇文章
 	normalrouter.GET("/article/:id", v1.SeleOneArticle)
 	// 文章设置-查询文章列表
-	normalrouter.GET("/articlelist", v1.SeleListArticle)
+	normalrouter.POST("/articlelist", v1.SeleListArticle)
 
 	// 文章分类管理
 	// 文章分类管理-查询文章分类列表
@@ -103,9 +103,9 @@ func IniRouter() {
 		// 文章设置-编辑文章
 		authrouter.POST("/editarticle", v1.EditArticle)
 		// 文章设置-删除文章
-		authrouter.GET("/deletearticle", v1.DeleteArticle)
+		authrouter.POST("/deletearticle", v1.DeleteArticle)
 		// 文章设置-删除同CID文章
-		authrouter.GET("/deletecid", v1.DeleCid)
+		authrouter.POST("/deletecid", v1.DeleCid)
 
 		// 文章分类管理
 		// 文章分类管理-新增文章分类
@@ -113,7 +113,7 @@ func IniRouter() {
 		// 文章分类管理-编辑文章分类
 		authrouter.POST("/editcategory", v1.EditCategory)
 		// 文章分类管理-删除文章分类
-		authrouter.GET("/deletecategory", v1.DeleteCategory)
+		authrouter.POST("/deletecategory", v1.DeleteCategory)
 
 		// 页面管理
 		// 页面管理-创建页面
@@ -123,13 +123,13 @@ func IniRouter() {
 		// 页面管理-编辑页面
 		authrouter.POST("/editpage", v1.EditPage)
 		// 页面管理-删除页面
-		authrouter.GET("/deletepage", v1.DeletePage)
+		authrouter.POST("/deletepage", v1.DeletePage)
 
 		// 评论
 		// 评论-读取所有评论
 		authrouter.GET("/allcomments", v1.SeleAllCom)
 		// 评论-删除评论
-		authrouter.GET("/deletecomments", v1.DeleteCom)
+		authrouter.POST("/deletecomments", v1.DeleteCom)
 
 		// Findme管理
 		// Findme管理-新增Findme
@@ -137,7 +137,7 @@ func IniRouter() {
 		// Findme管理-修改Findme
 		authrouter.POST("/modifyfindme", v1.ModifyFindme)
 		// Findme管理-删除Findme
-		authrouter.GET("/deletefindme", v1.DeleFindme)
+		authrouter.POST("/deletefindme", v1.DeleFindme)
 
 		// 导航栏管理
 		// 导航栏管理-新增导航栏
@@ -145,7 +145,7 @@ func IniRouter() {
 		// 导航栏管理-修改导航栏
 		authrouter.POST("/editnavigation", v1.ModifyNav)
 		// 导航栏管理-删除导航栏
-		authrouter.GET("/deletenavigation", v1.DeleNav)
+		authrouter.POST("/deletenavigation", v1.DeleNav)
 
 		// 友链管理
 		// 友链管理-增加友链
@@ -153,7 +153,7 @@ func IniRouter() {
 		// 友链管理-修改友链
 		authrouter.POST("/modifyfriendlink", v1.ModifyFriendLink)
 		// 友链管理-删除友链
-		authrouter.GET("/deletefriendlink", v1.DeleFriendLink)
+		authrouter.POST("/deletefriendlink", v1.DeleFriendLink)
 	}
 
 	_ = routerv1.Run(utils.HttpPort)

@@ -10,11 +10,11 @@ import (
 // 生成AI摘要
 func CreateAISummary(text string, blogset *model.BlogSet) string {
 	if blogset.Aicategory == 0 {
-		AisummaryData := middleware.GPT(utils.AIsummaryURL, utils.AIsummaryKEY, "gpt-3.5-turbo", text, "Chinese")
+		AisummaryData := middleware.GPT(utils.GPTURL, utils.GPTKey, "gpt-3.5-turbo", text, "Chinese")
 		aisummary := AisummaryData.Text
 		return aisummary
 	} else if blogset.Aicategory == 1 {
-		AisummaryData := middleware.QianWen(utils.AIsummaryURL, utils.AIsummaryKEY, "qwen-turbo", text, "Chinese")
+		AisummaryData := middleware.QianWen(utils.QWURL, utils.QWKey, "qwen-turbo", text, "Chinese")
 		aisummary := AisummaryData.Text
 		return aisummary
 	}

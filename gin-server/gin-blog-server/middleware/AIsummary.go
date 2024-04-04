@@ -27,7 +27,7 @@ func GPT(url string, apiKey string, model string, question string, language stri
 	req, err := http.NewRequest("POST", url, requestBody)
 	if err != nil {
 		fmt.Println("Error creating request:", err)
-		panic(err)
+		return AIData
 	}
 
 	// 设置请求的header
@@ -39,7 +39,7 @@ func GPT(url string, apiKey string, model string, question string, language stri
 	resp, err := client.Do(req)
 	if err != nil {
 		fmt.Println("Error sending request:", err)
-		panic(err)
+		return AIData
 	}
 	defer resp.Body.Close()
 
@@ -50,13 +50,13 @@ func GPT(url string, apiKey string, model string, question string, language stri
 	responseBody, err := io.ReadAll(resp.Body)
 	if err != nil {
 		fmt.Println("Error reading response body:", err)
-		panic(err)
+		return AIData
 	}
 	// 读取AI的回复
 	var respContent map[string]interface{}
 	err = json.Unmarshal([]byte(string(responseBody)), &respContent)
 	if err != nil {
-		panic(err)
+		return AIData
 	}
 	respText := ((respContent["choices"]).([]interface{}))[0].(map[string]interface{})["message"].(map[string]interface{})["content"].(string)
 	AIData.Text = respText
@@ -88,13 +88,13 @@ func QianWen(url string, apiKey string, model string, question string, language 
 	requestBodyBytes, err := json.Marshal(requestBody)
 	if err != nil {
 		fmt.Println("Error marshaling request body:", err)
-		panic(err)
+		return AIData
 	}
 	// 创建POST请求
 	req, err := http.NewRequest("POST", url, strings.NewReader(string(requestBodyBytes)))
 	if err != nil {
 		fmt.Println("Error creating request:", err)
-		panic(err)
+		return AIData
 	}
 
 	// 设置请求的header
@@ -106,7 +106,7 @@ func QianWen(url string, apiKey string, model string, question string, language 
 	resp, err := client.Do(req)
 	if err != nil {
 		fmt.Println("Error sending request:", err)
-		panic(err)
+		return AIData
 	}
 	defer resp.Body.Close()
 
@@ -117,13 +117,13 @@ func QianWen(url string, apiKey string, model string, question string, language 
 	responseBody, err := io.ReadAll(resp.Body)
 	if err != nil {
 		fmt.Println("Error reading response body:", err)
-		panic(err)
+		return AIData
 	}
 	// 读取AI的回复
 	var respContent map[string]interface{}
 	err = json.Unmarshal([]byte(string(responseBody)), &respContent)
 	if err != nil {
-		panic(err)
+		return AIData
 	}
 	respText := respContent["output"].(map[string]interface{})["text"].(string)
 	AIData.Text = respText
