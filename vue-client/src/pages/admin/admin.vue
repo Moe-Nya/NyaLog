@@ -70,6 +70,25 @@ const menuOptions = [
             },
             ],
     },
+    {
+        type: "group",
+            label: "内容管理",
+            key: "content",
+            children: [
+            {
+                label: () => h(
+                    RouterLink,
+                    {
+                        to: {
+                            name: '文章管理',
+                        }
+                    },
+                    '文章管理'
+                ),
+                key: "articlelist"
+            },
+            ],
+    },
 ];
 
 // 侧边菜单交换按钮
