@@ -11,7 +11,7 @@
 /*导航栏div*/
 .nav{
     float: left;
-    background-color: white;
+    background-color: rgb(255, 255, 255);
     min-height: 97.5vh;
     min-width: 220px;
     width: 220px;
@@ -137,6 +137,7 @@
 }
 
 .infobox{
+    height: auto;
     width: 50%;
 }
 
@@ -183,6 +184,83 @@
     position: relative;
     top:5px;
 }
+
+.pic{
+    max-width: 120px;
+    max-height: 120px;
+    border-radius: 5px;
+}
+.piccontainer{
+    justify-content: center;
+    align-items: center;
+    height: auto;
+}
+.articleinfo{
+    margin-left: 10px;
+}
+.articletitle{
+    font-weight: bold;
+    font-size: 20px;
+}
+.articletime{
+    position: relative;
+    bottom: -8px;
+}
+.articleshortcontainer{
+    width: 70%;
+    height: 60px;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+.articleshort{
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.articlelistbox{
+    height: 140px;
+    width: auto;
+    border-radius: 10px;
+}
+.articlelistbox:hover{
+    background-color: rgb(228, 226, 226);
+}
+
+.articlelistboxinfo{
+    display: flex;
+    justify-content: space-between;
+    height: 95%;
+    margin-top: 10px;
+    margin-left: 10px;
+    margin-bottom: 10px;
+    margin-right: 10px;
+    padding-top: 10px;
+    padding-left: 10px;
+    padding-bottom: 10px;
+    padding-right: 10px;
+}
+.deletebtn {
+    margin-top: 40px;
+    margin-right: 0;
+    margin-left: auto;
+}
+.addmorebtnbox{
+    margin-top: 5px;
+    margin-left: 20%;
+}
+.addmorebtn{
+    width: 50px;
+}
+
+.articlebox{
+    width: 100%;
+    min-height: 500px;
+}
 /*--------------------------------------------------*/
 /*横向导航栏*/
 .horizontalnav{
@@ -200,7 +278,7 @@
     width: 30px;
     height: 30px;
     position: absolute;
-    top: 7px;
+    top: 18px;
     left: 30px;
 }
 
@@ -241,7 +319,10 @@
         width: 77%;
     }
     .infobox{
-        width: 55%;
+        width: 60%;
+    }
+    .addmorebtnbox{
+        margin-left: 30%;
     }
 }
 @media (max-width: 1500px) {
@@ -254,7 +335,7 @@
         width: 74%;
     }
     .infobox{
-        width: 58%;
+        width: 65%;
     }
 }
 @media (max-width: 1300px) {
@@ -267,7 +348,7 @@
         width: 72%;
     }
     .infobox{
-        width: 60%;
+        width: 75%;
     }
 }
 @media (max-width: 1100px) {
@@ -285,7 +366,7 @@
         width: 68%;
     }
     .infobox{
-        width: 65%;
+        width: 80%;
     }
 }
 @media (max-width: 900px) {
@@ -305,6 +386,9 @@
     }
     .closeBtnBox{
         display: block;
+    }
+    .addmorebtnbox{
+        margin-left: 35%;
     }
 }
 /*页面放大时，恢复userinfo内样式*/
@@ -358,6 +442,9 @@
     }
     .infobox{
         width: 100%;
+    }
+    .addmorebtnbox{
+        margin-left: 40%;
     }
 }
 @media (max-width: 450px) {
