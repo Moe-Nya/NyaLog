@@ -22,6 +22,7 @@ const router = createRouter({
                 {path : 'siteset', name: '站点设置', component: ()=> import('../pages/admin/siteset.vue')},
                 {path : 'articlelist', name: '文章管理', component: ()=> import('../pages/admin/articlelist.vue')},
                 {path : 'articleedit', name: '文章编辑', component: ()=> import('../pages/admin/article.vue')},
+                {path : 'commentlist', name: '评论管理', component: ()=> import('../pages/admin/comment.vue')},
             ]
         }
     ],
