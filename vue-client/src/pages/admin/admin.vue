@@ -87,6 +87,18 @@ const menuOptions = [
                 ),
                 key: "articlelist"
             },
+            {
+                label: () => h(
+                    RouterLink,
+                    {
+                        to: {
+                            name: '评论管理',
+                        }
+                    },
+                    '评论管理'
+                ),
+                key: "commentlist"
+            },
             ],
     },
 ];
@@ -152,6 +164,7 @@ onMounted(() => {
 
 
 <template>
+    <n-back-top :right="100" />
     <div class="container">
         <div class="horizontalnav">
             <div class="naviconbox" v-show="naviconshow" @click="navswitch">

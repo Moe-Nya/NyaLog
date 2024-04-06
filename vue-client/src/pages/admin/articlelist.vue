@@ -1,8 +1,9 @@
 <script setup>
-import { useRouter } from 'vue-router'
+import { useRouter } from 'vue-router';
 import MessageAPI from '../../components/message.vue';
 import axios from 'axios';
 import errmsg from '../../modules/errmsg';
+import formatDate from '../../modules/Time';
 
 const router = useRouter();
 
@@ -34,13 +35,6 @@ function queryArticle() {
 // 文章图片错误
 function articleImgError(item) {
     item.articleimg = errimg.value;
-}
-
-//时间处理
-function formatDate(dateTime) {
-    const date = new Date(dateTime);
-    const formattedDate = date.toISOString().split('T')[0];
-    return formattedDate;
 }
 
 // 进入页面权限验证
@@ -125,7 +119,6 @@ onMounted(() => {
 });
 </script>
 <template>
-    <n-back-top :right="100" />
     <div class="infotitlebox">
         <h2>文章管理</h2>
         <n-button @click="addArticle" strong round type="info" size="large">+新增文章</n-button>
@@ -139,12 +132,12 @@ onMounted(() => {
                         <img class="pic" :src="item.articleimg" @error="articleImgError(item)" alt="Image">
                     </div>
                 <div class="articleinfo" @click="articleEditor(item.articleid)">
-                        <span class="articletitle">{{ item.articletitle }}</span><br />
+                        <span class="articletitle commentinfo">{{ item.articletitle }}</span>
                         <div class="articleshortcontainer">
                             <p class="articleshort">{{ item.shorttext }}</p><br />
                         </div>
                     <div>
-                        <span class="articletime">创建时间{{ formatDate(item.CreatedAt) }}</span>
+                        <span class="articletime commentinfo">创建时间{{ formatDate(item.CreatedAt) }}</span>
                     </div>
                 </div>
                 <div class="deletebtn">
