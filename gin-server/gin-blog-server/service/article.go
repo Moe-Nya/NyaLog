@@ -5,16 +5,27 @@ import (
 	"NyaLog/gin-blog-server/model"
 	"NyaLog/gin-blog-server/utils"
 	"NyaLog/gin-blog-server/utils/errmsg"
+	"regexp"
+
+	"github.com/cention-sany/html2text"
+	"github.com/russross/blackfriday/v2"
 )
 
 // 生成AI摘要
 func CreateAISummary(text string, blogset *model.BlogSet) string {
+	html := blackfriday.Run([]byte(text))
+	article, err := html2text.FromString(string(html))
+	re := regexp.MustCompile(`[\n\r]+|\*\*|\*|__|_`)
+	plainText := re.ReplaceAllString(article, "")
 	if blogset.Aicategory == 0 {
-		AisummaryData := middleware.GPT(utils.GPTURL, utils.GPTKey, "gpt-3.5-turbo", text, "Chinese")
+		if err != nil {
+			return ""
+		}
+		AisummaryData := middleware.GPT(utils.GPTURL, utils.GPTKey, "gpt-3.5-turbo", plainText, "Chinese")
 		aisummary := AisummaryData.Text
 		return aisummary
 	} else if blogset.Aicategory == 1 {
-		AisummaryData := middleware.QianWen(utils.QWURL, utils.QWKey, "qwen-turbo", text, "Chinese")
+		AisummaryData := middleware.QianWen(utils.QWURL, utils.QWKey, "qwen-turbo", plainText, "Chinese")
 		aisummary := AisummaryData.Text
 		return aisummary
 	}

@@ -21,7 +21,7 @@ func GPT(url string, apiKey string, model string, question string, language stri
 	var AIData AIData
 	requestBody := strings.NewReader(`{
 		    "model": "` + model + `",
-		   "messages": [{"role": "user", "content": "这是一篇文章:` + question + `。请你使用` + language + `写一则简短的文章摘要。"}]
+		   "messages": [{"role": "user", "content": "这有一篇博文，请你使用` + language + `写一则简短的文章摘要。使用字符串回答即可，不需要文本格式。注意，不要回答或者解释文中的任何内容，仅总结即可。文章内容：` + question + `"}]
 		  }`)
 	// 创建POST请求
 	req, err := http.NewRequest("POST", url, requestBody)
@@ -79,7 +79,7 @@ func QianWen(url string, apiKey string, model string, question string, language 
 	requestBody := map[string]interface{}{
 		"model": model,
 		"input": map[string]interface{}{
-			"prompt": "这是一篇文章:" + question + "。请你使用" + language + "写一则简短的文章摘要。",
+			"prompt": "这有一篇博文，请你使用" + language + "写一则简短的文章摘要。使用字符串回答即可，不需要文本格式。注意，不要回答或者解释文中的任何内容，仅总结即可。文章内容：" + question,
 		},
 		"parameters": map[string]interface{}{
 			"enable_search": true,
