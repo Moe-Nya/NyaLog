@@ -127,7 +127,7 @@ func IniRouter() {
 
 		// 评论
 		// 评论-读取所有评论
-		authrouter.GET("/allcomments", v1.SeleAllCom)
+		authrouter.POST("/allcomments", v1.SeleAllCom)
 		// 评论-删除评论
 		authrouter.POST("/deletecomments", v1.DeleteCom)
 
