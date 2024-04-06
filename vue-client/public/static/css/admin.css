@@ -194,9 +194,11 @@
     justify-content: center;
     align-items: center;
     height: auto;
+    cursor: pointer;
 }
 .articleinfo{
     margin-left: 10px;
+    cursor: pointer;
 }
 .articletitle{
     font-weight: bold;
@@ -260,6 +262,36 @@
 .articlebox{
     width: 100%;
     min-height: 500px;
+}
+.articletitleicon{
+    background: url("../../img/articletitle.svg") no-repeat;
+    background-size: 25px 25px;
+    background-position: center center;
+    height: 25px;
+    width: 25px;
+    display: inline-block;
+    position: relative;
+    top:5px;
+}
+.articleicon{
+    background: url("../../img/article.svg") no-repeat;
+    background-size: 20px 25px;
+    background-position: center center;
+    height: 20px;
+    width: 25px;
+    display: inline-block;
+    position: relative;
+    top:5px;
+}
+.articlecategory{
+    background: url("../../img/category.svg") no-repeat;
+    background-size: 20px 25px;
+    background-position: center center;
+    height: 20px;
+    width: 25px;
+    display: inline-block;
+    position: relative;
+    top:5px;
 }
 /*--------------------------------------------------*/
 /*横向导航栏*/
