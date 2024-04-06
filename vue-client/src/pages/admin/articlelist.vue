@@ -100,7 +100,7 @@ watch([pagenum, totalpages, articles], () => {
 
 // 新增文章
 function addArticle() {
-    router.push('articleedit');
+    router.push({name: '文章编辑'});
 }
 
 // 加载更多文章
@@ -111,6 +111,11 @@ function previousPageBtn() {
 function nextPageBtn() {
     pagenum.value += 1;
     queryArticle();
+}
+
+// 编辑文章
+function articleEditor(articleid) {
+    router.push({name: '文章编辑', query: {id: articleid}});
 }
 
 // 初始化
@@ -130,18 +135,14 @@ onMounted(() => {
     <div class="infobox">
         <div class="articlelistbox" v-for="item in articles" :key="item.articleid">
             <div class="articlelistboxinfo">
-                <a :href="'/article/'+item.articleid" style="text-decoration: none; color: inherit;">
-                    <div class="piccontainer">
+                    <div class="piccontainer" @click="articleEditor(item.articleid)">
                         <img class="pic" :src="item.articleimg" @error="articleImgError(item)" alt="Image">
                     </div>
-                </a>
-                <div class="articleinfo">
-                    <a :href="'/article/'+item.articleid" style="text-decoration: none; color: inherit;">
+                <div class="articleinfo" @click="articleEditor(item.articleid)">
                         <span class="articletitle">{{ item.articletitle }}</span><br />
                         <div class="articleshortcontainer">
                             <p class="articleshort">{{ item.shorttext }}</p><br />
                         </div>
-                    </a>
                     <div>
                         <span class="articletime">创建时间{{ formatDate(item.CreatedAt) }}</span>
                     </div>

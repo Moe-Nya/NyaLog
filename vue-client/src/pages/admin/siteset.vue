@@ -189,13 +189,13 @@ onMounted(() => {
         <div class="inputbox">
             &nbsp&nbsp&nbsp&nbsp
             <n-switch :rail-style="aiSummarySwitch" v-model:value="aiSummarySwitchBtn" :disabled="aiswitchCanDown">
-            <template #checked>
-                通仪千问
-            </template>
-            <template #unchecked>
-                GPT3.5
-            </template>
-        </n-switch>
+                <template #checked>
+                    通仪千问
+                </template>
+                <template #unchecked>
+                    GPT3.5
+                </template>
+            </n-switch>
         </div>
         <div class="btn">
             <n-button style="margin-left: 5px;" :disabled="updateSiteInfo" @click="updateSiteInfoBtn" strong round type="primary" size="large">
