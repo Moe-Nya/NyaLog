@@ -23,7 +23,7 @@ function queryArticle() {
         if (res.data.code === 200) {
             window.$loadingBar.finish();
             totalpages.value = res.data.total;
-            articles.value = res.data.articles
+            articles.value = res.data.articles;
             remainpages.value = totalpages.value - articles.value.length;
         } else {
             window.$loadingBar.error();
@@ -43,7 +43,7 @@ function Validate() {
     axios.get("/admin/", {headers: {Authorization: window.localStorage.getItem('token')}}).then(res => {
         if (res.data.code !== 200) {
             window.localStorage.clear('token');
-            window.$loadingBar.finish();
+            window.$loadingBar.error();
             errmsg(res.data.code);
             router.push('/login');
         } else {
@@ -52,16 +52,18 @@ function Validate() {
     });
 }
 // 删除文章
+const delearticleid = ref();
 const showConfirm = ref(false);
-function deleArticleBtn() {
+function deleArticleBtn(articleid) {
+    delearticleid.value = articleid;
     showConfirm.value = true;
 }
 function onNegativeClick() {
     showConfirm.value = false;
 }
-function onPositiveClick(value) {
+function onPositiveClick() {
     window.$loadingBar.start();
-    axios.post("/admin/deletearticle", {"articleid": value}, {headers: {Authorization: window.localStorage.getItem('token')}}).then(res => {
+    axios.post("/admin/deletearticle", {"articleid": delearticleid.value}, {headers: {Authorization: window.localStorage.getItem('token')}}).then(res => {
         if (res.data.code === 200) {
             window.$loadingBar.finish();
             window.$message.success('文章删除成功');
@@ -77,6 +79,12 @@ function onPositiveClick(value) {
     })
 }
 
+// 新增文章
+function addArticle() {
+    router.push({name: '文章编辑'});
+}
+
+// 加载更多文章
 const previousPage = ref(true);
 const nextPage = ref(false);
 watch([pagenum, totalpages, articles], () => {
@@ -92,12 +100,6 @@ watch([pagenum, totalpages, articles], () => {
     }
 })
 
-// 新增文章
-function addArticle() {
-    router.push({name: '文章编辑'});
-}
-
-// 加载更多文章
 function previousPageBtn() {
     pagenum.value -= 1;
     queryArticle();
@@ -141,20 +143,8 @@ onMounted(() => {
                     </div>
                 </div>
                 <div class="deletebtn">
-                    <n-button @click="deleArticleBtn" strong round type="error" size="large">
+                    <n-button @click="deleArticleBtn(item.articleid)" strong round type="error" size="large">
                         删除
-                        <n-modal
-                        v-model:show="showConfirm"
-                        :mask-closable="false"
-                        preset="dialog"
-                        type="error"
-                        title="确认删除该文章吗？"
-                        content="删除后不可恢复！"
-                        positive-text="确认"
-                        negative-text="取消"
-                        @positive-click="onPositiveClick(item.articleid)"
-                        @negative-click="onNegativeClick"
-                        />
                     </n-button>
                 </div>
             </div>
@@ -168,4 +158,16 @@ onMounted(() => {
             >
         </n-button>
     </div>
+    <n-modal
+        v-model:show="showConfirm"
+        :mask-closable="false"
+        preset="dialog"
+        type="error"
+        title="确认删除该文章吗？"
+        content="删除后不可恢复！"
+        positive-text="确认"
+        negative-text="取消"
+        @positive-click="onPositiveClick"
+        @negative-click="onNegativeClick"
+        />
 </template>

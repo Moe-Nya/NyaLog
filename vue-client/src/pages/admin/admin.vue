@@ -99,6 +99,30 @@ const menuOptions = [
                 ),
                 key: "commentlist"
             },
+            {
+                label: () => h(
+                    RouterLink,
+                    {
+                        to: {
+                            name: '文章分类管理',
+                        }
+                    },
+                    '文章分类管理'
+                ),
+                key: "categorylist"
+            },
+            {
+                label: () => h(
+                    RouterLink,
+                    {
+                        to: {
+                            name: '页面管理',
+                        }
+                    },
+                    '页面管理'
+                ),
+                key: "pagelist"
+            },
             ],
     },
 ];
@@ -147,7 +171,7 @@ function Validate() {
     axios.get("/admin/", {headers: {Authorization: window.localStorage.getItem('token')}}).then(res => {
         if (res.data.code !== 200) {
             window.localStorage.clear('token');
-            window.$loadingBar.finish();
+            window.$loadingBar.error();
             errmsg(res.data.code);
             router.push('/login');
         } else {

@@ -6,6 +6,7 @@ import { useRoute } from 'vue-router';
 import MessageAPI from '../../components/message.vue'
 import axios from 'axios'
 import errmsg from '../../modules/errmsg';
+import { watch } from 'vue';
 
 const router = useRouter();
 const route = useRoute();
@@ -60,9 +61,13 @@ watch([aiSwitchBtn], () => {
         aiswitch.value = 0;
     }
 });
+const updateArticleInfo = ref(true);
+watch([articletitle, text], () => {
+    updateArticleInfo.value = ![articletitle.value, text.value].every(value => value !== '');
+});
 // 编辑||新增切换
 function editorModel() {
-    if (edit >= 0) {
+    if ((edit.toString()).length !== 0) {
         axios.get(`/article/${edit}`).then(res => {
             if (res.data.code === 200) {
                 articletitle.value = res.data.article.articletitle;
@@ -96,7 +101,7 @@ function Validate() {
     axios.get("/admin/", {headers: {Authorization: window.localStorage.getItem('token')}}).then(res => {
         if (res.data.code !== 200) {
             window.localStorage.clear('token');
-            window.$loadingBar.finish();
+            window.$loadingBar.error();
             errmsg(res.data.code);
             router.push('/login');
         } else {
@@ -204,7 +209,7 @@ onMounted(() => {
         <span class="tips">人工智能的未来会是什么样呢？~</span>
     </div>
     <div class="btn">
-        <n-button style="margin-left: 5px;" :disabled="updateSiteInfo" @click="submitArticle" strong round type="primary" size="large">
+        <n-button style="margin-left: 5px;" :disabled="updateArticleInfo" @click="submitArticle" strong round type="primary" size="large">
             提交
         </n-button>
     </div>
