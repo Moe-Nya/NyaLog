@@ -23,6 +23,9 @@ const router = createRouter({
                 {path : 'articlelist', name: '文章管理', component: ()=> import('../pages/admin/articlelist.vue')},
                 {path : 'articleedit', name: '文章编辑', component: ()=> import('../pages/admin/article.vue')},
                 {path : 'commentlist', name: '评论管理', component: ()=> import('../pages/admin/comment.vue')},
+                {path : 'categorylist', name: '文章分类管理', component: ()=> import('../pages/admin/category.vue')},
+                {path : 'pagelist', name: '页面管理', component: ()=> import('../pages/admin/pagelist.vue')},
+                {path : 'pageedit', name: '页面编辑', component: ()=> import('../pages/admin/page.vue')},
             ]
         }
     ],
