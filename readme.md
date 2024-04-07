@@ -1,4 +1,4 @@
-<img src="https://raw.githubusercontent.com/Moe-Nya/NyaLog/main/staticimg/NyaLog.PNG" style="height: 300px; width:320px;">
+<div align=center><img src="https://raw.githubusercontent.com/Moe-Nya/NyaLog/main/staticimg/NyaLog.PNG" style="height: 300px; width:320px;"></div>
 
 <h1 align="center">NyaLog开发日志</h1>
 
