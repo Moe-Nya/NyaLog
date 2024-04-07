@@ -172,7 +172,7 @@ func AddLike(articleid int) int {
 // 文章CID更新(如果数据库无法关联，就手动)
 func DeleCid(cid int) int {
 	var article Article
-	var newcid *int = nil
+	var newcid int = -1
 	err := db.Model(&article).Where("cid = ?", cid).Update("cid", newcid).Error
 	if err != nil {
 		return errmsg.ERROR

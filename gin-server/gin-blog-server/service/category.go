@@ -35,7 +35,11 @@ func EditCategory(data *model.Category) int {
 
 // 删除文章分类
 func DeleteCategory(cid int) int {
-	err := model.DeleCat(cid)
+	err := DeleCid(cid)
+	if err != errmsg.SUCCESS {
+		return errmsg.CatDeleteFailed
+	}
+	err = model.DeleCat(cid)
 	if err != errmsg.SUCCESS {
 		return errmsg.CatDeleteFailed
 	}

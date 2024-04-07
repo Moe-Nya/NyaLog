@@ -50,7 +50,7 @@ func CreatePage(data *Page) int {
 // 查询页面
 func SelePage(purl string) (Page, int) {
 	var page Page
-	err = db.Where("purl = ?", purl).Find(&page).Error
+	err = db.Where("purl = ?", purl).First(&page).Error
 	if err != nil || err == gorm.ErrRecordNotFound {
 		return page, errmsg.ERROR
 	}
