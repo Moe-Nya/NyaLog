@@ -1,4 +1,6 @@
-<h1 align="center">NyaLog-开发日志</h1>
+<img src="https://raw.githubusercontent.com/Moe-Nya/NyaLog/main/staticimg/NyaLog.PNG" style="height: 300px; width:320px;">
+
+<h1 align="center">NyaLog开发日志</h1>
 
 > 🐱 NyaLog开发中！
 
