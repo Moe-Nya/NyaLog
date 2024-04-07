@@ -314,6 +314,7 @@
     padding-right: 10px;
 }
 .deletecomment{
+    display: flex;
     margin-right: 15px;
     margin-top: 35px;
 }
@@ -323,6 +324,22 @@
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+.categoryhr{
+    width: 100%;
+    float: left;
+    border-width: 1px;
+    border-color: rgb(255, 255, 255);
+}
+.url{
+    background: url("../../img/url.svg") no-repeat;
+    background-size: 20px 20px;
+    background-position: center center;
+    height: 20px;
+    width: 20px;
+    display: inline-block;
+    position: relative;
+    top:5px;
 }
 /*--------------------------------------------------*/
 /*横向导航栏*/
