@@ -12,16 +12,16 @@ const userinfo = usePublicUserInfoStore();
 // 用户信息动态
 const username = ref('');
 const email = ref('');
-const profilephoto = ref('');
+const userprofile = ref('');
 const slogan = ref('');
 
 // 动态检查按钮是否生效
 const updateUserinfo = ref(false);
 
 // 监听用户信息值
-watch([username, email], () => {
+watch([username, email, userprofile], () => {
     const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value);
-    updateUserinfo.value = ![username.value, email.value].every(value => value !== '') || !isEmail;
+    updateUserinfo.value = ![username.value, email.value, userprofile.value].every(value => value !== '') || !isEmail;
 });
 
 // 获取用户信息值
@@ -30,7 +30,7 @@ function init() {
         if (res.data.code === 200) {
             username.value = res.data.userinfo.username;
             email.value = res.data.userinfo.email;
-            profilephoto.value = res.data.userinfo.profilephoto;
+            userprofile.value = res.data.userinfo.profilephoto;
             slogan.value = res.data.userinfo.slogan;
         } else {
             errmsg(res.data.code);
@@ -41,7 +41,7 @@ function init() {
 // 更新用户信息按钮
 function updateUserinfoBtn() {
     window.$loadingBar.start();
-    axios.post("/admin/modifyuser", {"username": username.value, "email": email.value, "profilephoto": profilephoto.value, "slogan": slogan.value}, {headers: {Authorization: window.localStorage.getItem('token')}})
+    axios.post("/admin/modifyuser", {"username": username.value, "email": email.value, "profilephoto": userprofile.value, "slogan": slogan.value}, {headers: {Authorization: window.localStorage.getItem('token')}})
     .then(res => {
         if (res.data.code === 200) {
             userinfo.GetUserInfo();
@@ -81,6 +81,16 @@ onMounted(() => {
         <p style="color:gray; font-size: 14px;">在这里可以更新管理员用户的基础信息，部分信息将展示在你的站点主页。</p>
     </div>
     <div class="infobox">
+        <span style="font-weight: bold; font-size: 15px;">头像预览</span>
+        <div>
+            <img :src="userinfo.data.profilephoto" style="height: 34%; width:34%; border-radius: 50%;"/>
+        </div>
+        <div class="inputbox">
+            <i class="profilephoto"></i>
+            <span class="input-text"> 用户头像</span>
+            <n-input v-model:value="userprofile" type="text" placeholder="用户头像"/>
+            <span class="tips">头像！就是门面！</span>
+        </div>
         <div class="inputbox">
             <i class="userid"></i>
             <span class="input-text"> 用户名</span>
@@ -92,12 +102,6 @@ onMounted(() => {
             <span class="input-text"> Email</span>
             <n-input v-model:value="email" type="text" placeholder="Email"/>
             <span class="tips">邮箱非常重要！它不仅是公开展示的信息，还能够辅助找回密码</span>
-        </div>
-        <div class="inputbox">
-            <i class="profilephoto"></i>
-            <span class="input-text"> 用户头像</span>
-            <n-input v-model:value="profilephoto" type="text" placeholder="用户头像"/>
-            <span class="tips">头像！就是门面！</span>
         </div>
         <div class="inputbox">
             <i class="slogan"></i>

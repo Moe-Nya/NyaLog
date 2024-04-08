@@ -123,6 +123,30 @@ const menuOptions = [
                 ),
                 key: "pagelist"
             },
+            {
+                label: () => h(
+                    RouterLink,
+                    {
+                        to: {
+                            name: 'findme管理',
+                        }
+                    },
+                    'Findme管理'
+                ),
+                key: "findme"
+            },
+            {
+                label: () => h(
+                    RouterLink,
+                    {
+                        to: {
+                            name: '导航栏管理',
+                        }
+                    },
+                    '导航栏管理'
+                ),
+                key: "navigation"
+            },
             ],
     },
 ];

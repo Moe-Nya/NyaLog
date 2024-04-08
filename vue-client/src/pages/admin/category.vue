@@ -90,27 +90,27 @@ onMounted(() => {
         <p style="color:gray; font-size: 14px;">这里可以对文章分类进行设置更新，给文章分类，有助于让读者有目的地选择性阅读~</p>
     </div>
     <div class="infobox">
-        <div class="inputbox" style="display: flex">
+        <div class="inputbox" style="display: flex; flex-wrap: wrap;">
             <div style="margin-right: 10px; margin-top: 8px;">
                 <i class="articlecategory"></i>
                 <span class="input-text"> 文章分类</span>
                 <n-input v-model:value="createcategoryinput" type="text" placeholder="文章分类"/>
             </div>
             <div class="deletecomment">
-                <n-button @click="createcategory" strong round type="primary" size="medium">
+                <n-button :disabled="!(createcategoryinput !== '')" @click="createcategory" strong round type="primary" size="medium">
                     新增
                 </n-button>
             </div>
         </div>
         <hr class="categoryhr" /><br />
-        <div class="inputbox" style="display: flex" v-for="item in categorylist" :key="item.cid">
+        <div class="inputbox" style="display: flex; flex-wrap: wrap;" v-for="item in categorylist" :key="item.cid">
             <div style="margin-right: 10px; margin-top: 8px;">
                 <i class="articlecategory"></i>
                 <span class="input-text"> 文章分类 cid:{{ item.cid }}</span>
                 <n-input v-model:value="item.categorytext" type="text" placeholder="文章分类"/>
             </div>
             <div class="deletecomment">
-                <n-button @click="editCategory(item.cid ,item.categorytext)" strong round type="primary" size="medium" style="margin-right: 10px; float: left">
+                <n-button :disabled="!(item.categorytext !== '')" @click="editCategory(item.cid ,item.categorytext)" strong round type="primary" size="medium" style="margin-right: 10px; float: left">
                     更改
                 </n-button>
                 <n-button @click="deleteCategory(item.cid)" strong round type="error" size="medium" style="float: left;">

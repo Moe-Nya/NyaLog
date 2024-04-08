@@ -10,8 +10,8 @@ body,
     left: 0;
     background:
         linear-gradient(217deg, #ffffff, rgba(255,0,0,0) 70.71%),
-        linear-gradient(127deg, #faecf3, rgba(0,255,0,0) 70.71%),
-        linear-gradient(336deg, #c9e6fa, rgba(0,0,255,0) 70.71%);
+        linear-gradient(127deg, #fae7f0, rgba(0,255,0,0) 70.71%),
+        linear-gradient(336deg, #bfe1fa, rgba(0,0,255,0) 70.71%);
     background-repeat:no-repeat;
     background-attachment:fixed;
     margin: 0;
