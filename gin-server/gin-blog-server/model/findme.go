@@ -8,10 +8,11 @@ import (
 
 type FindMe struct {
 	gorm.Model
-	FindId int    `gorm:"type:int(10);not null;primary_key" json:"findid" label:"找到我ID"`
-	Icon   string `gorm:"type:varchar(1000);not null" json:"icon" label:"图标"`
-	Href   string `gorm:"type:varchar(1000)not null" json:"herf" label:"链接"`
-	Text   string `gorm:"type:varchar(50)" json:"text" label:"文本"`
+	FindId      int    `gorm:"type:int(10);not null;primary_key" json:"findid" label:"找到我ID"`
+	Icon        string `gorm:"type:varchar(1000);not null" json:"icon" label:"图标"`
+	Href        string `gorm:"type:varchar(1000)not null" json:"href" label:"链接"`
+	Text        string `gorm:"type:varchar(50)" json:"text" label:"文本"`
+	Description string `gorm:"type:varchar(100)" json:"description" label:"描述"`
 }
 
 // 新增Findme
@@ -23,6 +24,7 @@ func CreateFindme(data *FindMe) int {
 	findme.Icon = data.Icon
 	findme.Href = data.Href
 	findme.Text = data.Text
+	findme.Description = data.Description
 	var count int64
 	var f FindMe
 	err := db.Find(&f).Count(&count).Error
@@ -65,8 +67,9 @@ func ModifyFindme(data *FindMe) int {
 	var findme FindMe
 	var findmap = make(map[string]interface{})
 	findmap["icon"] = data.Icon
-	findmap["herf"] = data.Href
+	findmap["href"] = data.Href
 	findmap["text"] = data.Text
+	findmap["description"] = data.Description
 	var f FindMe
 	err := db.First(&f, "find_id = ?", data.FindId).Error
 	if err != nil || err == gorm.ErrRecordNotFound {
