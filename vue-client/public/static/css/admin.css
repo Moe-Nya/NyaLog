@@ -99,7 +99,6 @@
     position: relative;
     top:3px;
 }
-
 /*--------------------------------------------------*/
 /*内容模块div*/
 .main{
@@ -340,6 +339,35 @@
     display: inline-block;
     position: relative;
     top:5px;
+}
+.findmebox{
+    margin-top: 10px;
+    display: flex;
+    flex-wrap: wrap; /* 允许换行 */
+}
+.platformname{
+    background: url("../../img/platformname.svg") no-repeat;
+    background-size: 20px 20px;
+    background-position: center center;
+    height: 20px;
+    width: 20px;
+    display: inline-block;
+    position: relative;
+    top:3px;
+}
+.previewiconbox{
+    height: 35px;
+    width: 35px;
+    margin-top: 2px;
+    margin-right: 5px;
+}
+.previewicon{
+    height:30px;
+    width:30px;
+    transition: transform 0.3s;
+}
+.previewicon:hover{
+    transform: scale(1.1);
 }
 /*--------------------------------------------------*/
 /*横向导航栏*/
