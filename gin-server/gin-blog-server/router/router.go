@@ -69,7 +69,7 @@ func IniRouter() {
 
 	// 友链管理
 	// 友链管理-查询友链
-	normalrouter.GET("/friendlinks", v1.SeleFriendLink)
+	normalrouter.POST("/friendlinks", v1.SeleFriendLink)
 
 	// 管理员用户权限控制
 	authrouter := routerv1.Group("api/v1/" + utils.AdminEntrance)
