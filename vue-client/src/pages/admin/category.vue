@@ -17,6 +17,7 @@ function createcategory() {
     axios.post('/admin/newcategory', {"categorytext": createcategoryinput.value}, {headers: {Authorization: window.localStorage.getItem('token')}}).then(res => {
         if (res.data.code === 200) {
             window.$loadingBar.finish();
+            createcategoryinput.value = '';
             window.$message.success('新增分类成功');
             queryCategory();
         } else {
@@ -93,7 +94,7 @@ onMounted(() => {
         <div class="inputbox" style="display: flex; flex-wrap: wrap;">
             <div style="margin-right: 10px; margin-top: 8px;">
                 <i class="articlecategory"></i>
-                <span class="input-text"> 文章分类</span>
+                <span class="input-text"> 分类名称</span>
                 <n-input v-model:value="createcategoryinput" type="text" placeholder="文章分类"/>
             </div>
             <div class="deletecomment">
@@ -106,7 +107,7 @@ onMounted(() => {
         <div class="inputbox" style="display: flex; flex-wrap: wrap;" v-for="item in categorylist" :key="item.cid">
             <div style="margin-right: 10px; margin-top: 8px;">
                 <i class="articlecategory"></i>
-                <span class="input-text"> 文章分类 cid:{{ item.cid }}</span>
+                <span class="input-text"> 分类名称</span>
                 <n-input v-model:value="item.categorytext" type="text" placeholder="文章分类"/>
             </div>
             <div class="deletecomment">

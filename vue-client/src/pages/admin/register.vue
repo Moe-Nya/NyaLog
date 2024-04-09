@@ -171,10 +171,10 @@ onMounted(() => {
                 <n-input v-model:value="twoFAcode" type="text" placeholder="2FA验证码"/>
             </div>
             <div class="btn">
-                    <n-button :disabled="vertifyBtnDown" @click="registeBtn" strong round type="primary" size="large">
-                        注册
-                    </n-button>
-                </div>
+                <n-button :disabled="vertifyBtnDown" @click="registeBtn" strong round type="primary" size="large">
+                    注册
+                </n-button>
+            </div>
         </template>
   </n-modal>
 </template>

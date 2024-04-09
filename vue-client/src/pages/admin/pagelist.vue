@@ -138,10 +138,10 @@ onMounted(() => {
         </div>
     </div>
     <div class="addmorebtnbox">
-        <n-button strong secondary :disabled="previousPage" @click="previousPageBtn" round size="large" class="addmorebtn">
+        <n-button strong secondary :disabled="previousPage" @click="previousPageBtn" round size="large" class="addmorebtn" style="background-color: rgb(186, 193, 197);">
             <
         </n-button>&nbsp&nbsp&nbsp
-        <n-button strong secondary :disabled="nextPage" @click="nextPageBtn" round size="large" class="addmorebtn">
+        <n-button strong secondary :disabled="nextPage" @click="nextPageBtn" round size="large" class="addmorebtn" style="background-color: rgb(186, 193, 197);">
             >
         </n-button>
     </div>
@@ -157,5 +157,5 @@ onMounted(() => {
         negative-text="取消"
         @positive-click="onPositiveClick"
         @negative-click="onNegativeClick"
-        />
+    />
 </template>

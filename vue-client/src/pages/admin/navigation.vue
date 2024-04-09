@@ -17,10 +17,55 @@ function addNavigation() {
     axios.post('/admin/newnavigation', {"navtitle": navname.value, "navurl": navurl.value}, {headers: {Authorization: window.localStorage.getItem('token')}}).then(res => {
         if (res.data.code === 200) {
             window.$loadingBar.finish();
-            windwo.$message.success('新增导航栏成功');
+            queryNavigation();
+            navname.value = '';
+            navurl.value = '';
+            window.$message.success('新增导航栏成功');
         } else {
             window.$loadingBar.finish();
             errmsg(res.data.code);
+        }
+    });
+}
+
+// 加载导航栏列表
+const navigations = ref([]);
+function queryNavigation() {
+    axios.get('/navigations').then(res => {
+        if (res.data.code === 200) {
+            navigations.value = res.data.navigations;
+        } else {
+            errmsg(res.data.code);
+        }
+    })
+}
+
+// 修改导航栏
+function modifyNavigation(item) {
+    window.$loadingBar.start();
+    axios.post('/admin/editnavigation', {"navid": item.navid, "navtitle": item.navtitle, "navurl": item.navurl}, {headers: {Authorization: window.localStorage.getItem('token')}}).then(res => {
+        if (res.data.code === 200) {
+            window.$loadingBar.finish();
+            queryNavigation();
+            window.$message.success('更新成功');
+        } else {
+            window.$loadingBar.error();
+            errmsg(res.data.code)
+        }
+    });
+}
+
+// 删除导航栏
+function deleteNavigation(item) {
+    window.$loadingBar.start();
+    axios.post('/admin/deletenavigation', {"navid": item.navid}, {headers: {Authorization: window.localStorage.getItem('token')}}).then(res => {
+        if (res.data.code === 200) {
+            window.$loadingBar.finish();
+            queryNavigation();
+            window.$message.success('删除成功');
+        } else {
+            window.$loadingBar.error();
+            errmsg(res.data.code)
         }
     });
 }
@@ -41,6 +86,7 @@ function Validate() {
 }
 onMounted(() => {
     Validate();
+    queryNavigation();
 });
 </script>
 <template>
@@ -65,20 +111,20 @@ onMounted(() => {
             </div>
         </div>
         <hr class="categoryhr" /><br />
-        <div class="findmebox">
+        <div class="findmebox" v-for="item in navigations" :key="item.navid">
             <div>
                 <i class="platformname"></i>
                 <span class="input-text"> 导航栏名称</span><br />
-                <n-input  type="text" placeholder="导航栏名称" style="min-width:230px; width: 230px; border-radius: 5px; margin-right: 10px; margin-bottom: 8px;"/>
+                <n-input v-model:value="item.navtitle" type="text" placeholder="导航栏名称" style="min-width:230px; width: 230px; border-radius: 5px; margin-right: 10px; margin-bottom: 8px;"/>
             </div>
             <div>
                 <i class="url"></i>
                 <span class="input-text"> 导航栏Url</span><br />
-                <n-input type="text" placeholder="导航栏Url tip:请加上http请求头" style="min-width:230px; width: 230px; border-radius: 5px; margin-right: 10px; margin-bottom: 8px;"/>
+                <n-input v-model:value="item.navurl" type="text" placeholder="导航栏Url tip:请加上http请求头" style="min-width:230px; width: 230px; border-radius: 5px; margin-right: 10px; margin-bottom: 8px;"/>
             </div>
             <div style="margin-top: 26px; display: flex;">
-                <n-button size="medium" style="margin-right: 5px;" strong round type="primary">新增</n-button>
-                <n-button size="medium" strong round type="error">删除</n-button>
+                <n-button @click="modifyNavigation(item)" :disabled="!(item.navtitle !== '' && item.navurl !== '')" size="medium" style="margin-right: 5px;" strong round type="primary">更新</n-button>
+                <n-button @click="deleteNavigation(item)" size="medium" strong round type="error">删除</n-button>
             </div>
         </div>
     </div>

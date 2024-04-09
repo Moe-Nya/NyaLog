@@ -147,6 +147,18 @@ const menuOptions = [
                 ),
                 key: "navigation"
             },
+            {
+                label: () => h(
+                    RouterLink,
+                    {
+                        to: {
+                            name: '友链管理',
+                        }
+                    },
+                    '友链管理'
+                ),
+                key: "friendlink"
+            },
             ],
     },
 ];
