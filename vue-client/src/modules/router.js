@@ -28,6 +28,7 @@ const router = createRouter({
                 {path : 'pageedit', name: '页面编辑', component: ()=> import('../pages/admin/page.vue')},
                 {path : 'findme', name: 'findme管理', component: ()=> import('../pages/admin/findme.vue')},
                 {path : 'navigation', name: '导航栏管理', component: ()=> import('../pages/admin/navigation.vue')},
+                {path : 'friendlink', name: '友链管理', component: ()=> import('../pages/admin/friendlink.vue')},
             ]
         }
     ],
