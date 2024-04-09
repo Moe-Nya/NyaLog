@@ -222,7 +222,7 @@ onMounted(() => {
         </div>
         <div class="friendlinkbox" @click="friendLinkEditor" style="cursor: pointer;">
             <div class="friendlinkcard">
-                <div style="margin-top: 35px;">
+                <div style="margin-top: 40px;">
                     <img src="../../../public/img/add.svg" style="height:140px; width: 140px;" />
                 </div>
             </div>
