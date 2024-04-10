@@ -30,6 +30,11 @@ const router = createRouter({
                 {path : 'navigation', name: '导航栏管理', component: ()=> import('../pages/admin/navigation.vue')},
                 {path : 'friendlink', name: '友链管理', component: ()=> import('../pages/admin/friendlink.vue')},
             ]
+        },
+        {
+            path:'/',
+            name: '主页',
+            component : ()=> import('../pages/front/main.vue'),
         }
     ],
     history: createWebHistory()
