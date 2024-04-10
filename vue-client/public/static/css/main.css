@@ -9,6 +9,7 @@
     width: 100%;
 }
 .mainbox{
+    margin-top: 20px;
     min-height: 370px;
     width: 100%;
 }
@@ -51,16 +52,6 @@
 .headerinfo:hover{
     height: 61%;
     width: 56%;;
-}
-.navigation{
-    position: absolute; /* 创建绝对定位的内容 */
-    bottom: 0px;
-    left: 25%;
-    transform: translate(-0%, 0%); /* 反向偏移50%内容宽高 */
-    width: 50%;
-    height: 30px;
-    background-color: aliceblue;
-    z-index: 10;
 }
 .userprofile{
     margin-left: 40px;
@@ -161,6 +152,39 @@
     height: 30px;
     width: 30px;
 }
+
+/*导航栏*/
+.navigation1{
+    position: absolute; /* 创建绝对定位的内容 */
+    bottom: 0px;
+    left: 25%;
+    transform: translate(-0%, 0%); /* 反向偏移50%内容宽高 */
+    width: 50%;
+    height: 30px;
+    z-index: 10;
+    border-bottom: 1px solid rgb(218, 215, 215);
+}
+.nav1 {
+    display: flex;
+    overflow-x: auto;
+    white-space: nowrap;
+    font-size: 18px;
+    font-family: 'nyanya';
+  }
+  
+  .nav1 > div {
+    margin-right: 10px;
+    cursor: pointer;
+  }
+  
+  .nav1 > .active {
+    color: rgb(109, 183, 252);
+    border-bottom: 2px solid rgb(109, 183, 252);
+  }
+  
+  .nav1::-webkit-scrollbar {
+      display: none;
+  }
 @media (max-width: 1650px) {
     .headerinfo{
         width: 57%;

@@ -104,7 +104,7 @@ onMounted(() => {
             <div>
                 <i class="url"></i>
                 <span class="input-text"> 导航栏Url</span><br />
-                <n-input v-model:value="navurl" type="text" placeholder="导航栏Url tip:请加上http请求头" style="min-width:230px; width: 230px; border-radius: 5px; margin-right: 10px; margin-bottom: 8px;"/>
+                <n-input v-model:value="navurl" type="text" placeholder="导航栏Url tip:直接输入页面后缀" style="min-width:230px; width: 230px; border-radius: 5px; margin-right: 10px; margin-bottom: 8px;"/>
             </div>
             <div style="margin-top: 26px; display: flex;">
                 <n-button :disabled="!(navname !== '' && navurl !== '')" @click="addNavigation" size="medium" strong round type="primary">新增</n-button>
@@ -120,7 +120,7 @@ onMounted(() => {
             <div>
                 <i class="url"></i>
                 <span class="input-text"> 导航栏Url</span><br />
-                <n-input v-model:value="item.navurl" type="text" placeholder="导航栏Url tip:请加上http请求头" style="min-width:230px; width: 230px; border-radius: 5px; margin-right: 10px; margin-bottom: 8px;"/>
+                <n-input v-model:value="item.navurl" type="text" placeholder="导航栏Url tip:直接输入页面后缀" style="min-width:230px; width: 230px; border-radius: 5px; margin-right: 10px; margin-bottom: 8px;"/>
             </div>
             <div style="margin-top: 26px; display: flex;">
                 <n-button @click="modifyNavigation(item)" :disabled="!(item.navtitle !== '' && item.navurl !== '')" size="medium" style="margin-right: 5px;" strong round type="primary">更新</n-button>
