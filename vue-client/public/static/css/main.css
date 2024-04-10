@@ -1,0 +1,274 @@
+/*外部框架*/
+.box{
+    width: 100%;
+}
+.headerbox{
+    position: relative;
+    min-height: 400px;
+    height: 50vh;
+    width: 100%;
+}
+.mainbox{
+    min-height: 370px;
+    width: 100%;
+}
+.headerimg{
+    bottom: 0;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    pointer-events: none;
+    overflow: hidden;
+}
+.headerimgstyle{
+    height: 100%;
+    display: block;
+    margin: 0 auto;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+.header{
+    height: 100%;
+    width: 100%;
+}
+.headerinfo{
+    display: flex;
+    border: 1px solid;
+    border-color: #eee;
+    background-color: rgba(255, 255, 255, 0.829); /* 设置背景颜色为白色半透明 */
+    backdrop-filter: blur(2px);
+    height: 60%;
+    width: 55%;
+    border-radius: 10px;
+    position: absolute; /* 创建绝对定位的内容 */
+    top: 50%; /* 从顶部偏移50%容器高度 */
+    left: 50%; /* 从左侧偏移50%容器宽度 */
+    transform: translate(-50%, -50%); /* 反向偏移50%内容宽高 */
+    z-index: 1;
+    transition: width 0.3s ease, height 0.3s ease;
+}
+.headerinfo:hover{
+    height: 61%;
+    width: 56%;;
+}
+.navigation{
+    position: absolute; /* 创建绝对定位的内容 */
+    bottom: 0px;
+    left: 25%;
+    transform: translate(-0%, 0%); /* 反向偏移50%内容宽高 */
+    width: 50%;
+    height: 30px;
+    background-color: aliceblue;
+    z-index: 10;
+}
+.userprofile{
+    margin-left: 40px;
+}
+.userprofileimgstyle{
+    height: 160px;
+    width: 160px;
+    border-radius: 50%;
+}
+.center {
+    align-self: center; /* 子div垂直居中 */
+}
+.userinfo{
+    width: 95%;
+    align-self: center; /* 子div垂直居中 */
+    margin-left: 30px;
+}
+.usernamebox{
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    word-break: break-all;
+    text-align: center;
+    display: flex;
+    z-index: 2;
+}
+.username{
+    font-size: 40px;
+    font-weight: bold;
+    font-family: 'nyanya';
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    word-break: break-all;
+    text-align: center;
+}
+.userdescriptionbox{
+    margin-top: 15px;
+    z-index: 2;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    word-break: break-all;
+}
+.userdescription{
+    font-family: 'nyanya';
+    font-weight: bold;
+    font-size: 1.2em;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    word-break: break-all;
+}
+.search{
+    position: absolute;
+    right: 5%;
+    margin-top: 10px;
+    transition: transform 0.3s;
+    cursor: pointer;
+}
+.search:hover{
+    transform: scale(1.1);
+}
+.findmebox{
+    max-height:40%;
+    max-width: 80%;
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 10px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+    word-break: break-all;
+}
+.findme{
+    margin-left: 2px;
+    margin-top: 2px;
+    cursor: pointer;
+    transition: transform 0.3s;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+    word-break: break-all;
+}
+.findme:hover{
+    transform: scale(1.1);
+}
+.findmeiconbox{
+    height:33px;
+    width: 33px;
+    margin-right: 10px;
+}
+.findmeicon{
+    height: 30px;
+    width: 30px;
+}
+@media (max-width: 1650px) {
+    .headerinfo{
+        width: 57%;
+    }
+    .headerinfo:hover{
+        width: 58%;
+    }
+}
+@media (max-width: 1500px) {
+    .headerinfo{
+        width: 60%;
+    }
+    .headerinfo:hover{
+        width: 61%;
+    }
+}
+@media (max-width: 1450px) {
+    .headerinfo{
+        width: 63%;
+    }
+    .headerinfo:hover{
+        width: 64%;
+    }
+}
+@media (max-width: 1400px) {
+    .headerinfo{
+        width: 66%;
+    }
+    .headerinfo:hover{
+        width: 67%;
+    }
+}
+@media (max-width: 1300px) {
+    .headerinfo{
+        width: 70%;
+    }
+    .headerinfo:hover{
+        width: 71%;
+    }
+}
+@media (max-width: 1200px) {
+    .headerinfo{
+        width: 79%;
+    }
+    .headerinfo:hover{
+        width: 80%;
+    }
+}
+@media (max-width: 1000px) {
+    .headerinfo{
+        width: 100%;
+    }
+    .headerinfo:hover{
+        width: 100%;
+    }
+}
+@media (max-width: 650px) {
+    .findmebox{
+        max-height:100px;
+        max-width: 80%;
+        display: flex;
+        flex-wrap: wrap;
+        margin-top: 10px;
+        display: -webkit-box;
+        -webkit-line-clamp: 4;
+    }
+    .findme{
+        margin-left: 2px;
+        margin-top: 2px;
+        cursor: pointer;
+        transition: transform 0.3s;
+        display: -webkit-box;
+        -webkit-line-clamp: 4;
+        overflow: hidden;
+        word-break: break-all;
+    }
+    .findmeiconbox{
+        height:23px;
+        width: 23px;
+        margin-right: 4px;
+    }
+    .findmeicon{
+        height: 20px;
+        width: 20px;
+    }
+    .search{
+        position: absolute;
+        top: 10px;
+    }
+    .username{
+        font-size: 30px;
+    }
+    .userdescriptionbox{
+        margin-top: 6px;
+        z-index: 2;
+        display: -webkit-box;
+        -webkit-line-clamp: 1;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        word-break: break-all;
+    }
+    .headerinfo{
+        border-radius: 0px;
+        height: 100%;
+        transition: 0;
+    }
+    .headerinfo:hover{
+        height: 100%;
+        width: 100%;
+    }
+}
