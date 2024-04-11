@@ -37,7 +37,7 @@
     display: flex;
     border: 1px solid;
     border-color: #eee;
-    background-color: rgba(255, 255, 255, 0.829); /* 设置背景颜色为白色半透明 */
+    background-color: rgba(255, 255, 255, 0.514); /* 设置背景颜色为白色半透明 */
     backdrop-filter: blur(2px);
     height: 60%;
     width: 55%;
