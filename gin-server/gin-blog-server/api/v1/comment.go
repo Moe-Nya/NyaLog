@@ -10,7 +10,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// 获取用户权限&信息
+// 获取用户权限
 func GetUserOauth(c *gin.Context) {
 	code := c.Query("code")
 	oauthCode := middleware.GetOauthCode(code)
@@ -21,22 +21,29 @@ func GetUserOauth(c *gin.Context) {
 			"message": errmsg.GetErrorMsg(err),
 		})
 	} else {
-		userinfo, err := middleware.GetUserInfo(token)
-		if err != errmsg.SUCCESS {
-			c.JSON(http.StatusOK, gin.H{
-				"code":    err,
-				"message": errmsg.GetErrorMsg(err),
-			})
-		} else {
-			c.JSON(http.StatusOK, gin.H{
-				"code":       err,
-				"message":    "login success",
-				"username":   userinfo["name"].(string),
-				"useravatar": userinfo["avatar_url"].(string),
-				"usersite":   userinfo["html_url"].(string),
-				"token":      token,
-			})
-		}
+		c.JSON(http.StatusOK, gin.H{
+			"code":    err,
+			"message": "login success",
+			"token":   token,
+		})
+	}
+}
+
+// 获取用户信息
+func GetUserInfo(c *gin.Context) {
+	var userinfo service.CommentUser
+	userinfo, err := service.QueryCommentUserInfo(c.Request.Header.Get("Authorization"))
+	if err != errmsg.SUCCESS {
+		c.JSON(http.StatusOK, gin.H{
+			"code":    err,
+			"message": errmsg.GetErrorMsg(err),
+		})
+	} else {
+		c.JSON(http.StatusOK, gin.H{
+			"code":     err,
+			"message":  "user info get success",
+			"userinfo": userinfo,
+		})
 	}
 }
 

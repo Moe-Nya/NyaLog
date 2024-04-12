@@ -131,3 +131,21 @@ func DeleCid(c *gin.Context) {
 		})
 	}
 }
+
+// 文章喜欢数累加
+func AddLike(c *gin.Context) {
+	var articleid service.ArticleLike
+	_ = c.ShouldBindJSON(&articleid)
+	err := service.AddLike(articleid.Articleid)
+	if err != errmsg.SUCCESS {
+		c.JSON(http.StatusOK, gin.H{
+			"code":    err,
+			"message": errmsg.GetErrorMsg(err),
+		})
+	} else {
+		c.JSON(http.StatusOK, gin.H{
+			"code":    err,
+			"message": "thx your like",
+		})
+	}
+}

@@ -40,6 +40,26 @@ func NewComment(data *Comment, token string) int {
 	return errmsg.SUCCESS
 }
 
+// 评论用户信息结构体
+type CommentUser struct {
+	Username    string `json:"username"`
+	Userprofile string `json:"userprofile"`
+	Usersite    string `json:"usersite"`
+}
+
+// 查询评论用户信息
+func QueryCommentUserInfo(token string) (CommentUser, int) {
+	var comuser CommentUser
+	userinfo, err := middleware.GetUserInfo(token)
+	if err != errmsg.SUCCESS {
+		return comuser, errmsg.GetQueryFailed
+	}
+	comuser.Username = userinfo["name"].(string)
+	comuser.Userprofile = userinfo["avatar_url"].(string)
+	comuser.Usersite = userinfo["html_url"].(string)
+	return comuser, errmsg.SUCCESS
+}
+
 // 读取文章评论所用结构体
 type ArticleComments struct {
 	Articleid int64  `json:"articleid"`

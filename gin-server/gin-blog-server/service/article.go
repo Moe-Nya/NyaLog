@@ -129,3 +129,16 @@ func SameCidArt(cid int) ([]model.Article, int) {
 	}
 	return articleList, errmsg.SUCCESS
 }
+
+type ArticleLike struct {
+	Articleid int `json:"articleid"`
+}
+
+// 文章喜欢数累加
+func AddLike(articleid int) int {
+	err := model.AddLike(articleid)
+	if err != errmsg.SUCCESS {
+
+	}
+	return errmsg.SUCCESS
+}

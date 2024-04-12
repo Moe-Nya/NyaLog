@@ -37,6 +37,8 @@ func IniRouter() {
 	normalrouter.GET("/article/:id", v1.SeleOneArticle)
 	// 文章设置-查询文章列表
 	normalrouter.POST("/articlelist", v1.SeleListArticle)
+	// 文章设置-文章喜欢
+	normalrouter.POST("/articlelike", v1.AddLike)
 
 	// 文章分类管理
 	// 文章分类管理-查询文章分类列表
@@ -53,6 +55,8 @@ func IniRouter() {
 	commentUserAuth := routerv1.Group("api/v1/comment")
 	commentUserAuth.Use(middleware.CommentToken())
 	{
+		// 评论-获取用户信息
+		commentUserAuth.GET("/comuserinfo", v1.GetUserInfo)
 		// 评论-新增评论
 		commentUserAuth.POST("/newcomment", v1.NewComment)
 	}

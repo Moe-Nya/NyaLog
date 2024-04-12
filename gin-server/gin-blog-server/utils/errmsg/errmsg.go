@@ -44,6 +44,7 @@ const (
 	ArticleUpdateFailed = 7001
 	ArticleQueryFailed  = 7002
 	ArticleDeleteFailed = 7003
+	ArticleLikeFailed   = 7004
 
 	// 文章分类管理
 	CatCreateFailed = 8001
@@ -127,6 +128,7 @@ var codeMsg = map[int]string{
 	ArticleUpdateFailed: "article update failed",
 	ArticleQueryFailed:  "article query failed",
 	ArticleDeleteFailed: "article delete failed",
+	ArticleLikeFailed:   "article like failed",
 
 	// 文章分类管理
 	CatCreateFailed: "category create failed",
