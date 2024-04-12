@@ -1,5 +1,8 @@
 /*外部框架*/
 .box{
+    display: flex;
+    flex-flow: column;
+    flex-wrap: wrap;
     width: 100%;
 }
 .headerbox{
@@ -8,16 +11,11 @@
     height: 50vh;
     width: 100%;
 }
-.mainbox{
-    margin-top: 20px;
-    min-height: 370px;
-    width: 100%;
-}
 .headerimg{
+    position: absolute;
     bottom: 0;
     height: 100%;
     width: 100%;
-    position: absolute;
     pointer-events: none;
     overflow: hidden;
 }
@@ -79,7 +77,7 @@
     display: flex;
     z-index: 2;
 }
-.username{
+.usernameinfo{
     font-size: 40px;
     font-weight: bold;
     font-family: 'nyanya';
@@ -169,28 +167,238 @@
     overflow-x: auto;
     white-space: nowrap;
     font-size: 18px;
-    font-family: 'nyanya';
-  }
+    color: rgb(97, 95, 95);
+}
   
-  .nav1 > div {
+.nav1 > div {
     margin-right: 10px;
     cursor: pointer;
-  }
+}
   
-  .nav1 > .active {
+.nav1 > .active {
     color: rgb(109, 183, 252);
     border-bottom: 2px solid rgb(109, 183, 252);
-  }
+}
   
-  .nav1::-webkit-scrollbar {
-      display: none;
-  }
+.nav1::-webkit-scrollbar {
+    display: none;
+}
+/*主页面路由部分*/
+.mainbox{
+    display: flex;
+    position: relative;
+    margin-top: 20px;
+    min-height: 370px;
+    width: 100%;
+}
+.maininfo{
+    display: flex;
+    flex-wrap: wrap;
+    position: relative;
+    left: 50%;
+    transform: translate(-50%, 0%);
+    width: 50%;
+    height: 100%;
+}
+.mdview{
+    height: 100%;
+    width: 100%;
+}
+.headview{
+    font-size: 15px;
+    display: block;
+    margin-top: 43px;
+    position: absolute;
+    right: -290px;
+    height: 100%;
+    width: 250px;
+}
+.md-editor{
+    background-color: rgba(255, 255, 255, 0.377)!important;
+    border-radius: 10px;
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.034);
+}
+.md-editor-catalog-active > span{
+    color: rgb(148, 148, 148)!important;
+}
+.md-editor-catalog{
+    color: rgb(148, 148, 148)!important;
+}
+.md-editor-catalog-link > span{
+    color: rgb(148, 148, 148)!important;
+}
+.articleandpagetitle{
+    width: 100%;
+    height: auto;
+    text-align: center;
+    display: flex;
+    flex-flow: column;
+    flex-wrap: wrap;
+    position: relative;
+    left: 50%;
+    transform: translate(-50%, 0%);
+}
+.titlestyle{
+    color: #3d3d3d;
+    font-size: 30px;
+    font-weight: bold;
+}
+.views{
+    background: url("../../img/views.svg") no-repeat;
+    background-size: 25px 25px;
+    background-position: center center;
+    height: 25px;
+    width: 25px;
+    display: inline-block;
+    position: relative;
+    top:7px;
+}
+.likes{
+    background: url("../../img/likes.svg") no-repeat;
+    background-size: 22px 22px;
+    background-position: center center;
+    height: 22px;
+    width: 22px;
+    display: inline-block;
+    position: relative;
+    top:5px;
+}
+.articlesummary{
+    word-wrap: break-word;
+    background-color: rgba(255, 255, 255, 0.377)!important;
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.034);
+    border-radius: 10px;
+    min-height: 50px;
+    height: auto;
+    width: 100%;
+    margin-bottom: 30px;
+    margin-top: 20px;
+}
+.aiicon{
+    background: url("../../img/aisummary.svg") no-repeat;
+    background-size: 25px 25px;
+    background-position: center center;
+    height: 25px;
+    width: 25px;
+    display: inline-block;
+    position: relative;
+    top:5px;
+    left: 5px;
+}
+.articleinfoicon{
+    display: flex;
+    width: 100%;
+    overflow: hidden;
+    margin-top: 20px;
+    margin-bottom: 40px;
+}
+.likearticlebtnbox{
+    height: 44px;
+    width: 39px;
+}
+.likearticlebtn{
+    background: url("../../img/likesblack.svg") no-repeat;
+    background-size: 40px 35px;
+    background-position: center center;
+    height: 40px;
+    width: 35px;
+    display: inline-block;
+    position: relative;
+    top:5px;
+    left: 20px;
+    cursor: pointer;
+}
+.likearticlebtn:hover{
+    background-size: 44px 39px;
+    height: 44px;
+    width: 39px;
+}
+.share{
+    background: url("../../img/share.svg") no-repeat;
+    background-size: 40px 35px;
+    background-position: center center;
+    height: 40px;
+    width: 35px;
+    display: inline-block;
+    position: relative;
+    top:5px;
+    left: 20px;
+    cursor: pointer;
+}
+.share:hover{
+    background-size: 44px 39px;
+    height: 44px;
+    width: 39px;
+}
+.hr{
+    width: 100%;
+    float: left;
+    border-width: 1px;
+}
+.callbackbox{
+    display: flex;
+    justify-content: center; /* 水平居中 */
+    align-items: center; /* 垂直居中 */
+    position: absolute; /* 创建绝对定位的内容 */
+    left: 50%; /* 从左侧偏移50%容器宽度 */
+    transform: translate(-55%, 0%); /* 反向偏移50%内容宽高 */
+}
+.commentbox{
+    display: flex;
+    align-items: center;
+}
+.comuserprofile{
+    cursor: pointer;
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+}
+.comusername{
+    font-size: 17px;
+    font-weight: 600;
+    color: #3d3d3d;
+}
+.comments{
+    margin-top: 7px;
+    width: 100%;
+    height: auto;
+    border: 0.1em solid #c5c5c59a;
+    border-radius: 10px;
+    padding: 10px;
+    outline: none;
+    background-color: transparent;
+    resize: none;
+}
+.comments:focus{
+    border-color: rgb(172, 215, 255);
+    outline-color: transparent;
+}
+.comtextremain{
+    font-size: 13px;
+    color: #3d3d3d;
+}
+.sendcom{
+    margin-top: 5px;
+    margin-left: 5px;
+    float: right;
+}
 @media (max-width: 1650px) {
     .headerinfo{
         width: 57%;
     }
     .headerinfo:hover{
         width: 58%;
+    }
+    .headview{
+        right: -240px;
+        width: 200px;
+    }
+    .maininfo{
+        width: 55%;
+    }
+    .navigation1{
+        left: 24%;
+        width: 52%;
     }
 }
 @media (max-width: 1500px) {
@@ -200,6 +408,17 @@
     .headerinfo:hover{
         width: 61%;
     }
+    .headview{
+        right: -200px;
+        width: 160px;
+    }
+    .maininfo{
+        width: 60%;
+    }
+    .navigation1{
+        left: 23%;
+        width: 55%;
+    }
 }
 @media (max-width: 1450px) {
     .headerinfo{
@@ -207,6 +426,17 @@
     }
     .headerinfo:hover{
         width: 64%;
+    }
+    .headview{
+        right: -200px;
+        width: 160px;
+    }
+    .maininfo{
+        width: 60%;
+    }
+    .navigation1{
+        left: 22%;
+        width: 58%;
     }
 }
 @media (max-width: 1400px) {
@@ -216,6 +446,17 @@
     .headerinfo:hover{
         width: 67%;
     }
+    .headview{
+        right: -170px;
+        width: 130px;
+    }
+    .maininfo{
+        width: 63%;
+    }
+    .navigation1{
+        left: 20%;
+        width: 61%;
+    }
 }
 @media (max-width: 1300px) {
     .headerinfo{
@@ -223,6 +464,17 @@
     }
     .headerinfo:hover{
         width: 71%;
+    }
+    .headview{
+        right: -140px;
+        width: 100px;
+    }
+    .maininfo{
+        width: 67%;
+    }
+    .navigation1{
+        left: 18%;
+        width: 65%;
     }
 }
 @media (max-width: 1200px) {
@@ -232,6 +484,16 @@
     .headerinfo:hover{
         width: 80%;
     }
+    .headview{
+        display: none;
+    }
+    .maininfo{
+        width: 76%;
+    }
+    .navigation1{
+        left: 13%;
+        width: 74%;
+    }
 }
 @media (max-width: 1000px) {
     .headerinfo{
@@ -239,6 +501,17 @@
     }
     .headerinfo:hover{
         width: 100%;
+    }
+    .maininfo{
+        width: 100%;
+    }
+    .navigation1{
+        left: 1%;
+        right: 1%;
+        width: 98%;
+    }
+    .sendcom{
+        margin-right: 10px;
     }
 }
 @media (max-width: 650px) {
@@ -274,7 +547,7 @@
         position: absolute;
         top: 10px;
     }
-    .username{
+    .usernameinfo{
         font-size: 30px;
     }
     .userdescriptionbox{

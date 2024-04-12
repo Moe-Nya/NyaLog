@@ -4,13 +4,19 @@ import { useNavLocationStore } from '../../stores/navlocation'
 
 const navloc = useNavLocationStore();
 
-const pathname = window.location.pathname;
-let suffix = pathname.substring(1); // 去除路径开头的斜杠
-if (suffix === '') {
-    suffix = '/';
-}
-navloc.navloc = suffix;
 
+function loadRouter() {
+    const pathname = window.location.pathname;
+    let suffix = pathname.substring(1);
+    if (suffix === '') {
+        suffix = '/';
+    }
+    navloc.navloc = suffix;
+}
+
+onMounted(() => {
+    loadRouter();
+})
 </script>
 <template>
     这是主页

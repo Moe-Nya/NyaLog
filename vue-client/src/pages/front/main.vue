@@ -1,5 +1,6 @@
 <script setup>
 import { useRouter } from 'vue-router';
+import { useRoute } from 'vue-router';
 import axios from 'axios'
 import MessageAPI from '../../components/message.vue'
 import errmsg from '../../modules/errmsg';
@@ -10,6 +11,7 @@ import '../../../public/static/css/main.css'
 import { inject, onMounted } from 'vue';
 
 const router = useRouter();
+const route = useRoute();
 const blogset = useBlogSetStore();
 const userinfo = usePublicUserInfoStore();
 const navloc = useNavLocationStore();
@@ -21,7 +23,7 @@ function queryFindMe() {
         if (res.data.code === 200) {
             findmes.value = res.data.findme;
         } else {
-            window.$message.success('网络连接似乎不顺畅哦！');
+            errmsg(res.data.code);
         }
     });
 }
@@ -37,14 +39,16 @@ function queryNavigation() {
         if (res.data.code === 200) {
             navs.value = res.data.navigations;
         } else {
-            window.$message.success('网络连接似乎不顺畅哦！');
+            errmsg(res.data.code);
         }
     });
 }
 // 导航栏逻辑
 const activeItemId = ref('');
 function selectNavItem(item) {
-    router.push(item.navurl);
+    const route = router.resolve({ path: item.navurl }).href;
+    const absolutePath = route.replace(/\/article/, '');
+    router.push(absolutePath);
     activeItemId.value = item.navurl;
 }
 function loadNavLocation() {
@@ -75,6 +79,7 @@ onMounted(() => {
 });
 </script>
 <template>
+    <n-back-top :right="100" />
     <div class="box">
         <div class="headerbox">
             <div class="headerimg">
@@ -88,7 +93,7 @@ onMounted(() => {
                     <div class="userinfo">
                         <div class="usernamebox">
                             <div>
-                                <span class="username">{{ userinfo.data.username }}</span>
+                                <span class="usernameinfo">{{ userinfo.data.username }}</span>
                             </div>
                             <div class="search" @click="search">
                                 <img src="../../../public/img/search.svg" style="height: 25px; width: 25px;"/>
@@ -119,6 +124,7 @@ onMounted(() => {
                     <div
                     v-for="item in navs"
                     :key="item.navid"
+                    style="margin-right: 15px;"
                     :class="{ 'active': activeItemId === item.navurl }"
                     @click="selectNavItem(item)"
                     >
@@ -128,7 +134,9 @@ onMounted(() => {
             </div>
         </div>
         <div class="mainbox">
-            <router-view />
+            <div class="maininfo">
+                <router-view />
+            </div>
         </div>
     </div>
     <foo />

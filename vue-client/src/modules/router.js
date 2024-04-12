@@ -37,9 +37,11 @@ const router = createRouter({
             component : ()=> import('../pages/front/main.vue'),
             children : [
                 {path : '', name: '主页', component: ()=> import('../pages/front/indexpage.vue')},
-                {path : 'archive', name: '归档', component: ()=> import('../pages/front/archive.vue')},
-                {path : ':pageid', name: '页面', component: ()=> import('../pages/front/page.vue')},
-                {path : '/article/:articleid', name: '文章', component: ()=> import('../pages/front/page.vue')},
+                {path : '/archive', name: '归档', component: ()=> import('../pages/front/archive.vue')},
+                {path : '/:pageid', name: '页面', component: ()=> import('../pages/front/page.vue')},
+                {path : '/article/:articleid', name: '文章', component: ()=> import('../pages/front/article.vue')},
+                {path : '/friendlink', name: '友链', component: ()=> import('../pages/front/friendlink.vue')},
+                {path : '/callback', name: 'GitHub登录', component: ()=> import('../components/callback.vue')},
             ]
         }
     ],
