@@ -33,6 +33,19 @@ func EditCategory(data *model.Category) int {
 	return errmsg.SUCCESS
 }
 
+type Catid struct {
+	Cid int `json:"cid"`
+}
+
+// 根据cid查询分类名
+func SeleCatName(cid int) (string, int) {
+	cattext, err := model.SeleCatName(cid)
+	if err != errmsg.SUCCESS {
+		return "", errmsg.CatQueryFailed
+	}
+	return cattext, errmsg.SUCCESS
+}
+
 // 删除文章分类
 func DeleteCategory(cid int) int {
 	err := DeleCid(cid)

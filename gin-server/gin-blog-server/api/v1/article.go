@@ -40,7 +40,7 @@ func SeleOneArticle(c *gin.Context) {
 			"message": errmsg.GetErrorMsg(errmsg.ArticleQueryFailed),
 		})
 	}
-	article, err := service.SeleOneArticle(int64(id))
+	article, err, comswitch := service.SeleOneArticle(int64(id))
 	if err != errmsg.SUCCESS {
 		c.JSON(http.StatusOK, gin.H{
 			"code":    err,
@@ -48,8 +48,9 @@ func SeleOneArticle(c *gin.Context) {
 		})
 	} else {
 		c.JSON(http.StatusOK, gin.H{
-			"code":    err,
-			"article": article,
+			"code":      err,
+			"article":   article,
+			"comswitch": comswitch,
 		})
 	}
 }

@@ -51,6 +51,16 @@ func SeleCat() ([]Category, int) {
 	return cats, errmsg.SUCCESS
 }
 
+// 根据cid查询分类名
+func SeleCatName(cid int) (string, int) {
+	var cat Category
+	err := db.Select("category.categorytext").Where("cid=?", cid).First(&cat).Error
+	if err != nil || err == gorm.ErrRecordNotFound {
+		return "", errmsg.ERROR
+	}
+	return cat.Categorytext, errmsg.SUCCESS
+}
+
 // 编辑分类
 func ModifyCat(data *Category) int {
 	if data.Categorytext == "" {

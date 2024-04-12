@@ -95,13 +95,17 @@ func DeleCid(cid int) int {
 }
 
 // 查询单篇文章
-func SeleOneArticle(articleid int64) (model.Article, int) {
+func SeleOneArticle(articleid int64) (model.Article, int, int) {
 	var article model.Article
 	article, err := model.SeleOneArticle(articleid)
 	if err != errmsg.SUCCESS {
-		return article, errmsg.ArticleQueryFailed
+		return article, errmsg.ArticleQueryFailed, 0
 	}
-	return article, errmsg.SUCCESS
+	blogset, err := model.SeleBlogSet()
+	if err != errmsg.SUCCESS {
+		return article, errmsg.ArticleQueryFailed, 0
+	}
+	return article, errmsg.SUCCESS, blogset.Commentswitch
 }
 
 // 查询文章列表就所需要的结构体

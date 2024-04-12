@@ -43,6 +43,8 @@ func IniRouter() {
 	// 文章分类管理
 	// 文章分类管理-查询文章分类列表
 	normalrouter.GET("/category", v1.SeleCategory)
+	// 文章分类管理-使用cid查询cid名称
+	normalrouter.POST("/categoryname", v1.SeleCatName)
 
 	// 页面管理
 	// 页面管理-查询页面
@@ -61,7 +63,7 @@ func IniRouter() {
 		commentUserAuth.POST("/newcomment", v1.NewComment)
 	}
 	// 评论-读取某篇文章的评论
-	normalrouter.GET("/comments", v1.SeleCom)
+	normalrouter.POST("/comments", v1.SeleCom)
 
 	// Findme管理
 	// Findme管理-查询Findme

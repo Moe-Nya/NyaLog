@@ -45,8 +45,8 @@ func CreateArticle(data *Article) int {
 	// 这样做在列出文章列表是，可以丰富展示框内容，又节约服务器性能
 	// 只截取30字符，交给前端取舍
 	runes := []rune(data.Text)
-	if len(runes) > 30 {
-		runes = runes[:30]
+	if len(runes) > 50 {
+		runes = runes[:50]
 	}
 	article.Shorttext = string(runes)
 
@@ -126,8 +126,8 @@ func ModifyArticle(data *Article) int {
 	}
 
 	runes := []rune(data.Text)
-	if len(runes) > 30 {
-		runes = runes[:30]
+	if len(runes) > 50 {
+		runes = runes[:50]
 	}
 	articlemaps["shorttext"] = string(runes)
 	if data.Articletitle == "" {

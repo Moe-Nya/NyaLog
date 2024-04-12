@@ -3,7 +3,6 @@ package model
 import (
 	"NyaLog/gin-blog-server/utils"
 	"NyaLog/gin-blog-server/utils/errmsg"
-	"fmt"
 
 	"gorm.io/gorm"
 )
@@ -62,7 +61,6 @@ func SeleCom(articleid int64, pageSize int, pageNum int) ([]Comment, int) {
 		return comments, errmsg.ERROR
 	}
 	err = db.Where("articleid = ?", articleid).Select("comment.comid, userid, profilephoto, created_at, updated_at, usersite, recomid, commenttext").Limit(pageSize).Offset((pageNum - 1) * pageSize).Order("Created_At DESC").Find(&comments).Error
-	fmt.Println(comments)
 	if err != nil {
 		return nil, errmsg.ERROR
 	}

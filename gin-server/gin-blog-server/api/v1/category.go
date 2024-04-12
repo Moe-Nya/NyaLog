@@ -45,6 +45,24 @@ func SeleCategory(c *gin.Context) {
 	}
 }
 
+// 根据cid查询分类名
+func SeleCatName(c *gin.Context) {
+	var cid service.Catid
+	_ = c.ShouldBindJSON(&cid)
+	ctext, err := service.SeleCatName(cid.Cid)
+	if err != errmsg.SUCCESS {
+		c.JSON(http.StatusOK, gin.H{
+			"code":    err,
+			"message": errmsg.GetErrorMsg(err),
+		})
+	} else {
+		c.JSON(http.StatusOK, gin.H{
+			"code":  err,
+			"ctext": ctext,
+		})
+	}
+}
+
 // -------------------------------------------
 // // 编辑文章分类
 func EditCategory(c *gin.Context) {
