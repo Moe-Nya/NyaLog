@@ -185,21 +185,36 @@
 }
 
 .pic{
-    max-width: 120px;
-    max-height: 120px;
-    border-radius: 5px;
+    object-fit: cover; /* 图片铺满容器 */
+    width: 100%; /* 图片宽度填满容器 */
+    height: 100%; /* 图片高度填满容器 */
+    transition: transform 0.3s; /* 设置过渡效果 */
+    border-radius: 10px;
 }
 .piccontainer{
-    justify-content: center;
-    align-items: center;
-    height: auto;
+    min-width: 120px;
+    min-height: 120px;
+    width: 120px;
+    height: 120px;
+    position: relative;
     cursor: pointer;
+    overflow: hidden; /* 隐藏超出部分 */
+    border-radius: 10px;
+}
+.pic:hover {
+    transform: scale(1.1); /* 鼠标移动上去时的放大效果 */
 }
 .articleinfo{
     margin-left: 10px;
     cursor: pointer;
 }
 .articletitle{
+    width: 400px;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    word-break: break-all;
     font-weight: bold;
     font-size: 20px;
 }
@@ -225,6 +240,7 @@
 
 .articlelistbox{
     height: 140px;
+    width: 100%;
     width: auto;
     border-radius: 10px;
 }
@@ -487,12 +503,17 @@
 
 /*--------------------------------------------------*/
 /*自适应样式*/
+@media (max-width: 1710px) {
+    .infobox{
+        width: 63%;
+    }
+}
 @media (max-width: 1650px) {
     .main{
         width: 77%;
     }
     .infobox{
-        width: 60%;
+        width: 64%;
     }
     .addmorebtnbox{
         margin-left: 30%;
@@ -502,47 +523,59 @@
     .main{
         width: 75%;
     }
+    .infobox{
+        width: 66%;
+    }
 }
 @media (max-width: 1400px) {
     .main{
         width: 74%;
     }
     .infobox{
-        width: 65%;
+        width: 68%;
+    }
+}
+@media (max-width: 1350px) {
+    .infobox{
+        width: 71%;
+    }
+    .articletitle{
+        width: 320px;
     }
 }
 @media (max-width: 1300px) {
     .main{
         width: 73%;
     }
+    .infobox{
+        width: 75%;
+    }
+}
+@media (max-width: 1250px) {
+    .infobox{
+        width: 79%;
+    }
 }
 @media (max-width: 1200px) {
     .main{
-        width: 72%;
+        width: 70%;
     }
     .infobox{
-        width: 75%;
+        width: 90%;
     }
 }
 @media (max-width: 1100px) {
     .main{
         width: 70%;
     }
+    .infobox{
+        width: 97%;
+    }
+    .articletitle{
+        width: 300px;
+    }
 }
 @media (max-width: 1000px) {
-    .main{
-        width: 69%;
-    }
-}
-@media (max-width: 950px) {
-    .main{
-        width: 68%;
-    }
-    .infobox{
-        width: 80%;
-    }
-}
-@media (max-width: 900px) {
     .main{
         width: 97%;
         transform: translate(0%, 0%);
@@ -587,6 +620,9 @@
     #userinfoDes.change{
         margin-right: 72%;
     }
+    .articletitle{
+        width: 350px;
+    }
 }
 @media (max-width: 700px) {
     .horizontalnav{
@@ -596,7 +632,10 @@
         margin-right: 70%;
     }
     .infobox{
-        width: 80%;
+        width: 99%;
+    }
+    .articletitle{
+        width: 290px;
     }
 }
 @media (max-width: 600px) {
@@ -619,6 +658,19 @@
     .addmorebtnbox{
         margin-left: 40%;
     }
+    .articletitle{
+        width: 240px;
+    }
+}
+@media (max-width: 550px) {
+    .articletitle{
+        width: 200px;
+    }
+}
+@media (max-width: 500px) {
+    .articletitle{
+        width: 150px;
+    }
 }
 @media (max-width: 450px) {
     .main{
@@ -633,6 +685,17 @@
     }
     #userinfoDes.change{
         margin-right: 47%;
+    }
+    .articletitle{
+        width: 230px;
+    }
+    .piccontainer{
+        display: none;
+    }
+}
+@media (max-width: 410px) {
+    .articletitle{
+        width: 200px;
     }
 }
 @media (max-width: 350px) {
@@ -649,6 +712,14 @@
     #userinfoDes.change{
         margin-right: 37.5%;
     }
+    .articletitle{
+        width: 150px;
+    }
+}
+@media (max-width: 310px) {
+    .articletitle{
+        width: 100px;
+    }
 }
 @media (max-width: 300px) {
     .main{
@@ -663,5 +734,8 @@
     }
     #userinfoDes.change{
         margin-right: 30%;
+    }
+    .articletitle{
+        width: 70px;
     }
 }

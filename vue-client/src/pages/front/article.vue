@@ -15,12 +15,13 @@ const router = useRouter();
 const route = useRoute();
 // 文章信息
 const id = 'preview-only';
-const articleid = ref();
+const articleid = ref(-1);
 const title = ref('');
 const text = ref('');
 const articleviews = ref('');
 const articlelikes = ref('');
 const aisummary = ref('');
+const showcommentbox = ref(false);
 const scrollElement = document.documentElement;
 
 // 评论用户信息
@@ -80,7 +81,7 @@ async function shareArticle() {
 
 // 喜欢文章
 function likeMe() {
-    axios.post('/articlelike', {"articleid": route.params.articleid}).then(res => {
+    axios.post('/articlelike', {"articleid": Number(route.params.articleid)}).then(res => {
         if (res.data.code === 200) {
             window.$message.success('=W=');
         } else {
@@ -101,9 +102,21 @@ watch([comtext,loginstatus], () => {
     }
 });
 function senComment() {
-    
+    window.$loadingBar.start();
+    axios.post('/comment/newcomment', {"articleid": Number(route.params.articleid), "comment": comtext.value}, {headers: {Authorization: window.localStorage.getItem('usertoken')}}).then(res => {
+        if (res.data.code === 200) {
+            window.$loadingBar.finish();
+            window.$message.success('评论发送成功~');
+            comments.value = [];
+            pagenum.value = 1;
+            queryComments();
+            comtext.value = '';
+        } else {
+            window.$loadingBar.error();
+            errmsg(res.data.code);
+        }
+    })
 }
-
 
 // 页面内容加载
 function queryArticle() {
@@ -117,11 +130,41 @@ function queryArticle() {
             articleviews.value = res.data.article.articleviews;
             articlelikes.value = res.data.article.articlelikes;
             aisummary.value = res.data.article.aisummary;
+            if (res.data.comswitch === 0) {
+                showcommentbox.value = false;
+            } else if (res.data.comswitch === 1) {
+                showcommentbox.value = true;
+            }
         } else {
             window.$loadingBar.error();
             errmsg(res.data.code);
         }
     });
+}
+
+// 评论内容
+const pagesize = ref(10);
+const pagenum = ref(1);
+const comments = ref([]);
+const showaddmorebtn = ref(false);
+
+function queryComments() {
+    axios.post('/comments', {"articleid": Number(route.params.articleid), "pagesize": pagesize.value, "pagenum": pagenum.value}).then(res => {
+        if (res.data.code === 200) {
+            comments.value = comments.value.concat(res.data.comments);
+            if (res.data.comments.length === 0) {
+                showaddmorebtn.value = true;
+            } else {
+                showaddmorebtn.value = false;
+            }
+        } else {
+            showaddmorebtn.value = true;
+        }
+    })
+}
+function addMoreComment() {
+    pagenum.value += 1;
+    queryComments();
 }
 
 // github授权
@@ -140,18 +183,19 @@ onMounted(() => {
     loadRouter();
     queryArticle();
     loaduser();
+    queryComments();
 })
 </script>
 <template>
         <div class="articleandpagetitle">
-            <div>
+            <div class="titlestylebox">
                 <span class="titlestyle">{{ title }}</span>
             </div>
             <div style="text-align: center; font-size: 16px; font-weight: 500; margin-bottom: 10px;">
                 <i class="views"></i>
                 <span style="color: #3d3d3d;"> {{ articleviews }} | </span>
                 <i class="likes"></i>
-                <span style="color: #3d3d3d;">likes: {{ articlelikes }}</span>
+                <span style="color: #3d3d3d;">{{ articlelikes }}</span>
             </div>
         </div>
         <div class="articlesummary" v-if="aisummary !== ''">
@@ -174,7 +218,7 @@ onMounted(() => {
             </div>
         </div>
         <hr class="hr" />
-        <div class="commentbox">
+        <div class="commentbox" v-show="showcommentbox">
             <img v-show="showuserprofile" class="comuserprofile" :src="userprofile" />&nbsp
             <img v-show="showgithub" @click="github" class="comuserprofile" src="../../../public/img/github.svg" />&nbsp
             <span v-show="showusername" class="comusername">{{ username }}</span>
@@ -182,11 +226,34 @@ onMounted(() => {
             登出
             </n-button>
         </div>
-        <div style="width: 100%;">
-        <textarea v-model="comtext" id="combox" class="comments" rows="4" cols="50" maxlength="500" placeholder="请输入评论..."></textarea>
-        <span class="comtextremain">还可输入{{ 500 - comtext.length }}个字符</span>
-        <n-button @click="senComment" :disabled="sendbtn" size="large" strong ghost class="sendcom">
-            发送
-        </n-button>
-    </div>
+        <div style="display: block; width: 100%;" v-show="showcommentbox">
+            <textarea v-model="comtext" id="combox" class="comments" rows="4" cols="50" maxlength="500" placeholder="请输入评论..."></textarea>
+            <span class="comtextremain">还可输入{{ 500 - comtext.length }}个字符</span>
+            <n-button @click="senComment" :disabled="sendbtn" size="large" strong ghost class="sendcom">
+                发送
+            </n-button>
+            <div class="commentsbox">
+                <div v-for="item in comments" :key="item.comid">
+                    <div class="commentuser">
+                        <a :href="item.usersite" target="blank">
+                            <img :src="item.profilephoto" class="commentuserprofile"/>
+                        </a>
+                        <div>
+                            <a :href="item.usersite" style="color: inherit; text-decoration: none;" target="blank">
+                                <span class="commentusername">{{ item.userid }}</span>
+                            </a><br>
+                            <div class="commentusercomment">
+                                <span class="commentusercommentfont">{{ item.commenttext }}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <hr class="dashed-border" />
+                </div>
+            </div>
+            <div class="addmorearticleandcommentbox">
+                <n-button strong secondary :disabled="showaddmorebtn" @click="addMoreComment" round size="large">
+                    点我查看更多~
+                </n-button>
+            </div>
+        </div>
 </template>

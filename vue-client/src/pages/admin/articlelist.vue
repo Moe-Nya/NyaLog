@@ -14,7 +14,7 @@ const totalpages = ref(0);
 const remainpages = ref(0);
 // 文章信息
 const articles = ref([]);
-const errimg = ref('https://gw.alicdn.com/imgextra/i4/2213143710874/O1CN014qjUuW1IKL1Ur3fGI_!!2213143710874.jpg_Q75.jpg_.webp');
+const errimg = '../../../public/img/defaultarticleimg.svg';
 
 // 请求文章
 function queryArticle() {
@@ -34,7 +34,7 @@ function queryArticle() {
 
 // 文章图片错误
 function articleImgError(item) {
-    item.articleimg = errimg.value;
+    item.articleimg = errimg;
 }
 
 // 进入页面权限验证

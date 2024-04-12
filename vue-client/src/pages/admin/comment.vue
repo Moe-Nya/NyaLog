@@ -16,15 +16,17 @@ const totalcomments = ref(0);
 const comments = ref([]);
 // 删除按钮逻辑
 const showDeleteComConfirm = ref(false);
-function deleCommentBtn() {
+const deletecomid = ref(-1);
+function deleCommentBtn(item) {
+    deletecomid.value = item;
     showDeleteComConfirm.value = true;
 }
 function onNegativeClick() {
     showDeleteComConfirm.value = false;
 }
-function onPositiveClick(value) {
+function onPositiveClick() {
     window.$loadingBar.start();
-    axios.post('/admin/deletecomments', {"comid": value}, {headers: {Authorization: window.localStorage.getItem('token')}}).then(res => {
+    axios.post('/admin/deletecomments', {"comid": deletecomid.value}, {headers: {Authorization: window.localStorage.getItem('token')}}).then(res => {
         if (res.data.code === 200) {
             window.$loadingBar.finish();
             window.$message.success('评论删除成功');
@@ -117,20 +119,8 @@ onMounted(() => {
                 </div>
             </div>
             <div class="deletecomment">
-                <n-button @click="deleCommentBtn" strong round type="error" size="medium">
+                <n-button @click="deleCommentBtn(item.comid)" strong round type="error" size="medium">
                     删除
-                    <n-modal
-                    v-model:show="showDeleteComConfirm"
-                    :mask-closable="false"
-                    preset="dialog"
-                    type="error"
-                    title="确认删除该评论吗？"
-                    content="删除后不可恢复！"
-                    positive-text="确认"
-                    negative-text="取消"
-                    @positive-click="onPositiveClick(item.comid)"
-                    @negative-click="onNegativeClick"
-                    />
                 </n-button>
             </div>
         </div>
@@ -143,4 +133,16 @@ onMounted(() => {
             >
         </n-button>
     </div>
+    <n-modal
+    v-model:show="showDeleteComConfirm"
+    :mask-closable="false"
+    preset="dialog"
+    type="error"
+    title="确认删除该评论吗？"
+    content="删除后不可恢复！"
+    positive-text="确认"
+    negative-text="取消"
+    @positive-click="onPositiveClick"
+    @negative-click="onNegativeClick"
+    />
 </template>

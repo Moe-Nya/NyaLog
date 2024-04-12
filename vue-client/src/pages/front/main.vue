@@ -1,13 +1,13 @@
 <script setup>
 import { useRouter } from 'vue-router';
 import { useRoute } from 'vue-router';
-import axios from 'axios'
-import MessageAPI from '../../components/message.vue'
+import axios from 'axios';
+import MessageAPI from '../../components/message.vue';
 import errmsg from '../../modules/errmsg';
-import { useBlogSetStore } from '../../stores/blogset'
-import { usePublicUserInfoStore } from '../../stores/userpublicinfo'
-import { useNavLocationStore } from '../../stores/navlocation'
-import '../../../public/static/css/main.css'
+import { useBlogSetStore } from '../../stores/blogset';
+import { usePublicUserInfoStore } from '../../stores/userpublicinfo';
+import { useNavLocationStore } from '../../stores/navlocation';
+import '../../../public/static/css/main.css';
 import { inject, onMounted } from 'vue';
 
 const router = useRouter();
