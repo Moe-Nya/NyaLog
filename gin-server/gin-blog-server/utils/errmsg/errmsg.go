@@ -41,10 +41,11 @@ const (
 	QueryBlogSetFailed = 6003
 
 	// 文章管理
-	ArticleUpdateFailed = 7001
-	ArticleQueryFailed  = 7002
-	ArticleDeleteFailed = 7003
-	ArticleLikeFailed   = 7004
+	ArticleUpdateFailed       = 7001
+	ArticleQueryFailed        = 7002
+	ArticleDeleteFailed       = 7003
+	ArticleLikeFailed         = 7004
+	ArticleArchiveQueryFailed = 7005
 
 	// 文章分类管理
 	CatCreateFailed = 8001
@@ -125,10 +126,11 @@ var codeMsg = map[int]string{
 	QueryBlogSetFailed: "query blogset failed",
 
 	// 文章管理
-	ArticleUpdateFailed: "article update failed",
-	ArticleQueryFailed:  "article query failed",
-	ArticleDeleteFailed: "article delete failed",
-	ArticleLikeFailed:   "article like failed",
+	ArticleUpdateFailed:       "article update failed",
+	ArticleQueryFailed:        "article query failed",
+	ArticleDeleteFailed:       "article delete failed",
+	ArticleLikeFailed:         "article like failed",
+	ArticleArchiveQueryFailed: "article archive query failed",
 
 	// 文章分类管理
 	CatCreateFailed: "category create failed",

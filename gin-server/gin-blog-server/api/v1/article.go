@@ -75,6 +75,24 @@ func SeleListArticle(c *gin.Context) {
 	}
 }
 
+// 查询文章归档
+func SeleArchive(c *gin.Context) {
+	var archives []model.Archive
+	archives, err := service.SeleArchive()
+	if err != errmsg.SUCCESS {
+		c.JSON(http.StatusOK, gin.H{
+			"code":    err,
+			"message": errmsg.GetErrorMsg(err),
+		})
+	} else {
+		c.JSON(http.StatusOK, gin.H{
+			"code":     err,
+			"archives": archives,
+			"message":  "query archive success",
+		})
+	}
+}
+
 // -------------------------------------------
 // 编辑文章
 func EditArticle(c *gin.Context) {

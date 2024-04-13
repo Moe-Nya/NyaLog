@@ -104,6 +104,30 @@ func SeleListArticle(pageSize int, pageNum int) ([]Article, int, int64) {
 	return articleList, errmsg.SUCCESS, total
 }
 
+type Archive struct {
+	Year     int       `json:"year"`
+	Articles []Article `json:"articles"`
+}
+
+// 查询文章归档
+func SeleArchive() ([]Archive, int) {
+	var archives []Archive
+	var years []int
+	err := db.Table("article").Select("YEAR(created_at)").Group("YEAR(created_at)").Order("YEAR(created_at) DESC").Scan(&years).Error
+	if err != nil {
+		return archives, errmsg.ERROR
+	}
+	for i := range years {
+		var articles []Article
+		var archive Archive
+		_ = db.Table("article").Select("article.articleid, articletitle, created_at").Where("YEAR(created_at)=?", years[i]).Order("created_at DESC").Scan(&articles).Error
+		archive.Year = years[i]
+		archive.Articles = articles
+		archives = append(archives, archive)
+	}
+	return archives, errmsg.SUCCESS
+}
+
 // 编辑文章
 func ModifyArticle(data *Article) int {
 	if data.Articletitle == "" || data.Text == "" {

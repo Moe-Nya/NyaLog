@@ -39,6 +39,8 @@ func IniRouter() {
 	normalrouter.POST("/articlelist", v1.SeleListArticle)
 	// 文章设置-文章喜欢
 	normalrouter.POST("/articlelike", v1.AddLike)
+	// 文章设置-文章归档
+	normalrouter.GET("/archive", v1.SeleArchive)
 
 	// 文章分类管理
 	// 文章分类管理-查询文章分类列表

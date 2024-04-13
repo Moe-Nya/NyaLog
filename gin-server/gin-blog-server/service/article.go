@@ -124,6 +124,16 @@ func SeleListArticle(data *ArticleList) ([]model.Article, int, int64) {
 	return articleList, errmsg.SUCCESS, total
 }
 
+// 查询文章归档
+func SeleArchive() ([]model.Archive, int) {
+	var archives []model.Archive
+	archives, err := model.SeleArchive()
+	if err != errmsg.SUCCESS {
+		return archives, errmsg.ArticleArchiveQueryFailed
+	}
+	return archives, errmsg.SUCCESS
+}
+
 // 查询同cid文章列表
 func SameCidArt(cid int) ([]model.Article, int) {
 	var articleList []model.Article
