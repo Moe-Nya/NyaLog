@@ -7,8 +7,9 @@ import pinia from './modules/pinia';
 import 'vfonts/FiraCode.css';
 import naive from 'naive-ui/es/preset';
 import axios from 'axios';
+import url from '../config.json'
 
-axios.defaults.baseURL = 'http://192.168.31.145:8080/api/v1';
+axios.defaults.baseURL = url.api_url;
 axios.defaults.timeout = 30 * 1000;
 
 const app = createApp(App);
