@@ -548,6 +548,9 @@
     overflow: hidden;
     word-break: break-all;
 }
+.friendlinksbox{
+    /* background-color: red; */
+}
 @media (max-width: 1650px) {
     .headerinfo{
         width: 57%;

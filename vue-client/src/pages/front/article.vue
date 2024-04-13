@@ -39,7 +39,7 @@ let pageUrl = window.location.href;
 
 // 加载用户信息
 function loaduser() {
-    axios.get('/comment/comuserinfo', {headers: {Authorization: window.localStorage.getItem('usertoken')}}).then(res => {
+    axios.get('/comment/comuserinfo', { headers: { Authorization: window.localStorage.getItem('usertoken') } }).then(res => {
         if (res.data.code === 200) {
             username.value = res.data.userinfo.username;
             userprofile.value = res.data.userinfo.userprofile;
@@ -72,7 +72,7 @@ function loginout() {
 // 分享文章
 async function shareArticle() {
     try {
-        await navigator.clipboard.writeText('我在NyaLog发布了文章:《'+ title.value + '》，快来看看吧~  ' + pageUrl);
+        await navigator.clipboard.writeText('我在NyaLog发布了文章:《' + title.value + '》，快来看看吧~  ' + pageUrl);
         window.$message.success('复制文章地址成功');
     } catch (err) {
         window.$message.error('复制文章地址失败');
@@ -81,7 +81,7 @@ async function shareArticle() {
 
 // 喜欢文章
 function likeMe() {
-    axios.post('/articlelike', {"articleid": Number(route.params.articleid)}).then(res => {
+    axios.post('/articlelike', { "articleid": Number(route.params.articleid) }).then(res => {
         if (res.data.code === 200) {
             window.$message.success('=W=');
         } else {
@@ -94,7 +94,7 @@ function likeMe() {
 const comtext = ref('');
 const loginstatus = ref(false);
 const sendbtn = ref(true);
-watch([comtext,loginstatus], () => {
+watch([comtext, loginstatus], () => {
     if (comtext.value !== '' && loginstatus.value) {
         sendbtn.value = false;
     } else {
@@ -103,7 +103,7 @@ watch([comtext,loginstatus], () => {
 });
 function senComment() {
     window.$loadingBar.start();
-    axios.post('/comment/newcomment', {"articleid": Number(route.params.articleid), "comment": comtext.value}, {headers: {Authorization: window.localStorage.getItem('usertoken')}}).then(res => {
+    axios.post('/comment/newcomment', { "articleid": Number(route.params.articleid), "comment": comtext.value }, { headers: { Authorization: window.localStorage.getItem('usertoken') } }).then(res => {
         if (res.data.code === 200) {
             window.$loadingBar.finish();
             window.$message.success('评论发送成功~');
@@ -149,7 +149,7 @@ const comments = ref([]);
 const showaddmorebtn = ref(false);
 
 function queryComments() {
-    axios.post('/comments', {"articleid": Number(route.params.articleid), "pagesize": pagesize.value, "pagenum": pagenum.value}).then(res => {
+    axios.post('/comments', { "articleid": Number(route.params.articleid), "pagesize": pagesize.value, "pagenum": pagenum.value }).then(res => {
         if (res.data.code === 200) {
             comments.value = comments.value.concat(res.data.comments);
             if (res.data.comments.length === 0) {
@@ -169,7 +169,7 @@ function addMoreComment() {
 
 // github授权
 function github() {
-    window.open('https://github.com/login/oauth/authorize?client_id=' + client_id.client_id +'&redirect_uri=http://192.168.31.145:5173/callback' + '?article=' + articleid.value, "_self");
+    window.open('https://github.com/login/oauth/authorize?client_id=' + client_id.client_id + '&redirect_uri=http://192.168.31.145:5173/callback' + '?article=' + articleid.value, "_self");
 }
 
 // 路由定位
@@ -187,73 +187,76 @@ onMounted(() => {
 })
 </script>
 <template>
-        <div class="articleandpagetitle">
-            <div class="titlestylebox">
-                <span class="titlestyle">{{ title }}</span>
-            </div>
-            <div style="text-align: center; font-size: 16px; font-weight: 500; margin-bottom: 10px;">
-                <i class="views"></i>
-                <span style="color: #3d3d3d;"> {{ articleviews }} | </span>
-                <i class="likes"></i>
-                <span style="color: #3d3d3d;">{{ articlelikes }}</span>
-            </div>
+    <div class="articleandpagetitle">
+        <div class="titlestylebox">
+            <span class="titlestyle">{{ title }}</span>
         </div>
-        <div class="articlesummary" v-if="aisummary !== ''">
-            <i class="aiicon"></i>
-            <span style="font-size: 18px; font-weight: 700; color: #3d3d3d;"> AI文章摘要</span>
-            <p style="margin-left: 20px; margin-right: 20px; font-size: 15px; font-weight: 500; color: #3d3d3d;">{{ aisummary }}</p>
+        <div style="text-align: center; font-size: 16px; font-weight: 500; margin-bottom: 10px;">
+            <i class="views"></i>
+            <span style="color: #3d3d3d;"> {{ articleviews }} | </span>
+            <i class="likes"></i>
+            <span style="color: #3d3d3d;">{{ articlelikes }}</span>
         </div>
-        <div class="mdview">
-            <MdPreview :editorId="id" :modelValue="text" previewTheme="mdeditor" style="color: #3d3d3d;"/>
+    </div>
+    <div class="articlesummary" v-if="aisummary !== ''">
+        <i class="aiicon"></i>
+        <span style="font-size: 18px; font-weight: 700; color: #3d3d3d;"> AI文章摘要</span>
+        <p style="margin-left: 20px; margin-right: 20px; font-size: 15px; font-weight: 500; color: #3d3d3d;">{{
+            aisummary }}</p>
+    </div>
+    <div class="mdview">
+        <MdPreview :editorId="id" :modelValue="text" previewTheme="mdeditor" style="color: #3d3d3d;" />
+    </div>
+    <div class="headview">
+        <MdCatalog :editorId="id" :scrollElement="scrollElement" />
+    </div>
+    <div class="articleinfoicon">
+        <div class="likearticlebtnbox" @click="likeMe" style="margin-right: 10px;">
+            <i class="likearticlebtn"></i>
         </div>
-        <div class="headview">
-            <MdCatalog :editorId="id" :scrollElement="scrollElement"/>
+        <div class="likearticlebtnbox" @click="shareArticle">
+            <i class="share"></i>
         </div>
-        <div class="articleinfoicon">
-            <div class="likearticlebtnbox" @click="likeMe" style="margin-right: 10px;">
-                <i class="likearticlebtn"></i>
-            </div>
-            <div class="likearticlebtnbox" @click="shareArticle">
-                <i class="share"></i>
-            </div>
-        </div>
-        <hr class="hr" />
-        <div class="commentbox" v-show="showcommentbox">
-            <img v-show="showuserprofile" class="comuserprofile" :src="userprofile" />&nbsp
-            <img v-show="showgithub" @click="github" class="comuserprofile" src="../../../public/img/github.svg" />&nbsp
-            <span v-show="showusername" class="comusername">{{ username }}</span>
-            <n-button v-show="showloginout" @click="loginout" size="small" strong ghost style="margin-top: 2px; margin-left: 5px;">
+    </div>
+    <hr class="hr" />
+    <div class="commentbox" v-show="showcommentbox">
+        <img v-show="showuserprofile" class="comuserprofile" :src="userprofile" />&nbsp
+        <img v-show="showgithub" @click="github" class="comuserprofile" src="../../../public/img/github.svg" />&nbsp
+        <span v-show="showusername" class="comusername">{{ username }}</span>
+        <n-button v-show="showloginout" @click="loginout" size="small" strong ghost
+            style="margin-top: 2px; margin-left: 5px;">
             登出
-            </n-button>
-        </div>
-        <div style="display: block; width: 100%;" v-show="showcommentbox">
-            <textarea v-model="comtext" id="combox" class="comments" rows="4" cols="50" maxlength="500" placeholder="请输入评论..."></textarea>
-            <span class="comtextremain">还可输入{{ 500 - comtext.length }}个字符</span>
-            <n-button @click="senComment" :disabled="sendbtn" size="large" strong ghost class="sendcom">
-                发送
-            </n-button>
-            <div class="commentsbox">
-                <div v-for="item in comments" :key="item.comid">
-                    <div class="commentuser">
-                        <a :href="item.usersite" target="blank">
-                            <img :src="item.profilephoto" class="commentuserprofile"/>
-                        </a>
-                        <div>
-                            <a :href="item.usersite" style="color: inherit; text-decoration: none;" target="blank">
-                                <span class="commentusername">{{ item.userid }}</span>
-                            </a><br>
-                            <div class="commentusercomment">
-                                <span class="commentusercommentfont">{{ item.commenttext }}</span>
-                            </div>
+        </n-button>
+    </div>
+    <div style="display: block; width: 100%;" v-show="showcommentbox">
+        <textarea v-model="comtext" id="combox" class="comments" rows="4" cols="50" maxlength="500"
+            placeholder="请输入评论..."></textarea>
+        <span class="comtextremain">还可输入{{ 500 - comtext.length }}个字符</span>
+        <n-button @click="senComment" :disabled="sendbtn" size="large" strong ghost class="sendcom">
+            发送
+        </n-button>
+        <div class="commentsbox">
+            <div v-for="item in comments" :key="item.comid">
+                <div class="commentuser">
+                    <a :href="item.usersite" target="blank">
+                        <img :src="item.profilephoto" class="commentuserprofile" />
+                    </a>
+                    <div>
+                        <a :href="item.usersite" style="color: inherit; text-decoration: none;" target="blank">
+                            <span class="commentusername">{{ item.userid }}</span>
+                        </a><br>
+                        <div class="commentusercomment">
+                            <span class="commentusercommentfont">{{ item.commenttext }}</span>
                         </div>
                     </div>
-                    <hr class="dashed-border" />
                 </div>
-            </div>
-            <div class="addmorearticleandcommentbox">
-                <n-button strong secondary :disabled="showaddmorebtn" @click="addMoreComment" round size="large">
-                    点我查看更多~
-                </n-button>
+                <hr class="dashed-border" />
             </div>
         </div>
+        <div class="addmorearticleandcommentbox">
+            <n-button strong secondary :disabled="showaddmorebtn" @click="addMoreComment" round size="large">
+                点我查看更多~
+            </n-button>
+        </div>
+    </div>
 </template>

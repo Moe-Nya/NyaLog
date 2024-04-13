@@ -1,3 +1,5 @@
 <template>
-    这是友链
+    <div class="friendlinksbox">
+        
+    </div>
 </template>
