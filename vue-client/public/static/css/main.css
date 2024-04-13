@@ -601,6 +601,77 @@
     font-size: 14px;
     color: #636060;
 }
+.archivesbox{
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    height: auto;
+}
+.archiveslistbox{
+    width: 100%;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-bottom: 5px;
+    height: auto;
+}
+.archiveyear{
+    margin-bottom: 5px;
+}
+.archiveyeartitle{
+    font-size: 25px;
+    font-weight: bold;
+    color: #3d3d3d;
+}
+.archivesarticlebox{
+    display: flex;
+    width: 100%;
+    height: auto;
+    cursor: pointer;
+    padding-left: 5px;
+}
+.archivesarticlebox:hover{
+    background-color: #b1afaf5b;
+    border-radius: 10px;
+}
+.archivesarticlename{
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    word-break: break-all;
+    font-size: 16px;
+    font-weight: 600;
+    color: #3d3d3d;
+}
+.dot{
+    background: url("../../img/dot.svg") no-repeat;
+    background-size: 17px 17px;
+    background-position: center center;
+    height: 17px;
+    width: 17px;
+    display: inline-block;
+    position: relative;
+    top: 5px;
+}
+.archivesarticledate{
+    width: auto;
+    font-size: 16px;
+    font-weight: 600;
+    color: #3d3d3d;
+    position: absolute;
+    right: 10px;
+}
+.archivearticletitlewidth{
+    width: 85%;
+}
+.archivearticledatewidth{
+    width: 5%;
+}
+@media (max-width: 1700px) {
+    .archivearticletitlewidth{
+        width: 85%;
+    }
+}
 @media (max-width: 1650px) {
     .headerinfo{
         width: 57%;
@@ -755,6 +826,9 @@
     .articlespicbox{
         height: 320px;
     }
+    .archivearticletitlewidth{
+        width: 80%;
+    }
 }
 @media (max-width: 650px) {
     .findmebox{
@@ -821,6 +895,9 @@
     .friendlinksbox{
         width: 30.5%;
     }
+    .archivearticletitlewidth{
+        width: 75%;
+    }
 }
 @media (max-width: 500px) {
     .comments{
@@ -829,6 +906,9 @@
     .friendlinksprofile{
         height: 100px;
         width: 100px;
+    }
+    .archivearticletitlewidth{
+        width: 70%;
     }
 }
 @media (max-width: 400px) {
@@ -839,15 +919,24 @@
         height: 80px;
         width: 80px;
     }
+    .archivearticletitlewidth{
+        width: 65%;
+    }
 }
 @media (max-width: 300px) {
     .comments{
         width: 90%;
+    }
+    .archivearticletitlewidth{
+        width: 55%;
     }
 }
 @media (max-width: 260px) {
     .userprofileimgstyle{
         height: 130px;
         width: 130px;
+    }
+    .archivearticletitlewidth{
+        width: 40%;
     }
 }
