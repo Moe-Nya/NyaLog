@@ -549,7 +549,57 @@
     word-break: break-all;
 }
 .friendlinksbox{
-    /* background-color: red; */
+    margin-left: 1%;
+    margin-right: 1%;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border: 0.5px solid #bebebe3b;
+    background-color: rgba(245, 245, 245, 0.37);
+    border-radius: 10px;
+    height: auto;
+    width: 22.5%;
+}
+.friendlinksprofilebox{
+    display: flex;
+    justify-content: center; /* 水平居中 */
+    width: 100%;
+    height: auto;
+    margin-top: 15px;
+}
+.friendlinksprofile{
+    height: 120px;
+    width: 120px;
+    border-radius: 50%;
+}
+.sitesnamebox{
+    width: 100%;
+    height: auto;
+    margin-top: 5px;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    word-break: break-all;
+    text-align: center;
+}
+.sitesname{
+    font-size: 16px;
+    font-weight: bold;
+    color: #3d3d3d;
+}
+.sitesdescriptionbox{
+    width: 100%;
+    height: auto;
+    margin-top: 5px;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    word-break: break-all;
+}
+.sitesdescription{
+    font-size: 14px;
+    color: #636060;
 }
 @media (max-width: 1650px) {
     .headerinfo{
@@ -763,19 +813,41 @@
     .comments{
         width: 95%;
     }
+    .friendlinksbox{
+        width: 31%;
+    }
+}
+@media (max-width: 600px) {
+    .friendlinksbox{
+        width: 30.5%;
+    }
 }
 @media (max-width: 500px) {
     .comments{
         width: 94%;
+    }
+    .friendlinksprofile{
+        height: 100px;
+        width: 100px;
     }
 }
 @media (max-width: 400px) {
     .comments{
         width: 93%;
     }
+    .friendlinksprofile{
+        height: 80px;
+        width: 80px;
+    }
 }
 @media (max-width: 300px) {
     .comments{
         width: 90%;
+    }
+}
+@media (max-width: 260px) {
+    .userprofileimgstyle{
+        height: 130px;
+        width: 130px;
     }
 }

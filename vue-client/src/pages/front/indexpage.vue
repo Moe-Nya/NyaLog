@@ -4,6 +4,7 @@ import { useNavLocationStore } from '../../stores/navlocation'
 import formatDate from '../../modules/Time';
 import axios from 'axios';
 import { useRouter } from 'vue-router';
+import { onMounted } from 'vue';
 
 const navloc = useNavLocationStore();
 const router = useRouter();
@@ -34,7 +35,6 @@ function queryArticle() {
                     }
                     articles.value[i].cidname = cname;
                 });
-                
             }
         } else {
             window.$loadingBar.error();
