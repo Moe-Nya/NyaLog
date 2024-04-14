@@ -1,221 +1,184 @@
 <div align=center><img src="https://raw.githubusercontent.com/Moe-Nya/NyaLog/main/staticimg/NyaLog.PNG" style="height: 300px; width:320px;"></div>
 
-<h1 align="center">NyaLog开发日志</h1>
+# NyaLog
 
-> 🐱 NyaLog初步完成！
+> 🐱 MoeNya's lovely blog.
 
-#### 2024.4.13
+## 介绍
 
- 完成了友情链接、归档。
+NyaLog是一个由Golang的Gin框架和Vue.js制作的前后端分离、自适应响应式博客。作者一直以来都有一个跳出博客框架的想法，这次将它付诸现实了~
 
-*NyaLog的初步开发到今天就结束啦！*
+目前NyaLog还存在一些缺陷：如果导航栏、FindMe还不能支持自排序（在开发的时候没有想到），在未来将会对这些使用上影响体验的地方进行修改。
 
-*回顾这几个月自己感到十分开心，从一月份的看书、学习、看文档补知识点，到二月份的按照软件开发流程去做需求分析、设计文档、数据库设计文档，再到三月份的摸索一边学习一边开发。因为NyaLog同时也是我的毕业设计的原因，时间比较紧，开发过程很累，但是又收获满满，我在开发过程中尽情地发挥了自己的想象力，也学习到了很多东西。*
+[开发文档]()
 
-*在这里要感谢无私奉献、将编码当作热爱的开源社区开发者们，有你们的贡献才有了计算机相关学科、行业更美好的未来。因为用到的开源项目很多，所以不一一列举了。*
+## 使用
 
-*NyaLog的样式设计模仿了：DIYGOD的XLOG，BILIBILI，GITHUB*
+### 下载
 
-*NyaLog by Moe_Nya with ❤️*
+在package中下载对应版本。
 
-#### 2024.4.12
+### Docker运行
 
-完成了导航栏全部功能、文章浏览（包括AI摘要显示、评论功能）、页面浏览、主页。修复了已知的bug（一大堆）。
+#### MySql配置
 
-预计13号完成系统开发。
+请自行在系统中安装并且运行好MySql，并且为nyalog创建一个数据库。
 
-*累，我好累啊！身体已经快到极限了！*
+#### 后端
 
-*明天是近段时间写NyaLog的最后一天！再坚持一下！*
+首先选择一个你喜欢的路径，创建后端文件夹`yourPath/nyalog-backend`。
 
-#### 2024.4.10
+将文件包中的`gin-server`复制到`nyalog-backend`中，打开`gin-server/gin-blog-server/config/config.ini`，按照注释代码填写好相关信息。
 
-完成了header信息栏全部功能、导航栏部分功能，并且做了相应的自适应调整。
+```ini
+[System]
+# 后端访问地址
+Domain = https://yourIP:youPort
+# 密码最小长度
+PasswordMinLen = 10
+# 管理员用户入口
+AdminEntrance = admin
+# 设置GPT或者阿里千问的地址和key
+GPTURL = 
+GPTKey = 
+QWURL = 
+QWKey =
+# 设置GitHub的id和secret
+GitHubID = 
+GitHUbSecret = 
 
-*还去吃了一顿自助鱼火锅！*
+[Server]
+# debug 开发模式，release 生产模式
+AppMode = release
+# 运行端口
+HttpPort = :1400
+# 用于生成用户登录的token，随便输入即可
+JwtKey = randon
+# 管理员用户一天内最大登录次数
+LoginNum = 10
 
-如果不遇到什么较难的问题的话，估计最迟13号可以完成NyaLog的初步开发。在开发前端页面的过程中，发现了一些后端架构设计不合理的地方，在初步开发完成后将会公布这些不合理的地方并且发布后续更新情况，开发日志文档的任务也就结束了。
+[DataBase]
+# 数据库类型
+Db = mysql
+# 数据库地址
+DbHost = localhost
+# 数据库端口
+DbPort = 3306
+# 数据库用户名
+DbUser = username
+# 数据库密码
+DbPassword = userpassword
+# 数据库名称
+DbName = nyalog
 
-#### 2024.4.9
+[Email]
+# 邮箱服务器地址
+Smtphost = 
+# 邮箱服务器端口
+Smtpport = 
+# 邮箱服务器用户名和密码
+Emailusername = 
+Emailpassword = 
+```
 
-完成了导航栏管理、友链管理、滚动条样式，并且修复了已知的好多bug。
+填写好信息后回到`gin-server`中，建立名为`Dockerfile`的文本文件，并且写入以下内容：
 
-*NyaLog的后台终于完成啦！！~*
+```dockerfile
+FROM golang:1.21.6
 
-#### 2024.4.8
+RUN go env -w GO111MODULE=on
+# 如果你所在的地区是中国大陆，不妨使用中国大陆镜像源
+# RUN go env -w GOPROXY=https://goproxy.cn,https://goproxy.io,direct
 
-完成了Findme管理的全部功能和导航栏管理的部分功能，并且修复了已知的好多bug。
+WORKDIR /nyalog
+COPY . /nyalog
 
-*还去看了宫崎骏的《你想活出怎样的人生》*
+RUN go build .
 
-#### 2024.4.7
+EXPOSE 1300
 
-完成了项目的LOGO！已经展示在readme啦~
+ENTRYPOINT ["./NyaLog"]
+```
 
-完成了文章分类管理、页面管理的样式和功能，并且修复了已知bug。着为什么跑不通呢？着为什么跑通了呢？
+随后建立Docker镜像：
 
-*这两天放慢了开发节奏，身体舒服多了*
+```bash
+sudo docker build -t nyalogbackend:v1.0.1 .
+```
 
-#### 2024.4.6
+输入`sudo docker images`可以查看镜像是否建立成功。
 
-完成了后台admin的评论页面，并且修复了已知bug。
+接着运行容器：
 
-#### 2024.4.5
+```bash
+sudo docker run -ti -d --name nyalogbackend -p 1300:1300 nyalogbackend:v1.0.1
+```
 
-完成了后台admin的站点信息管理，文章信息管理功能，并且修复了已知bug。
+输入`sudo docker ps`可以查看容器是否已经运行起来。
 
-*接下来的一天要靠咖啡度日了*
+#### 前端
 
-*不过睡眠很重要！不规律的生活+熬夜会让皮肤状态变差呜呜*
+前端因为需要使用者自己去设置一些东西，比如index.html中的站点信息，github和后端接口，所以没有办法直接打包，需要自行下载node.js和npm。
 
-#### 2024.4.2
+在路径中创建`yourPath/nyalog-frontend`文件夹，将下载包中的`gin-server`复制到`nyalog-frontend`中，在`index.html`中按照自己的SEO习惯进行设置，将站点icon的静态图片资源放到`public/img`中；在`config.json`中配置好GitHub第三方登录权限的`client_id`和后端接口入口`api_url`”：
 
-完成了后台admin的用户信息维护部分功能，修复已知bug。
+```html
+<!doctype html>
+<html lang="en">
+  <head>
+    <script type="module" src="src/main.js"></script>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="img/siteicon.png" />
+    <link rel="stylesheet" href="/vue-client/public/static/css/scrollbar.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>your title</title>
+  </head>
+  <body>
+    <div id="app"></div>
+  </body>
+</html>
 
-*要累死了，从早写到晚，这几天做梦都在写代码。*
+```
 
-#### 2024.4.1
+```json
+{
+    "client_id": "your client_id",
+    "api_url": "http://localhost:8080/api/v1"
+}
+```
 
-完善了登录、注册、忘记密码功能。完成了后台admin的框架搭建和样式调整。修复交互bug若干。
+确认好设置无误，并且保证Node.js和npm安装完成：
 
-#### 2024.3.31
+执行打包命令：
 
-完成了注册页面和部分忘记密码的页面和操作逻辑。封装了error message信息。
+```bash
+npm run build
+```
 
-补充了后端代码的注释，修复了一些后端代码bug。
+打包后会新生成一个`dist`文件夹，在该文件夹同级目录下新建`Dockerfile`文本文件：
 
-#### 2024.3.30
+```dockerfile
+FROM nginx
 
-完成了登录页面的开发和footer页脚的开发。
+EXPOSE 80
 
-修复了后端结构的一些已知bug。
+COPY /dist /usr/share/nginx/html
 
-#### 2024.3.29
+ENTRYPOINT nginx -g "daemon off;"
+```
 
-花了一个月时间，基本完成了后端api的开发，开始进行前端部分的开发。
+建立前端镜像：
 
-#### 2024.3.28
+```bash
+sudo docker build -t nyalogfrontend:v1.0.1 .
+```
 
-完善系统，修复已知bug。
+使用`sudo docker images`可以查看镜像是否创建成功。
 
-#### 2024.3.26
+创建容器：
 
-修复已知bug。
+```bash
+sudo docker run -ti -d --name nyalogfrontend -p 1400:80 nyalogbackend:v1.0.1
+```
 
-#### 2024.3.25
-
-更新了友链service层以及对应的api、路由表。更新了错误信息表。
-
-修复已知bug。
-
-#### 2024.3.23
-
-补上了被遗漏的友链model层。
-
-修复已知bug。
-
-#### 2024.3.22
-
-更新了导航栏service层以及对应的api、路由表。更新了错误信息表。
-
-修复已知bug。
-
-#### 2024.3.21
-
-更新了GitHub三方登录的代码逻辑，创建了中间件，更新了service层和api、路由表。更新了错误信息表。
-
-修复已知bug。
-
-#### 2024.3.20
-
-更新了GitHub三方登录的service层和api。
-
-修复已知bug。
-
-#### 2024.3.19
-
-更新了页面、文章分类service层以及对应的api、路由表。更新了错误信息表。
-
-修复已知bug。
-
-#### 2024.3.18
-
-更新了文章service层以及对应的api、路由表。更新了错误信息表。
-
-修复已知bug。
-
-#### 2024.3.17
-
-更新了AI摘要中间件。更新了博客设置service层以及对应的api、路由表。
-
-修复已知bug。
-
-#### 2024.3.15
-
-修复已知bug。
-
-#### 2024.3.13
-
-更新用户service层以及对应的api、路由表。更新了错误信息表。
-
-更新了findme的service层以及对应的api、路由表。
-
-#### 2024.3.12
-
-更新用户service层以及对应的api、路由表。更新了错误信息表。
-
-#### 2024.3.8
-
-对数据表进行了调整，优化了中间件代码使其更好的运行。
-
-#### 2024.3.8
-
-更新了user token中间件、二维码生成中间件。开始编写service层和api层并且更新路由表。修复已知bug。
-
-#### 2024.3.7
-
-更新了2FA中间件，更新了错误信息表，修复已知bug。
-
-#### 2024.3.6
-
-修复已知bug。
-
-#### 2024.3.5
-
-编写了文章评论model层，并进行单元测试。
-
-修复已知bug。
-
-#### 2024.3.4
-
-修复已知bug。
-
-更新了大数相加算法。
-
-#### 2024.3.1
-
-编写了文章model层、用户model层、博客设置model层、文章分类model层、邮件服务model层，并且进行了单元测试，修复若干bug。
-
-对数据表进行了调整。
-
-#### 2024.2.28
-
-修复了导航栏model层的bug。
-
-编写了findme功能model层，并且进行了测试。
-
-#### 2024.2.27
-
-编写了导航栏model层，并且进行了单元测试。
-
-#### 2024.2.26
-
-编写JWT中间件，包括密码加密、token认证等功能，并且对其进行了单元测试。
-
-#### 2024.2.25
-
-安装好了各种各样的包~并且开始编写model层。
-
-#### 2024.2.19
-
-创建仓库！（马上写完了->创建文件夹。
+使用`sudo docker ps`可以查看容器是否成功创建并运行。
