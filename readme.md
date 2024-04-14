@@ -216,7 +216,7 @@ sudo docker build -t nyalogfrontend:v1.0.1 .
 创建容器：
 
 ```bash
-sudo docker run -ti -d --name nyalogfrontend -p 1400:80 nyalogbackend:v1.0.1
+sudo docker run -ti -d --name nyalogfrontend -p 1400:80 nyalogfrontend:v1.0.1
 ```
 
 使用`sudo docker ps`可以查看容器是否成功创建并运行。
