@@ -2,8 +2,8 @@ package utils
 
 import (
 	"fmt"
-
 	"gopkg.in/ini.v1"
+	"os"
 )
 
 var (
@@ -40,7 +40,11 @@ var (
 )
 
 func init() {
-	file, err := ini.Load("gin-blog-server/config/config.ini")
+	configPath := "gin-blog-server/config/config.ini"
+	if configPathEnv := os.Getenv("CONFIG_PATH"); configPathEnv != "" {
+		configPath = configPathEnv
+	}
+	file, err := ini.Load(configPath)
 	if err != nil {
 		fmt.Println("Configration file loading failed.")
 	}

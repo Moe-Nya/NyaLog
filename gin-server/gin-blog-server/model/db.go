@@ -3,11 +3,11 @@ package model
 import (
 	"NyaLog/gin-blog-server/utils"
 	"fmt"
+	"gorm.io/driver/mysql"
 	"os"
 	"strconv"
 	"time"
 
-	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
 	"gorm.io/gorm/schema"
@@ -19,10 +19,17 @@ var err error
 func InitDb() {
 	// %s是占位符 分别代表用户名、密码、地址、端口、数据库名
 	// 将数据引入，自动填充占位符
+
+	dbHost := utils.DbHost
+	// read database host from environment
+	if mysqlHost := os.Getenv("MYSQL_HOST"); mysqlHost != "" {
+		dbHost = mysqlHost
+	}
+
 	dbInfo := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8mb4&parseTime=True&loc=Local",
 		utils.DbUser,
 		utils.DbPassword,
-		utils.DbHost,
+		dbHost,
 		strconv.Itoa(utils.DbPort),
 		utils.DbName,
 	)
