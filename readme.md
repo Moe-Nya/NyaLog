@@ -24,6 +24,42 @@ NyaLog是一个由Golang的Gin框架和Vue.js制作的前后端分离、自适�
 
 请自行在系统中安装并且运行好MySql，并且为nyalog创建一个数据库。
 
+这里以Ubuntu为例，安装MySQL：
+
+```bash
+sudo apt-get install mysql-server
+```
+
+接下来初始化MySQL：
+
+```bash
+sudo mysql_secure_installation
+```
+
+选择：1. 不进行密码强校验 2.删除匿名用户 3. 删除测试数据库。
+
+检查数据库状态：
+
+```bash
+systemctl status mysql.service
+```
+
+此时数据库的用户名root，密码为空，直接进入数据库修改密码：
+
+```bash
+sudo mysql -uroot -p
+```
+
+当提示输入密码的时候直接回车。
+
+修改密码：
+
+```mysql
+ALTER USER ‘root’@‘localhost’ IDENTIFIED BY ‘密码’ PASSWORD EXPIRE NEVER;
+```
+
+最后进入数据库为NyaLog创建一个数据库。
+
 #### 后端
 
 首先选择一个你喜欢的路径，创建后端文件夹`yourPath/nyalog-backend`。
@@ -148,6 +184,8 @@ sudo docker run -ti -d --name nyalogbackend -p 1300:1300 nyalogbackend:v1.0.1
 ```
 
 确认好设置无误，并且保证Node.js和npm安装完成：
+
+<span style="color: red">**Node.js版本不低于v18.17.1！**</span>
 
 执行打包命令：
 
