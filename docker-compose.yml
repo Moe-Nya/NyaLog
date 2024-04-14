@@ -1,0 +1,38 @@
+version: "3.8"
+
+services:
+  nyalog-mysql:
+    container_name: nyalog-mysql
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_DATABASE: nyalog
+      MYSQL_USER: nyalog
+      MYSQL_PASSWORD: nyalog
+      MYSQL_ROOT_PASSWORD: nyalog
+      # 酌情使用
+      # MYSQL_ALLOW_EMPTY_PASSWORD: true
+
+  nyalog-server:
+    container_name: nyalog-server
+    depends_on:
+      - nyalog-mysql
+    build:
+      context: ./gin-server
+      dockerfile: Dockerfile
+    volumes:
+      - ./gin-server/gin-blog-server/config:/app/config
+    environment:
+      - CONFIG_PATH=/app/config/config.ini
+      - MYSQL_HOST=nyalog-mysql
+    ports:
+      - "8080:8080"
+
+  nyalog-web:
+    container_name: nyalog-web
+    build:
+      context: ./vue-client
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
