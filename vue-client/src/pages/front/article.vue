@@ -171,15 +171,7 @@ function github() {
     window.open('https://github.com/login/oauth/authorize?client_id=' + client_id.client_id + '&redirect_uri=' + client_id.domain + '/callback' + '?article=' + route.params.articleid, "_self");
 }
 
-// 路由定位
-function loadRouter() {
-    const pathname = window.location.pathname;
-    let suffix = pathname.substring(1); // 去除路径开头的斜杠
-    sessionStorage.setItem('nav', suffix);
-}
-
 onMounted(() => {
-    loadRouter();
     queryArticle();
     loaduser();
     queryComments();

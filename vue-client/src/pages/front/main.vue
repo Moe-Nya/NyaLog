@@ -48,15 +48,13 @@ function selectNavItem(item) {
     const absolutePath = route.replace(/\/article/, '');
     router.push(absolutePath);
     activeItemId.value = item.navurl;
-    sessionStorage.setItem('nav', item.navurl);
+    console.log(activeItemId.value)
 }
 function loadNavLocation() {
     const pathname = window.location.pathname;
     let suffix = pathname.substring(1);
-    if (suffix === '') {
-        suffix = '/';
-    }
-    activeItemId.value = suffix;
+    activeItemId.value = '/' + suffix;
+    console.log(activeItemId.value)
 }
 
 // 搜索框

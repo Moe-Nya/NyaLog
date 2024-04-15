@@ -9,12 +9,6 @@ import { useRoute } from 'vue-router';
 const router = useRouter();
 const route = useRoute();
 
-// 路由定位
-function loadRouter() {
-    let pathname = window.location.pathname;
-    let suffix = pathname.substring(1); // 去除路径开头的斜杠
-    sessionStorage.setItem('nav', suffix);
-}
 // 确认code是否存在并且执行后续操作
 function checkCode() {
     let code = route.query.code;
@@ -32,7 +26,6 @@ function checkCode() {
 }
 
 onMounted(() => {
-    loadRouter();
     checkCode();
 })
 </script>

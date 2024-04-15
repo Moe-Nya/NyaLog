@@ -53,17 +53,7 @@ function addMoreArticleBtn() {
     queryArticle();
 }
 
-function loadRouter() {
-    const pathname = window.location.pathname;
-    let suffix = pathname.substring(1);
-    if (suffix === '') {
-        suffix = '/';
-    }
-    sessionStorage.setItem('nav', suffix);
-}
-
 onMounted(() => {
-    loadRouter();
     queryArticle();
 })
 </script>

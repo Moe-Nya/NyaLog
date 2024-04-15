@@ -28,15 +28,7 @@ function queryPage() {
     });
 }
 
-// 路由定位
-function loadRouter() {
-    const pathname = window.location.pathname;
-    let suffix = pathname.substring(1); // 去除路径开头的斜杠
-    sessionStorage.setItem('nav', suffix);
-}
-
 onMounted(() => {
-    loadRouter();
     queryPage();
 })
 </script>
