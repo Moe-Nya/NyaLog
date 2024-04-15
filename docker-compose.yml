@@ -4,6 +4,8 @@ services:
     image: mysql
     command: --default-authentication-plugin=mysql_native_password
     restart: always
+    volumes:
+      - ./mysql/data:/var/lib/mysql
     environment:
       MYSQL_DATABASE: nyalog
       MYSQL_USER: nyalog

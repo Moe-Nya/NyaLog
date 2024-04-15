@@ -4,6 +4,8 @@ WORKDIR /app
 
 ENV GOPROXY https://goproxy.cn,direct
 
+EXPOSE 1300
+
 COPY . /app
 
 RUN go mod download
