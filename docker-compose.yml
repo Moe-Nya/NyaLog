@@ -1,5 +1,3 @@
-version: "3.8"
-
 services:
   nyalog-mysql:
     container_name: nyalog-mysql
@@ -9,6 +7,7 @@ services:
     environment:
       MYSQL_DATABASE: nyalog
       MYSQL_USER: nyalog
+      # 自定义数据库用户密码
       MYSQL_PASSWORD: nyalog
       MYSQL_ROOT_PASSWORD: nyalog
       # 酌情使用
@@ -27,7 +26,7 @@ services:
       - CONFIG_PATH=/app/config/config.ini
       - MYSQL_HOST=nyalog-mysql
     ports:
-      - "8080:8080"
+      - "1300:1300"
 
   nyalog-web:
     container_name: nyalog-web
@@ -35,4 +34,4 @@ services:
       context: ./vue-client
       dockerfile: Dockerfile
     ports:
-      - "80:80"
+      - "1400:80"

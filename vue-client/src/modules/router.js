@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router"
 
 const router = createRouter({
+    history: createWebHistory(),
     routes: [
         {
             path:'/registe',
@@ -45,7 +46,6 @@ const router = createRouter({
             ]
         }
     ],
-    history: createWebHistory()
 })
 
 // 三个传入参数，你去哪里，你从哪来，next
