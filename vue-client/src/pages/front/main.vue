@@ -29,7 +29,7 @@ function queryFindMe() {
 }
 // findme图标错误
 function findmeIconErr(item) {
-    item.icon = '../../public/img/nullicon.svg';
+    item.icon = '/img/nullicon.svg';
 }
 
 // 加载导航栏
@@ -96,7 +96,7 @@ onMounted(() => {
                                 <span class="usernameinfo">{{ userinfo.data.username }}</span>
                             </div>
                             <div class="search" @click="search">
-                                <img src="../../../public/img/search.svg" style="height: 25px; width: 25px;"/>
+                                <img src="/img/search.svg" style="height: 25px; width: 25px;"/>
                             </div>
                         </div>
                         <div class="userdescriptionbox">
