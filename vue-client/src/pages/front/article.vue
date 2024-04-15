@@ -221,7 +221,7 @@ onMounted(() => {
     <hr class="hr" />
     <div class="commentbox" v-show="showcommentbox">
         <img v-show="showuserprofile" class="comuserprofile" :src="userprofile" />&nbsp
-        <img v-show="showgithub" @click="github" class="comuserprofile" src="../../../public/img/github.svg" />&nbsp
+        <img v-show="showgithub" @click="github" class="comuserprofile" src="/img/github.svg" />&nbsp
         <span v-show="showusername" class="comusername">{{ username }}</span>
         <n-button v-show="showloginout" @click="loginout" size="small" strong ghost
             style="margin-top: 2px; margin-left: 5px;">

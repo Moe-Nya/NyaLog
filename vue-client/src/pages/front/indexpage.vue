@@ -16,7 +16,7 @@ const totalarticle = ref(0);
 const remainarticle = ref(0);
 // 文章信息
 const articles = ref([]);
-const errimg = ref('../../../public/img/defaultarticleimg.svg');
+const errimg = ref('/img/defaultarticleimg.svg');
 
 // 请求文章
 function queryArticle() {

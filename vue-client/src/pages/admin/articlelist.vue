@@ -14,7 +14,7 @@ const totalpages = ref(0);
 const remainpages = ref(0);
 // 文章信息
 const articles = ref([]);
-const errimg = '../../../public/img/defaultarticleimg.svg';
+const errimg = '/img/defaultarticleimg.svg';
 
 // 请求文章
 function queryArticle() {

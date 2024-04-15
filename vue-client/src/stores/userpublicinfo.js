@@ -5,7 +5,7 @@ import axios from 'axios'
 export const usePublicUserInfoStore = defineStore('userinfo', () => {
     const data = reactive({
         username: "一个神秘用户",
-        profilephoto: "../../public/img/userprofile.png",
+        profilephoto: "/img/userprofile.png",
         email: "",
         slogan: ""
     })

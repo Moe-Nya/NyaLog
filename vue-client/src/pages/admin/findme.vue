@@ -12,7 +12,7 @@ const iconurl = ref('');
 const offsiteurl = ref('');
 const offsitename = ref('');
 const description = ref('');
-const previewicon = ref('../../public/img/nullicon.svg');
+const previewicon = ref('/img/nullicon.svg');
 const addfindmebtn = ref(true);
 watch([iconurl, offsiteurl], () => {
     addfindmebtn.value = ![iconurl.value, offsiteurl.value].every(value => value !== '');
@@ -21,11 +21,11 @@ watch([iconurl], () => {
     if (iconurl.value !== '') {
         previewicon.value = iconurl.value;
     } else {
-        previewicon.value = '../../public/img/nullicon.svg';
+        previewicon.value = '/img/nullicon.svg';
     }
 });
 function previewiconerr() {
-    previewicon.value = '../../public/img/nullicon.svg';
+    previewicon.value = '/img/nullicon.svg';
 }
 function addFindMe() {
     window.$loadingBar.start();
@@ -93,7 +93,7 @@ function queryFindMe() {
     });
 }
 function previewIconEditErr(item) {
-    item.icon = '../../public/img/nullicon.svg';
+    item.icon = '/img/nullicon.svg';
 }
 function updateSrc(item) {
     item.icon = item.tmp;

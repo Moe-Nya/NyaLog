@@ -12,7 +12,7 @@ const totalfriendlink = ref(0);
 const remainfriendlink = ref(0);
 // 文章信息
 const friendlinks = ref([]);
-const errimg = ref('../../../public/img/userprofile.png');
+const errimg = ref('/img/userprofile.png');
 
 // 加载友链
 function queryFriendLink() {

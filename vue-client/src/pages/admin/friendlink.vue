@@ -46,7 +46,7 @@ function friendLinkEditor(item) {
         friendname.value = item.friendname;
         friendsite.value = item.friendsite;
         friendprofile.value = item.friendprofile;
-        if (friendprofile.value === '../../../public/img/userprofile.png') friendprofile.value = '';
+        if (friendprofile.value === '/img/userprofile.png') friendprofile.value = '';
         frienddescription.value = item.frienddescription;
         editorswitch.value = true;
     }
@@ -119,7 +119,7 @@ watch([friendname, friendsite, friendprofile, frienddescription], () => {
 
 // 错误头像
 function errorFirendProfile(item) {
-    item.friendprofile = '../../../public/img/userprofile.png'
+    item.friendprofile = '/img/userprofile.png'
 }
 
 // 加载更多友链
@@ -223,7 +223,7 @@ onMounted(() => {
         <div class="friendlinkbox" @click="friendLinkEditor" style="cursor: pointer;">
             <div class="friendlinkcard">
                 <div style="margin-top: 40px;">
-                    <img src="../../../public/img/add.svg" style="height:140px; width: 140px;" />
+                    <img src="/img/add.svg" style="height:140px; width: 140px;" />
                 </div>
             </div>
         </div>
