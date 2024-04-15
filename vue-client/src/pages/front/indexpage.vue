@@ -1,13 +1,10 @@
 <script setup>
 import { defineEmits } from 'vue';
-import { useNavLocationStore } from '../../stores/navlocation'
 import formatDate from '../../modules/Time';
 import axios from 'axios';
 import { useRouter } from 'vue-router';
 import { onMounted } from 'vue';
 
-const navlocstore = useNavLocationStore();
-const { navloc } = storeToRefs(navlocstore);
 const router = useRouter();
 
 // 页面信息
@@ -62,7 +59,7 @@ function loadRouter() {
     if (suffix === '') {
         suffix = '/';
     }
-    navlocstore.changeStatus(suffix);
+    sessionStorage.setItem('nav', suffix);
 }
 
 onMounted(() => {

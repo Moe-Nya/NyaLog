@@ -1,10 +1,6 @@
 <script setup>
 import axios from 'axios';
 import { onMounted } from 'vue';
-import { useNavLocationStore } from '../../stores/navlocation'
-
-const navlocstore = useNavLocationStore();
-const { navloc } = storeToRefs(navlocstore);
 
 // 页面信息
 const pagesize = ref(12);
@@ -45,7 +41,7 @@ function loadRouter() {
     if (suffix === '') {
         suffix = '/';
     }
-    navlocstore.changeStatus(suffix);
+    sessionStorage.setItem('nav', suffix);
 }
 
 onMounted(() => {

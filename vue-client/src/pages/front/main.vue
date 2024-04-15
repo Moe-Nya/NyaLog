@@ -6,7 +6,6 @@ import MessageAPI from '../../components/message.vue';
 import errmsg from '../../modules/errmsg';
 import { useBlogSetStore } from '../../stores/blogset';
 import { usePublicUserInfoStore } from '../../stores/userpublicinfo';
-import { useNavLocationStore } from '../../stores/navlocation';
 import '../../../public/static/css/main.css';
 import { inject, onMounted } from 'vue';
 
@@ -14,8 +13,6 @@ const router = useRouter();
 const route = useRoute();
 const blogset = useBlogSetStore();
 const userinfo = usePublicUserInfoStore();
-const navlocstore = useNavLocationStore();
-const { navloc } = storeToRefs(navlocstore);
 
 // 加载findme
 const findmes = ref([]);
@@ -53,7 +50,7 @@ function selectNavItem(item) {
     activeItemId.value = item.navurl;
 }
 function loadNavLocation() {
-    activeItemId.value = navloc.value;
+    activeItemId.value = sessionStorage.getItem('nav');
 }
 
 // 搜索框

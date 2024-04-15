@@ -910,6 +910,10 @@
     .archivearticletitlewidth{
         width: 70%;
     }
+    .userprofileimgstyle{
+        height: 130px;
+        width: 130px;
+    }
 }
 @media (max-width: 400px) {
     .comments{
@@ -922,6 +926,10 @@
     .archivearticletitlewidth{
         width: 65%;
     }
+    .userprofileimgstyle{
+        height: 110px;
+        width: 110px;
+    }
 }
 @media (max-width: 300px) {
     .comments{
@@ -933,8 +941,8 @@
 }
 @media (max-width: 260px) {
     .userprofileimgstyle{
-        height: 130px;
-        width: 130px;
+        height: 100px;
+        width: 100px;
     }
     .archivearticletitlewidth{
         width: 40%;

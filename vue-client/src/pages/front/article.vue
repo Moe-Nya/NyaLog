@@ -2,7 +2,6 @@
 import { defineEmits, onMounted, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import { useRoute } from 'vue-router';
-import { useNavLocationStore } from '../../stores/navlocation'
 import { MdPreview, MdCatalog } from 'md-editor-v3';
 import 'md-editor-v3/lib/preview.css';
 import axios from 'axios';
@@ -10,10 +9,9 @@ import errmsg from '../../modules/errmsg';
 import MessageAPI from '../../components/message.vue'
 import client_id from '../../../config.json'
 
-const navlocstore = useNavLocationStore();
-const { navloc } = storeToRefs(navlocstore);
 const router = useRouter();
 const route = useRoute();
+
 // 文章信息
 const id = 'preview-only';
 const articleid = ref(-1);
@@ -122,7 +120,7 @@ function senComment() {
 // 页面内容加载
 function queryArticle() {
     window.$loadingBar.start();
-    axios.get(`${navloc.value}`).then(res => {
+    axios.get(`/article/${route.params.articleid}`).then(res => {
         if (res.data.code === 200) {
             window.$loadingBar.finish();
             articleid.value = res.data.article.articleid;
@@ -177,7 +175,7 @@ function github() {
 function loadRouter() {
     const pathname = window.location.pathname;
     let suffix = pathname.substring(1); // 去除路径开头的斜杠
-    navlocstore.changeStatus(suffix);
+    sessionStorage.setItem('nav', suffix);
 }
 
 onMounted(() => {
