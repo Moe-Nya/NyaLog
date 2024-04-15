@@ -48,6 +48,7 @@ function selectNavItem(item) {
     const absolutePath = route.replace(/\/article/, '');
     router.push(absolutePath);
     activeItemId.value = item.navurl;
+    sessionStorage.setItem('nav', item.navurl);
 }
 function loadNavLocation() {
     activeItemId.value = sessionStorage.getItem('nav');
