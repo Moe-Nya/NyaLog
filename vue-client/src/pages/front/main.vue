@@ -14,7 +14,8 @@ const router = useRouter();
 const route = useRoute();
 const blogset = useBlogSetStore();
 const userinfo = usePublicUserInfoStore();
-const navloc = useNavLocationStore();
+const navlocstore = useNavLocationStore();
+const { navloc } = storeToRefs(navlocstore);
 
 // 加载findme
 const findmes = ref([]);
@@ -52,7 +53,7 @@ function selectNavItem(item) {
     activeItemId.value = item.navurl;
 }
 function loadNavLocation() {
-    activeItemId.value = navloc.navloc;
+    activeItemId.value = navloc.value;
 }
 
 // 搜索框

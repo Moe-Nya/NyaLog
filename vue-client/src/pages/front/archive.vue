@@ -1,5 +1,6 @@
 <script setup>
 import { defineEmits } from 'vue';
+import { storeToRefs } from "pinia";
 import { useNavLocationStore } from '../../stores/navlocation'
 import axios from 'axios';
 import { useRouter } from 'vue-router';
@@ -7,7 +8,9 @@ import errmsg from '../../modules/errmsg';
 import MessageAPI from '../../components/message.vue'
 import formatDate from '../../modules/Time';
 
-const navloc = useNavLocationStore();
+const navlocstore = useNavLocationStore();
+const { navloc } = storeToRefs(navlocstore);
+
 const router = useRouter();
 
 // 查询归档
@@ -33,7 +36,7 @@ function archiveClick(aid) {
 function loadRouter() {
     const pathname = window.location.pathname;
     let suffix = pathname.substring(1); // 去除路径开头的斜杠
-    navloc.navloc = suffix;
+    navlocstore.changeStatus(suffix);
 }
 
 onMounted(() => {

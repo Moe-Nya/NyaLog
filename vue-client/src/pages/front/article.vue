@@ -10,7 +10,8 @@ import errmsg from '../../modules/errmsg';
 import MessageAPI from '../../components/message.vue'
 import client_id from '../../../config.json'
 
-const navloc = useNavLocationStore();
+const navlocstore = useNavLocationStore();
+const { navloc } = storeToRefs(navlocstore);
 const router = useRouter();
 const route = useRoute();
 // 文章信息
@@ -121,7 +122,7 @@ function senComment() {
 // 页面内容加载
 function queryArticle() {
     window.$loadingBar.start();
-    axios.get(`${navloc.navloc}`).then(res => {
+    axios.get(`${navloc.value}`).then(res => {
         if (res.data.code === 200) {
             window.$loadingBar.finish();
             articleid.value = res.data.article.articleid;
@@ -169,14 +170,14 @@ function addMoreComment() {
 
 // github授权
 function github() {
-    window.open('https://github.com/login/oauth/authorize?client_id=' + client_id.client_id + '&redirect_uri=' + client_id.domain + '/callback' + '?article=' + articleid.value, "_self");
+    window.open('https://github.com/login/oauth/authorize?client_id=' + client_id.client_id + '&redirect_uri=' + client_id.domain + '/callback' + '?article=' + route.params.articleid, "_self");
 }
 
 // 路由定位
 function loadRouter() {
     const pathname = window.location.pathname;
     let suffix = pathname.substring(1); // 去除路径开头的斜杠
-    navloc.navloc = suffix;
+    navlocstore.changeStatus(suffix);
 }
 
 onMounted(() => {

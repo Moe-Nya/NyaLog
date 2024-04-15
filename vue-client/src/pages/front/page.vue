@@ -6,7 +6,8 @@ import 'md-editor-v3/lib/preview.css';
 import axios from 'axios';
 import errmsg from '../../modules/errmsg';
 
-const navloc = useNavLocationStore();
+const navlocstore = useNavLocationStore();
+const { navloc } = storeToRefs(navlocstore);
 
 const id = 'preview-only';
 const title = ref('')
@@ -16,7 +17,7 @@ const scrollElement = document.documentElement;
 // 页面内容加载
 function queryPage() {
     window.$loadingBar.start();
-    axios.get(`/${navloc.navloc}`).then(res => {
+    axios.get(`/${navloc.value}`).then(res => {
         if (res.data.code === 200) {
             window.$loadingBar.finish();
             text.value = res.data.page.pcontent;
@@ -32,7 +33,7 @@ function queryPage() {
 function loadRouter() {
     const pathname = window.location.pathname;
     let suffix = pathname.substring(1); // 去除路径开头的斜杠
-    navloc.navloc = suffix;
+    navlocstore.changeStatus(suffix);
 }
 
 onMounted(() => {

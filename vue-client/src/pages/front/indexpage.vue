@@ -6,7 +6,8 @@ import axios from 'axios';
 import { useRouter } from 'vue-router';
 import { onMounted } from 'vue';
 
-const navloc = useNavLocationStore();
+const navlocstore = useNavLocationStore();
+const { navloc } = storeToRefs(navlocstore);
 const router = useRouter();
 
 // 页面信息
@@ -61,7 +62,7 @@ function loadRouter() {
     if (suffix === '') {
         suffix = '/';
     }
-    navloc.navloc = suffix;
+    navlocstore.changeStatus(suffix);
 }
 
 onMounted(() => {

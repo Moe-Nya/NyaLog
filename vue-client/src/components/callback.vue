@@ -22,14 +22,14 @@ function loadRouter() {
 function checkCode() {
     let code = route.query.code;
     if (code === undefined) {
-        router.push(`/article/${route.query.article}?position=1`);
+        router.push(`/article/${route.query.article}?position=0`);
     }
     axios.get('/githuboauthcode', {params: {"code": code}}).then(res => {
         if (res.data.code === 200) {
             window.localStorage.setItem('usertoken', res.data.token);
             router.push(`/article/${route.query.article}?position=1`);
         } else {
-            router.push(`/article/${route.query.article}?position=1`);
+            router.push(`/article/${route.query.article}?position=0`);
         }
     })
 }
