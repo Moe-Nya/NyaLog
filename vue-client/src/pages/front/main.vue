@@ -51,7 +51,12 @@ function selectNavItem(item) {
     sessionStorage.setItem('nav', item.navurl);
 }
 function loadNavLocation() {
-    activeItemId.value = sessionStorage.getItem('nav');
+    const pathname = window.location.pathname;
+    let suffix = pathname.substring(1);
+    if (suffix === '') {
+        suffix = '/';
+    }
+    activeItemId.value = suffix;
 }
 
 // 搜索框
