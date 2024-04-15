@@ -185,6 +185,7 @@ COPY --from=builder /app/nginx /etc/nginx/conf.d
 
 ```json
 {
+    "domain": "设置你的域名 如https://moenya.cat",
     "client_id": "设置你的github client-id",
     "api_url": "/api/v1"
 }

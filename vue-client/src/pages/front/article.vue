@@ -169,7 +169,7 @@ function addMoreComment() {
 
 // github授权
 function github() {
-    window.open('https://github.com/login/oauth/authorize?client_id=' + client_id.client_id + '&redirect_uri=http://192.168.31.145:5173/callback' + '?article=' + articleid.value, "_self");
+    window.open('https://github.com/login/oauth/authorize?client_id=' + client_id.client_id + '&redirect_uri=' + client_id.domain + '/callback' + '?article=' + articleid.value, "_self");
 }
 
 // 路由定位
