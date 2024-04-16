@@ -115,14 +115,14 @@
 /*自适应样式*/
 @media (max-width: 740px) {
     .loginbox{
-        width: 100%;
+        width: 95%;
+        margin-right: 2.5%;
     }
 }
 
 @media (max-width: 740px) {
     .login-card{
         width : 97%;
-        margin-left: 1%;
-        margin-right: 2%;
+        margin-right: 1.5%;
     }
 }

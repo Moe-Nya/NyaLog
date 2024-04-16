@@ -221,7 +221,7 @@ onMounted(() => {
     </div>
     <div style="display: block; width: 100%;" v-show="showcommentbox">
         <textarea v-model="comtext" id="combox" class="comments" rows="4" cols="50" maxlength="500"
-            placeholder="请输入评论..."></textarea>
+            placeholder="请输入评论..."></textarea><br />
         <span class="comtextremain">还可输入{{ 500 - comtext.length }}个字符</span>
         <n-button @click="senComment" :disabled="sendbtn" size="large" strong ghost class="sendcom">
             发送

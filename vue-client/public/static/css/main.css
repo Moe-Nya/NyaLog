@@ -243,6 +243,8 @@
     height: auto;
 }
 .titlestyle{
+    margin-left: 1%;
+    margin-right: 1%;
     display: -webkit-box;
     -webkit-box-orient: vertical;
     word-break: break-all;
@@ -789,6 +791,11 @@
     .articles{
         width: 47.5%;
     }
+    .commentsbox{
+        margin-left: 2%;
+        margin-left: 2%;
+        width: 95.5%;
+    }
 }
 @media (max-width: 1000px) {
     .headerinfo{
@@ -801,23 +808,46 @@
         width: 100%;
     }
     .navigation1{
-        left: 1%;
-        right: 1%;
-        width: 98%;
+        left: 5%;
+        right: 5%;
+        width: 90%;
     }
     .sendcom{
         margin-right: 10px;
     }
     .comments{
-        width: 97%;
+        margin-left: 1.5%;
+        width: 94%;
     }
     .commentbox{
-        margin-left: 10px;
+        margin-left: 2%;
+    }
+    .comtextremain{
+        margin-left: 2%;
+    }
+    .titlestyle{
+        margin-left: 3%;
+        margin-right: 3%;
+    }
+    .articlesummary{
+        width: 96%;
+        margin-left: 2%;
+        margin-right: 2%;
+    }
+    .mdview{
+        width: 96%;
+        margin-left: 2%;
+        margin-right: 2%;
+    }
+    .articlesbox{
+        margin-left: 1.5%;
+        width: 97%;
     }
 }
 @media (max-width: 800px) {
     .comments{
-        width: 96%;
+        margin-left: 2%;
+        width: 92%;
     }
     .articles{
         height: 490px;
@@ -828,6 +858,9 @@
     }
     .archivearticletitlewidth{
         width: 80%;
+    }
+    .comtextremain{
+        margin-left: 2%;
     }
 }
 @media (max-width: 650px) {
@@ -885,23 +918,51 @@
         width: 100%;
     }
     .comments{
-        width: 95%;
+        margin-left: 3%;
+        width: 90%;
+    }
+    .comtextremain{
+        margin-left: 3%;
     }
     .friendlinksbox{
-        width: 31%;
+        width: 30.5%;
+    }
+    .articlesummary{
+        width: 94%;
+        margin-left: 3%;
+        margin-right: 3%;
+    }
+    .mdview{
+        width: 94%;
+        margin-left: 3%;
+        margin-right: 3%;
     }
 }
 @media (max-width: 600px) {
     .friendlinksbox{
-        width: 30.5%;
+        width: 30%;
     }
     .archivearticletitlewidth{
         width: 75%;
     }
+    .comments{
+        width: 89%;
+    }
+    .commentbox{
+        margin-left: 4%;
+    }
+    .articlesbox{
+        margin-left: 2%;
+        width: 96%;
+    }
 }
 @media (max-width: 500px) {
     .comments{
-        width: 94%;
+        margin-left: 4%;
+        width: 87%;
+    }
+    .comtextremain{
+        margin-left: 4%;
     }
     .friendlinksprofile{
         height: 100px;
@@ -916,9 +977,6 @@
     }
 }
 @media (max-width: 400px) {
-    .comments{
-        width: 93%;
-    }
     .friendlinksprofile{
         height: 80px;
         width: 80px;
@@ -930,13 +988,30 @@
         height: 110px;
         width: 110px;
     }
+    .comments{
+        margin-left: 5%;
+        width: 85%;
+    }
+    .comtextremain{
+        margin-left: 5%;
+    }
+    .articlesbox{
+        margin-left: 2.5%;
+        width: 95%;
+    }
+}
+@media (max-width: 350px) {
+    .comments{
+        width: 84%;
+    }
 }
 @media (max-width: 300px) {
-    .comments{
-        width: 90%;
-    }
     .archivearticletitlewidth{
         width: 55%;
+    }
+    .friendlinksprofile{
+        height: 50px;
+        width: 50px;
     }
 }
 @media (max-width: 260px) {
@@ -946,5 +1021,9 @@
     }
     .archivearticletitlewidth{
         width: 40%;
+    }
+    .comments{
+        margin-left: 5%;
+        width: 80%;
     }
 }
