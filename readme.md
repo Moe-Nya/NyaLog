@@ -11,6 +11,9 @@ NyaLog是一个由Golang的Gin框架和Vue.js制作的前后端分离、自适�
 目前NyaLog还存在一些缺陷：如果导航栏、FindMe还不能支持自排序（在开发的时候没有想到），在未来将会对这些使用上影响体验的地方进行修改。
 
 [开发文档](https://github.com/Moe-Nya/NyaLog/blob/main/document/readme.md)
+<div align=center><img src="https://raw.githubusercontent.com/Moe-Nya/NyaLog/main/staticimg/main page pc.png""></div>
+
+<div align=center><img src="https://raw.githubusercontent.com/Moe-Nya/NyaLog/main/staticimg/main page phone.png"></div>
 
 ## 部署NyaLog
 
