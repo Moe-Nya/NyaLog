@@ -230,3 +230,9 @@ sudo docker compose up -d
 ### 关于数据库备份
 
 NyaLog将会在`nyalog-docker-compose`目录下生成一个`mysql`文件夹，可以自行备份。
+
+## 使用
+
+在NyaLog的初始页面，导航栏里什么都没有，此时可以按照下图的方式添加三个固定导航栏：
+
+<div align=center><img src="https://raw.githubusercontent.com/Moe-Nya/NyaLog/main/staticimg/Static nav use.png""></div>
