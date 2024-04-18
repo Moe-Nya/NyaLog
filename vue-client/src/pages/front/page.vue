@@ -5,6 +5,14 @@ import { MdPreview, MdCatalog } from 'md-editor-v3';
 import 'md-editor-v3/lib/preview.css';
 import axios from 'axios';
 import errmsg from '../../modules/errmsg';
+import { config } from 'md-editor-v3';
+import ImageFiguresPlugin from '../../modules/markdown-it-image-figures.js';
+
+config({
+  markdownItConfig: (mdit) => {
+    mdit.use(ImageFiguresPlugin, { figcaption: true });
+  },
+});
 
 const route = useRoute();
 

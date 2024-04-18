@@ -7,6 +7,14 @@ import MessageAPI from '../../components/message.vue'
 import axios from 'axios'
 import errmsg from '../../modules/errmsg';
 import { watch } from 'vue';
+import { config } from 'md-editor-v3';
+import ImageFiguresPlugin from '../../modules/markdown-it-image-figures.js';
+
+config({
+  markdownItConfig: (mdit) => {
+    mdit.use(ImageFiguresPlugin, { figcaption: true });
+  },
+});
 
 const router = useRouter();
 const route = useRoute();
