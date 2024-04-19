@@ -123,20 +123,12 @@
     display: flex;
     flex-wrap: wrap;
     margin-top: 10px;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    overflow: hidden;
-    word-break: break-all;
 }
 .findme{
     margin-left: 2px;
     margin-top: 2px;
     cursor: pointer;
     transition: transform 0.3s;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    overflow: hidden;
-    word-break: break-all;
 }
 .findme:hover{
     transform: scale(1.1);
@@ -874,18 +866,12 @@
         display: flex;
         flex-wrap: wrap;
         margin-top: 10px;
-        display: -webkit-box;
-        -webkit-line-clamp: 4;
     }
     .findme{
         margin-left: 2px;
         margin-top: 2px;
         cursor: pointer;
         transition: transform 0.3s;
-        display: -webkit-box;
-        -webkit-line-clamp: 4;
-        overflow: hidden;
-        word-break: break-all;
     }
     .findmeiconbox{
         height:23px;

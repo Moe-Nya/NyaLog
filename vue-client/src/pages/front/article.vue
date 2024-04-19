@@ -57,7 +57,7 @@ function loaduser() {
             showloginout.value = true;
             loginstatus.value = true;
         } else {
-            window.localStorage.clear('usertoken');
+            window.localStorage.removeItem('usertoken');
             showuserprofile.value = false;
             showgithub.value = true;
             showusername.value = false;
@@ -72,7 +72,7 @@ function loaduser() {
 
 // 登出用户
 function loginout() {
-    window.localStorage.clear('usertoken');
+    window.localStorage.removeItem('usertoken');
     loaduser();
 }
 

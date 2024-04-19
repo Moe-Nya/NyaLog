@@ -187,7 +187,7 @@ function loginOut() {
     axios.post("/admin/loginout",{},{headers: {Authorization: window.localStorage.getItem('token')}}).then(res => {
         if (res.data.code === 200) {
             window.$message.success('注销登录成功');
-            window.localStorage.clear('token');
+            window.localStorage.removeItem('token');
             window.$loadingBar.finish();
             router.push('/login');
         } else {
@@ -206,7 +206,7 @@ function Validate() {
     window.$loadingBar.start();
     axios.get("/admin/", {headers: {Authorization: window.localStorage.getItem('token')}}).then(res => {
         if (res.data.code !== 200) {
-            window.localStorage.clear('token');
+            window.localStorage.removeItem('token');
             window.$loadingBar.error();
             errmsg(res.data.code);
             router.push('/login');
