@@ -10,6 +10,7 @@ import MessageAPI from '../../components/message.vue'
 import client_id from '../../../config.json'
 import { config } from 'md-editor-v3';
 import ImageFiguresPlugin from '../../modules/markdown-it-image-figures.js';
+import formatDate from '../../modules/Time';
 
 config({
   markdownItConfig: (mdit) => {
@@ -29,6 +30,7 @@ const articleviews = ref('');
 const articlelikes = ref('');
 const aisummary = ref('');
 const showcommentbox = ref(false);
+const pushdate = ref(null);
 const scrollElement = document.documentElement;
 
 // 评论用户信息
@@ -137,6 +139,7 @@ function queryArticle() {
             articleviews.value = res.data.article.articleviews;
             articlelikes.value = res.data.article.articlelikes;
             aisummary.value = res.data.article.aisummary;
+            pushdate.value = res.data.article.CreatedAt;
             if (res.data.comswitch === 0) {
                 showcommentbox.value = false;
             } else if (res.data.comswitch === 1) {
@@ -195,6 +198,10 @@ onMounted(() => {
             <span style="color: #3d3d3d;"> {{ articleviews }} | </span>
             <i class="likes"></i>
             <span style="color: #3d3d3d;">{{ articlelikes }}</span>
+        </div>
+        <div style="text-align: center; font-size: 16px; font-weight: 500; margin-bottom: 10px;">
+            <i class="dateico"></i>
+            <span style="color: #3d3d3d;">发布于 {{ formatDate(pushdate) }}</span>
         </div>
     </div>
     <div class="articlesummary" v-if="aisummary !== ''">
