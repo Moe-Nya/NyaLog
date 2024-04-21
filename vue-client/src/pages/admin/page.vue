@@ -34,6 +34,7 @@ const toolbars = [
   'unorderedList',
   'orderedList',
   'task',
+  'image',
   '-',
   'codeRow',
   'code',
@@ -151,7 +152,8 @@ onMounted(() => {
         codeTheme="github"
         :formatCopiedText="formatCopiedText"
         :mdHeadingId="mdHeadingId"
-        :toolbars/>
+        :toolbars
+        noUploadImg/>
     </div>
     <div class="infobox">
         <div class="inputbox">
