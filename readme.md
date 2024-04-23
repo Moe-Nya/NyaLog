@@ -20,8 +20,9 @@ NyaLog是一个由Golang的Gin框架和Vue.js制作的前后端分离、自适�
 1. ~~文章、页面图片懒加载~~
 2. 动态Meta
 3. 尝试SSR（server side rendering）
-4. 制作RSS
-5. 导航栏自定义排序
+4. 在文章、页面中引入H5播放器及Aplayer和Dplayer
+5. 制作RSS
+6. 导航栏自定义排序
 
 ## 部署NyaLog
 
