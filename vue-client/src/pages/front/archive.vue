@@ -5,6 +5,7 @@ import { useRouter } from 'vue-router';
 import errmsg from '../../modules/errmsg';
 import MessageAPI from '../../components/message.vue'
 import formatDate from '../../modules/Time';
+import { useMeta } from 'vue-meta';
 
 const router = useRouter();
 
@@ -30,6 +31,12 @@ function archiveClick(aid) {
 onMounted(() => {
     queryArchive();
 })
+
+onUpdated(() => {
+    useMeta({
+        title: '归档',
+    });
+});
 </script>
 <template>
     <div class="archivesbox">

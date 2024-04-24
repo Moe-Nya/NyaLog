@@ -1,6 +1,7 @@
 <script setup>
 import axios from 'axios';
 import { onMounted } from 'vue';
+import { useMeta } from 'vue-meta';
 
 // 页面信息
 const pagesize = ref(12);
@@ -38,6 +39,13 @@ function addMoreFriendlinkBtn() {
 onMounted(() => {
     queryFriendLink();
 })
+
+
+onUpdated(() => {
+    useMeta({
+        title: '友情链接',
+    });
+});
 </script>
 <template>
     <div class="articlesbox">

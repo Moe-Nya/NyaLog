@@ -1,5 +1,5 @@
 <script setup>
-import { defineEmits, onMounted, watch } from 'vue';
+import { defineEmits, onBeforeMount, onMounted, onUpdated, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import { useRoute } from 'vue-router';
 import { MdPreview, MdCatalog } from 'md-editor-v3';
@@ -11,6 +11,7 @@ import client_id from '../../../config.json'
 import { config } from 'md-editor-v3';
 import ImageFiguresPlugin from '../../modules/markdown-it-image-figures.js';
 import formatDate from '../../modules/Time';
+import { useMeta } from 'vue-meta';
 
 config({
   markdownItConfig: (mdit) => {
@@ -26,6 +27,7 @@ const id = 'preview-only';
 const articleid = ref(-1);
 const title = ref('');
 const text = ref('');
+const shorttext = ref('');
 const articleviews = ref('');
 const articlelikes = ref('');
 const aisummary = ref('');
@@ -136,6 +138,7 @@ function queryArticle() {
             articleid.value = res.data.article.articleid;
             title.value = res.data.article.articletitle;
             text.value = res.data.article.text;
+            shorttext.value = res.data.article.shorttext;
             articleviews.value = res.data.article.articleviews;
             articlelikes.value = res.data.article.articlelikes;
             aisummary.value = res.data.article.aisummary;
@@ -145,6 +148,7 @@ function queryArticle() {
             } else if (res.data.comswitch === 1) {
                 showcommentbox.value = true;
             }
+            return title.value;
         } else {
             window.$loadingBar.error();
             errmsg(res.data.code);
@@ -186,7 +190,24 @@ onMounted(() => {
     queryArticle();
     loaduser();
     queryComments();
-})
+});
+
+onUpdated(() => {
+    let theTitle;
+    let theShortText;
+    while (theTitle = title.value, theShortText = shorttext.value) {
+        if (theTitle !== '' && theShortText !== '') {
+            useMeta({
+                title: theTitle,
+                meta: [
+                    { name: 'description', content: theShortText }
+                ]
+            });
+            break;
+        }
+        setTimeout(loop, 200);
+    }
+});
 </script>
 <template>
     <div class="articleandpagetitle">

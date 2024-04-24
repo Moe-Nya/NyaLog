@@ -7,6 +7,7 @@ import axios from 'axios';
 import errmsg from '../../modules/errmsg';
 import { config } from 'md-editor-v3';
 import ImageFiguresPlugin from '../../modules/markdown-it-image-figures.js';
+import { useMeta } from 'vue-meta';
 
 config({
   markdownItConfig: (mdit) => {
@@ -39,6 +40,19 @@ function queryPage() {
 onMounted(() => {
     queryPage();
 })
+
+onUpdated(() => {
+    let theTitle;
+    while (theTitle = title.value) {
+        if (theTitle !== '') {
+            useMeta({
+                title: theTitle,
+            });
+            break;
+        }
+        setTimeout(loop, 200);
+    }
+});
 </script>
 <template>
     <div class="articleandpagetitle">

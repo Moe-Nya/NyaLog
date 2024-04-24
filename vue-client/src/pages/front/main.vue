@@ -8,6 +8,8 @@ import { useBlogSetStore } from '../../stores/blogset';
 import { usePublicUserInfoStore } from '../../stores/userpublicinfo';
 import '../../../public/static/css/main.css';
 import { inject, onMounted } from 'vue';
+import client_id from '../../../config.json'
+import { useMeta } from 'vue-meta';
 
 const router = useRouter();
 const route = useRoute();
@@ -76,6 +78,13 @@ onMounted(() => {
     queryFindMe();
     queryNavigation();
     loadNavLocation();
+});
+
+useMeta({
+    title: client_id.sitetitle,
+    meta: [
+        { name: 'description', content: client_id.sitedescription }
+    ]
 });
 </script>
 <template>

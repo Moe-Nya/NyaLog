@@ -18,8 +18,8 @@ NyaLog是一个由Golang的Gin框架和Vue.js制作的前后端分离、自适�
 ## 未来更新计划
 
 1. ~~文章、页面图片懒加载~~
-2. 动态Meta
-3. 尝试SSR（server side rendering）
+2. ~~动态Meta~~
+3. ~~尝试SSR（server side rendering）~~(但是没能够实现一键化、自动化。后面会专门写一篇文章来说明如何做SSR)
 4. 在文章、页面中引入H5播放器及Aplayer和Dplayer
 5. 制作RSS
 6. 导航栏自定义排序
@@ -193,14 +193,35 @@ COPY --from=builder /app/nginx /etc/nginx/conf.d
 # CMD ["nginx", "-g", "daemon off;"]
 ```
 
-接着打开当前目录下的`config.json`设置github的client-id：
+接着打开当前目录下的`config.json`设置github的client-id、api_url、sitetitle、sitedescription：
 
 ```json
 {
     "domain": "设置你的域名 如https://moenya.cat",
     "client_id": "设置你的github client-id",
-    "api_url": "/api/v1"
+    "api_url": "/api/v1",
+    "sitetitle": "主站标题",
+    "sitedescription": "主站描述"
 }
+```
+
+然后打开`index.html`修改站点标题、站点描述（和config.json中的一致即可），这样做有利于SEO：
+
+```html
+<!doctype html>
+<html lang="en">
+  <head>
+    <script type="module" src="src/main.js"></script>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="" />
+    <link rel="stylesheet" href="/vue-client/public/static/css/scrollbar.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>主站标题</title>
+  </head>
+  <body>
+    <div id="app"></div>
+  </body>
+</html>
 ```
 
 最后打开`vue-client/nginx/default.conf`，按照注释下的提示进行修改：
