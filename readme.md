@@ -300,7 +300,25 @@ services:
 
 #### 修改前端页面配置文件
 
-进入`vue-client`打开`config.json`，配置好title和description。（GitHub的客户ID在这里可以不配置）
+首先将项目前端`vue-client`整个文件夹复制到`nyalog-SSR-docker`中。
+
+进入`vue-client`，将`Dockerfile`改为一下内容，并且可以选择自定义你的端口：
+
+```dockerfile
+FROM node:18.17.1 AS builder
+
+WORKDIR /app
+
+COPY . /app
+
+RUN npm config set registry https://registry.npmmirror.com
+
+RUN npm i
+
+EXPOSE 5173
+
+CMD ["npm", "run", "dev"]
+```
 
 #### 修改SSR配置文件
 
