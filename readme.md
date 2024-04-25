@@ -30,11 +30,11 @@ NyaLog是一个由Golang的Gin框架和Vue.js制作的前后端分离、自适�
 
 在package中下载NyaLog。
 
-#### 安装Docker和Docker compose
+### 安装Docker和Docker compose
 
 [docker安装文档](https://docs.docker.com/engine/install/)
 
-#### 使用Docker compose运行
+### 使用Docker compose运行
 
 ##### 配置docker-compose.yml
 
@@ -263,6 +263,87 @@ sudo docker compose up -d
 ### 关于数据库备份
 
 NyaLog将会在`nyalog-docker-compose`目录下生成一个`mysql`文件夹，可以自行备份。
+### SSR部署
+
+如果你不打算使用SSR（服务端渲染）的话可以忽略这个小节的内容，但如果你对针对爬虫优化有需求的话可以按照这个小节的教程部署SSR。
+
+#### 原理
+
+因为所使用的SSR方案无法抓取到打包后运行在Nginx的页面，因此在SSR中其实是部署了SSR本体+NodeJS环境下运行的前端程序。
+
+#### 更改docker compose yml文件
+
+进入`nyalog-SSR-docker`，更改服务端口。
+
+```yml
+services:
+  nyalog-ssr-web:
+    container_name: nyalog-ssr-web
+    build:
+      context: ./vue-client
+      dockerfile: Dockerfile
+    ports:
+    #更改你想要的端口或者使用默认
+        - "1600:5173"
+    
+  nyalog-ssr:
+    container_name: nyalog-ssr
+    build:
+      context: ./ssr
+      dockerfile: Dockerfile
+    ports:
+    #更改你想要的端口或者使用默认
+        - "1500:1500"
+```
+
+如果更改了这里的端口，那么需要进入`ssr`和`vue-client`中分别更改`Dcokerfile`中暴露的端口。
+
+#### 修改前端页面配置文件
+
+进入`vue-client`打开`config.json`，配置好title和description。（GitHub的客户ID在这里可以不配置）
+
+#### 修改SSR配置文件
+
+进入`ssr`文件打开`service.js`，替换第6行为`nyalog-ssr-web`中暴露的地址，并且如果你在yml中修改了`nyalog-ssr`的端口，也需要在这个文件中修改对应位置的端口。
+
+```javascript
+const express = require('./node_modules/express');
+var app = express();
+var spider = require("./spider.js");
+var minify = require('html-minifier').minify;
+app.get('*', async (req, res) => {
+	let url = "你的地址，如http://127.0.0.1:1600" + req.originalUrl;
+	console.log('请求的完整URL：' + url);
+	let content = await spider(url).catch((error) => {
+		console.log(error);
+		res.send('获取html内容失败');
+		return;
+	});
+	// 通过minify库压缩代码
+    content=minify(content,{removeComments: true,collapseWhitespace: true,minifyJS:true, minifyCSS:true});
+	res.send(content);
+});
+// 修改这里的1500为你设置的端口
+app.listen(1500, () => {
+	console.log('服务已启动！');
+});
+```
+
+最后在`nyalog-SSR-docker`目录下运行：
+
+```bash
+docker compose up -d
+```
+
+最后使用Postman等工具访问SSR的地址（注意不要直接用浏览器访问，这样会导致SSR程序退出），查看是否能够获取被渲染的静态页面。
+
+记得使用Nginx进行反代，并且设置防火墙让SSR和NodeJS运行的前端项目的IP地址只能被本机访问。这里提供Nginx的反代思路：
+
+```nginx
+if ($http_user_agent ~* "Baiduspider|twitterbot|facebookexternalhit|rogerbot|linkedinbot|embedly|quora link preview|showyoubot|outbrain|pinterest|slackbot|vkShare|W3C_Validator|bingbot|Sosospider|Sogou Pic Spider|Googlebot|360Spider|facebookexternalhit|TelegramBot|Discordbot") {
+	proxy_pass  你的SSR地址;
+}
+```
 
 ## 使用
 
