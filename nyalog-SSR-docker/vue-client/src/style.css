@@ -1,0 +1,19 @@
+html,
+body,
+#app {
+    margin: 0;
+    padding: 0;
+    height: auto;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background:
+        linear-gradient(217deg, #ffffff, rgba(255,0,0,0) 70.71%),
+        linear-gradient(127deg, #fcf1f6, rgba(0,255,0,0) 70.71%),
+        linear-gradient(336deg, #cde3f3, rgba(0,0,255,0) 70.71%);
+    background-repeat:no-repeat;
+    background-attachment:fixed;
+    margin: 0;
+    padding: 0;
+}

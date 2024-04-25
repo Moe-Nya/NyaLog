@@ -1,0 +1,17 @@
+services:
+  nyalog-ssr-web:
+    container_name: nyalog-ssr-web
+    build:
+      context: ./vue-client
+      dockerfile: Dockerfile
+    ports:
+        - "1600:5173"
+    
+  nyalog-ssr:
+    container_name: nyalog-ssr
+    build:
+      context: ./ssr
+      dockerfile: Dockerfile
+    ports:
+        - "1500:1500"
+
