@@ -8,6 +8,7 @@ import errmsg from '../../modules/errmsg';
 import { config } from 'md-editor-v3';
 import ImageFiguresPlugin from '../../modules/markdown-it-image-figures.js';
 import { useMeta } from 'vue-meta';
+import { usePublicUserInfoStore } from '../../stores/userpublicinfo'
 
 config({
   markdownItConfig: (mdit) => {
@@ -16,6 +17,7 @@ config({
 });
 
 const route = useRoute();
+const userinfo = usePublicUserInfoStore();
 
 const id = 'preview-only';
 const title = ref('')
@@ -46,7 +48,7 @@ onUpdated(() => {
     while (theTitle = title.value) {
         if (theTitle !== '') {
             useMeta({
-                title: theTitle,
+                title: theTitle + " - " + userinfo.data.username,
             });
             break;
         }

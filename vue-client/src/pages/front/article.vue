@@ -12,6 +12,7 @@ import { config } from 'md-editor-v3';
 import ImageFiguresPlugin from '../../modules/markdown-it-image-figures.js';
 import formatDate from '../../modules/Time';
 import { useMeta } from 'vue-meta';
+import { usePublicUserInfoStore } from '../../stores/userpublicinfo'
 
 config({
   markdownItConfig: (mdit) => {
@@ -20,6 +21,7 @@ config({
 });
 
 const router = useRouter();
+const userinfo = usePublicUserInfoStore();
 const route = useRoute();
 
 // 文章信息
@@ -198,7 +200,7 @@ onUpdated(() => {
     while (theTitle = title.value, theShortText = shorttext.value) {
         if (theTitle !== '' && theShortText !== '') {
             useMeta({
-                title: theTitle,
+                title: theTitle + " - " + userinfo.data.username,
                 meta: [
                     { name: 'description', content: theShortText }
                 ]

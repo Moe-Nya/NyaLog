@@ -6,8 +6,10 @@ import errmsg from '../../modules/errmsg';
 import MessageAPI from '../../components/message.vue'
 import formatDate from '../../modules/Time';
 import { useMeta } from 'vue-meta';
+import { usePublicUserInfoStore } from '../../stores/userpublicinfo'
 
 const router = useRouter();
+const userinfo = usePublicUserInfoStore();
 
 // 查询归档
 const archives = ref([]);
@@ -34,7 +36,7 @@ onMounted(() => {
 
 onUpdated(() => {
     useMeta({
-        title: '归档',
+        title: '归档' + " - " + userinfo.data.username,
     });
 });
 </script>

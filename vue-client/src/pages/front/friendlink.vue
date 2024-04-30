@@ -2,6 +2,9 @@
 import axios from 'axios';
 import { onMounted } from 'vue';
 import { useMeta } from 'vue-meta';
+import { usePublicUserInfoStore } from '../../stores/userpublicinfo'
+
+const userinfo = usePublicUserInfoStore();
 
 // 页面信息
 const pagesize = ref(12);
@@ -43,7 +46,7 @@ onMounted(() => {
 
 onUpdated(() => {
     useMeta({
-        title: '友情链接',
+        title: '友情链接' + " - " + userinfo.data.username,
     });
 });
 </script>

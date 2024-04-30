@@ -81,7 +81,7 @@ onMounted(() => {
 });
 
 useMeta({
-    title: client_id.sitetitle,
+    title: client_id.sitetitle + " - " + userinfo.data.username,
     meta: [
         { name: 'description', content: client_id.sitedescription }
     ]
