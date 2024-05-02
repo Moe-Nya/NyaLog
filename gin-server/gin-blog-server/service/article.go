@@ -152,7 +152,7 @@ type ArticleLike struct {
 func AddLike(articleid int) int {
 	err := model.AddLike(articleid)
 	if err != errmsg.SUCCESS {
-
+		return errmsg.ERROR
 	}
 	return errmsg.SUCCESS
 }

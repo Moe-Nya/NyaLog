@@ -104,6 +104,16 @@ func SeleListArticle(pageSize int, pageNum int) ([]Article, int, int64) {
 	return articleList, errmsg.SUCCESS, total
 }
 
+// RSS查询前10篇文章
+func RssArtuckeList() ([]Article, int) {
+	var articleList []Article
+	err := db.Select("article.articleid, articletitle, created_at, text").Limit(10).Order("Created_At DESC").Find(&articleList).Error
+	if err != nil {
+		return articleList, errmsg.ERROR
+	}
+	return articleList, errmsg.SUCCESS
+}
+
 type Archive struct {
 	Year     int       `json:"year"`
 	Articles []Article `json:"articles"`

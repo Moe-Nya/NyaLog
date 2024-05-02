@@ -164,5 +164,12 @@ func IniRouter() {
 		authrouter.POST("/deletefriendlink", v1.DeleFriendLink)
 	}
 
+	feed := routerv1.Group("/feed")
+	// RSS
+	feed.GET("", func(c *gin.Context) {
+		c.Writer.Header().Set("Content-Type", "application/xml")
+		v1.GenerateRSS(c)
+	})
+
 	_ = routerv1.Run(utils.HttpPort)
 }

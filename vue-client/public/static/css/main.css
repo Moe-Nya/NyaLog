@@ -117,6 +117,16 @@
 .search:hover{
     transform: scale(1.1);
 }
+.feed{
+    position: absolute;
+    right: 8%;
+    margin-top: 4px;
+    transition: transform 0.3s;
+    cursor: pointer;
+}
+.feed:hover{
+    transform: scale(1.1);
+}
 .findmebox{
     max-height:40%;
     max-width: 80%;
@@ -868,6 +878,9 @@
     .articlespicbox{
         height: 60%;
     }
+    .feed{
+        right: 9%;
+    }
 }
 @media (max-width: 650px) {
     .findmebox{
@@ -893,6 +906,10 @@
         width: 20px;
     }
     .search{
+        position: absolute;
+        top: 10px;
+    }
+    .feed{
         position: absolute;
         top: 10px;
     }
@@ -936,6 +953,9 @@
         width: 94%;
         margin-left: 3%;
         margin-right: 3%;
+    }
+    .feed{
+        right: 11%;
     }
 }
 @media (max-width: 600px) {
@@ -1020,10 +1040,16 @@
         height: 350px;
         width: 100%;
     }
+    .feed{
+        right: 13%;
+    }
 }
 @media (max-width: 350px) {
     .comments{
         width: 84%;
+    }
+    .feed{
+        right: 15%;
     }
 }
 @media (max-width: 300px) {
@@ -1033,6 +1059,9 @@
     .friendlinksprofile{
         height: 50px;
         width: 50px;
+    }
+    .feed{
+        right: 16%;
     }
 }
 @media (max-width: 260px) {
@@ -1046,5 +1075,8 @@
     .comments{
         margin-left: 5%;
         width: 80%;
+    }
+    .feed{
+        right: 17%;
     }
 }

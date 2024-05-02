@@ -107,6 +107,11 @@ useMeta({
                             <div class="search" @click="search">
                                 <img src="/img/search.svg" style="height: 25px; width: 25px;"/>
                             </div>
+                            <div class="feed">
+                                <a href="/feed" target="blank">
+                                    <img src="/img/rss.svg" style="height: 35px; width: 35px;"/>
+                                </a>
+                            </div>
                         </div>
                         <div class="userdescriptionbox">
                             <span class="userdescription">{{ userinfo.data.slogan }}</span>

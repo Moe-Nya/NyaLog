@@ -2,13 +2,17 @@ package utils
 
 import (
 	"fmt"
-	"gopkg.in/ini.v1"
 	"os"
+
+	"gopkg.in/ini.v1"
 )
 
 var (
+	// RSS config
+	Author      string
+	Description string
+	Domain      string
 	// System config
-	Domain         string
 	PasswordMinLen int
 	AdminEntrance  string
 	GPTURL         string
@@ -52,6 +56,7 @@ func init() {
 	LoadDatabase(file)
 	LoadSystem(file)
 	LoadEmaiInfo(file)
+	LoadRSSSet(file)
 }
 
 func LoadSystem(file *ini.File) {
@@ -87,4 +92,10 @@ func LoadEmaiInfo(file *ini.File) {
 	Smtpport = file.Section("Email").Key("Smtpport").MustString("587")
 	Emailusername = file.Section("Email").Key("Emailusername").MustString("username")
 	Emailpassword = file.Section("Email").Key("Emailpassword").MustString("password")
+}
+
+func LoadRSSSet(file *ini.File) {
+	Author = file.Section("RSSSet").Key("Author").MustString("youname")
+	Description = file.Section("RSSSet").Key("Description").MustString("description")
+	Domain = file.Section("RSSSet").Key("Domain").MustString("domain.com")
 }

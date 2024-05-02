@@ -113,6 +113,13 @@ CMD sh -c "sleep 5 && /app/server"
 接着打开`gin-server/gin-blog-server/config/config.ini`按照提示进行修改：
 
 ```ini
+[RSSSet]
+# 博主id
+Author = 
+# 描述
+Description = 
+# 域名
+Domain = 
 [System]
 # 后端访问地址
 Domain = http://localhost:8080
