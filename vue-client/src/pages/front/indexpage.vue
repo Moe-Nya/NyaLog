@@ -42,10 +42,6 @@ function queryArticle() {
 function articleImgError(item) {
     item.articleimg = errimg.value;
 }
-// 跳转文章浏览
-function articleClick(item) {
-    router.push(`/article/${item.articleid}`);
-}
 
 // 加载更多文章
 function addMoreArticleBtn() {
@@ -59,31 +55,33 @@ onMounted(() => {
 </script>
 <template>
     <div class="articlesbox">
-        <div @click="articleClick(item)" class="articles" v-for="item in articles" :key="item.articleid">
-            <div class="articlespicbox">
-                <img class="articlespic" :src="item.articleimg" @error="articleImgError(item)"/>
-            </div>
-            <div class="articlestitlebox">
-                <div style="margin-left: 15px; margin-right: 12px; height: 115px;">
-                    <span class="articlestitle">{{ item.articletitle }}</span>
-                    <span class="articlesshorts">{{ item.shorttext }}</span>
+        <div class="articles" v-for="item in articles" :key="item.articleid">
+            <a v-if="item.articlecategory === 0" :href="`/article/`+item.articleid" style="color: inherit; text-decoration: none;">
+                <div class="articlespicbox">
+                    <img class="articlespic" :src="item.articleimg" @error="articleImgError(item)"/>
                 </div>
-                <div class="articlesicons">
-                    <div style="height: 25px; display: flex;">
-                        <i v-show="(item.cidname !== '')" class="articlescategorysicon"></i>
-                        <span v-show="(item.cidname !== '')" class="articlescategorys">{{ item.cidname }} |</span>
-                        <i class="articlesviews"></i>
-                        <span class="articlescategorys">{{ item.articleviews }}</span>
-                        <i class="articleslikes"></i>
-                        <span class="articlescategorys">{{ item.articlelikes }}</span>
+                <div class="articlestitlebox">
+                    <div style="margin-left: 15px; margin-right: 12px; height: 115px;">
+                        <span class="articlestitle">{{ item.articletitle }}</span>
+                        <span class="articlesshorts">{{ item.shorttext }}</span>
+                    </div>
+                    <div class="articlesicons">
+                        <div style="height: 25px; display: flex;">
+                            <i v-show="(item.cidname !== '')" class="articlescategorysicon"></i>
+                            <span v-show="(item.cidname !== '')" class="articlescategorys">{{ item.cidname }} |</span>
+                            <i class="articlesviews"></i>
+                            <span class="articlescategorys">{{ item.articleviews }}</span>
+                            <i class="articleslikes"></i>
+                            <span class="articlescategorys">{{ item.articlelikes }}</span>
+                        </div>
+                    </div>
+                    <div class="articlestimesbox">
+                        <div style="margin-left: 15px;">
+                            <span class="articlestimes">{{ formatDate(item.CreatedAt) }}</span>
+                        </div>
                     </div>
                 </div>
-                <div class="articlestimesbox">
-                    <div style="margin-left: 15px;">
-                        <span class="articlestimes">{{ formatDate(item.CreatedAt) }}</span>
-                    </div>
-                </div>
-            </div>
+            </a>
         </div>
     </div>
     <div class="addmorearticleandcommentbox" style="margin-bottom: 40px;">
