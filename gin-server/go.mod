@@ -29,6 +29,8 @@ require (
 	github.com/go-playground/validator/v10 v10.19.0 // indirect
 	github.com/go-sql-driver/mysql v1.8.1 // indirect
 	github.com/goccy/go-json v0.10.2 // indirect
+	github.com/gomarkdown/markdown v0.0.0-20240419095408-642f0ee99ae2 // indirect
+	github.com/gomarkdown/mdtohtml v0.0.0-20240124153210-d773061d1585 // indirect
 	github.com/google/go-cmp v0.5.9 // indirect
 	github.com/jinzhu/inflection v1.0.0 // indirect
 	github.com/jinzhu/now v1.1.5 // indirect

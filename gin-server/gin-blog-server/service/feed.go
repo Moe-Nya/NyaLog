@@ -3,9 +3,14 @@ package service
 import (
 	"NyaLog/gin-blog-server/model"
 	"NyaLog/gin-blog-server/utils"
+	"bytes"
 	"encoding/xml"
 	"strconv"
 	"time"
+
+	"github.com/gomarkdown/markdown"
+	"github.com/gomarkdown/markdown/html"
+	"github.com/gomarkdown/markdown/parser"
 )
 
 type Rss struct {
@@ -29,6 +34,21 @@ type Articles struct {
 	PubDate time.Time `xml:"pubDate"`
 }
 
+// markdown to html
+func mdToHTML(md []byte) []byte {
+	// create markdown parser with extensions
+	extensions := parser.CommonExtensions | parser.AutoHeadingIDs | parser.NoEmptyLineBeforeBlock
+	p := parser.NewWithExtensions(extensions)
+	doc := p.Parse(md)
+
+	// create HTML renderer with extensions
+	htmlFlags := html.CommonFlags | html.HrefTargetBlank
+	opts := html.RendererOptions{Flags: htmlFlags}
+	renderer := html.NewRenderer(opts)
+
+	return markdown.Render(doc, renderer)
+}
+
 // 获取前10篇文章内容
 func GetArticle() []Articles {
 	var articles []model.Article
@@ -38,7 +58,10 @@ func GetArticle() []Articles {
 		var a Articles
 		a.Title = i.Articletitle
 		a.Link = utils.Domain + "/article/" + strconv.FormatInt(i.Articleid, 10)
-		a.Content = i.Text
+		var article = []byte(i.Text)
+		var html = mdToHTML(article)
+		var rune = bytes.Runes(html)
+		a.Content = string(rune)
 		a.PubDate = i.CreatedAt
 		articleInfo = append(articleInfo, a)
 	}
