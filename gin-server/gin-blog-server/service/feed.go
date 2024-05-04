@@ -28,10 +28,11 @@ type Channel struct {
 }
 
 type Articles struct {
-	Title   string    `xml:"title"`
-	Link    string    `xml:"link"`
-	Content string    `xml:"content"`
-	PubDate time.Time `xml:"pubDate"`
+	Title       string    `xml:"title"`
+	Link        string    `xml:"link"`
+	Description string    `xml:"description"`
+	Content     string    `xml:"content"`
+	PubDate     time.Time `xml:"pubDate"`
 }
 
 // markdown to html
@@ -62,6 +63,10 @@ func GetArticle() []Articles {
 		var html = mdToHTML(article)
 		var rune = bytes.Runes(html)
 		a.Content = string(rune)
+		var description = []byte(i.Shorttext)
+		var htmlDes = mdToHTML(description)
+		var runeDes = bytes.Runes(htmlDes)
+		a.Description = string(runeDes)
 		a.PubDate = i.CreatedAt
 		articleInfo = append(articleInfo, a)
 	}
