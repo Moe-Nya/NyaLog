@@ -234,7 +234,7 @@ onUpdated(() => {
             aisummary }}</p>
     </div>
     <div class="mdview">
-        <MdPreview :editorId="id" :modelValue="text" previewTheme="mdeditor" style="color: #3d3d3d;" />
+        <MdPreview :editorId="id" :modelValue="text" previewTheme="default" style="color: #3d3d3d;" />
     </div>
     <div class="headview">
         <MdCatalog :editorId="id" :scrollElement="scrollElement" />
