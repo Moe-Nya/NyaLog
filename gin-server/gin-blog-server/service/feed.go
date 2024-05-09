@@ -31,7 +31,6 @@ type Articles struct {
 	Title       string    `xml:"title"`
 	Link        string    `xml:"link"`
 	Description string    `xml:"description"`
-	Content     string    `xml:"content"`
 	PubDate     time.Time `xml:"pubDate"`
 }
 
@@ -62,11 +61,7 @@ func GetArticle() []Articles {
 		var article = []byte(i.Text)
 		var html = mdToHTML(article)
 		var rune = bytes.Runes(html)
-		a.Content = string(rune)
-		var description = []byte(i.Shorttext)
-		var htmlDes = mdToHTML(description)
-		var runeDes = bytes.Runes(htmlDes)
-		a.Description = string(runeDes)
+		a.Description = string(rune)
 		a.PubDate = i.CreatedAt
 		articleInfo = append(articleInfo, a)
 	}
