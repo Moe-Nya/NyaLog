@@ -13,7 +13,10 @@ import (
 
 // 生成AI摘要
 func CreateAISummary(text string, blogset *model.BlogSet) string {
-	html := blackfriday.Run([]byte(text))
+	articleContent := text
+	codeBlockRegex := regexp.MustCompile("```[\\s\\S]*?```")
+	articleContent = codeBlockRegex.ReplaceAllString(articleContent, "")
+	html := blackfriday.Run([]byte(articleContent))
 	article, err := html2text.FromString(string(html))
 	re := regexp.MustCompile(`[\n\r]+|\*\*|\*|__|_`)
 	plainText := re.ReplaceAllString(article, "")
