@@ -24,13 +24,13 @@ func CreateCom(comment *Comment) int {
 		return errmsg.ERROR
 	}
 	var article Article
-	e := db.First(&article, "articleid = ?", comment.Articleid)
-	if e.Error != nil || err == gorm.ErrRecordNotFound {
+	err := db.First(&article, "articleid = ?", comment.Articleid).Error
+	if err != nil || err == gorm.ErrRecordNotFound {
 		return errmsg.ERROR
 	}
 	var count int64
 	var c Comment
-	err := db.Find(&c).Count(&count).Error
+	err = db.Find(&c).Count(&count).Error
 	if err != nil {
 		return errmsg.ERROR
 	}

@@ -20,12 +20,8 @@ func NewComment(data *Comment, token string) int {
 	}
 	var blogset model.BlogSet
 	blogset, err = model.SeleBlogSet()
-	if err != errmsg.SUCCESS {
+	if err != errmsg.SUCCESS || blogset.Commentswitch == 0 {
 		return errmsg.SendCommentFailed
-	} else {
-		if blogset.Commentswitch == 0 {
-			return errmsg.SendCommentFailed
-		}
 	}
 	var com = &model.Comment{}
 	com.Articleid = data.Articleid
