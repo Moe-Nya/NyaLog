@@ -83,6 +83,12 @@ const (
 	FriendLinkQueryFailed  = 13002
 	FriendLinkModifyFailed = 13003
 	FriendLinkDeleteFailed = 13004
+
+	// 浏览量缓冲池
+	ViewsBufferStorageFailed = 14001
+
+	// like缓冲池
+	LikesBufferStorageFailed = 15001
 )
 
 var codeMsg = map[int]string{
@@ -168,6 +174,12 @@ var codeMsg = map[int]string{
 	FriendLinkQueryFailed:  "friend link query failed",
 	FriendLinkModifyFailed: "friend link modify failed",
 	FriendLinkDeleteFailed: "friend link delete failed",
+
+	// 浏览量缓冲池
+	ViewsBufferStorageFailed: "storage view buffer failed",
+
+	// like缓冲池
+	LikesBufferStorageFailed: "storage like buffer failed",
 }
 
 func GetErrorMsg(code int) string {

@@ -155,7 +155,7 @@ func DeleCid(c *gin.Context) {
 func AddLike(c *gin.Context) {
 	var articleid service.ArticleLike
 	_ = c.ShouldBindJSON(&articleid)
-	err := service.AddLike(articleid.Articleid)
+	err := service.AddLike(articleid.Articleid, c.ClientIP())
 	if err != errmsg.SUCCESS {
 		c.JSON(http.StatusOK, gin.H{
 			"code":    err,

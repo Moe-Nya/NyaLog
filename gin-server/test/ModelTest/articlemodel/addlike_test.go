@@ -8,5 +8,5 @@ import (
 
 func TestAddLike(t *testing.T) {
 	model.InitDb()
-	fmt.Println(model.AddLike(0))
+	fmt.Println(model.AddLike(0, "1"))
 }

@@ -6,6 +6,7 @@ import (
 	"NyaLog/gin-blog-server/utils"
 	"NyaLog/gin-blog-server/utils/errmsg"
 	"regexp"
+	"sync"
 
 	"github.com/cention-sany/html2text"
 	"github.com/russross/blackfriday/v2"
@@ -98,12 +99,21 @@ func DeleCid(cid int) int {
 }
 
 // 查询单篇文章
+var wgSelectArticle sync.WaitGroup
+
 func SeleOneArticle(articleid int64) (model.Article, int, int) {
 	var article model.Article
 	article, err := model.SeleOneArticle(articleid)
 	if err != errmsg.SUCCESS {
 		return article, errmsg.ArticleQueryFailed, 0
 	}
+	wgSelectArticle.Add(1)
+	go func() {
+		defer wgSelectArticle.Done()
+		AddView(articleid)
+	}()
+
+	wgSelectArticle.Wait() // 等待协程执行完毕
 	blogset, err := model.SeleBlogSet()
 	if err != errmsg.SUCCESS {
 		return article, errmsg.ArticleQueryFailed, 0
@@ -148,14 +158,19 @@ func SameCidArt(cid int) ([]model.Article, int) {
 }
 
 type ArticleLike struct {
-	Articleid int `json:"articleid"`
+	Articleid int64 `json:"articleid"`
 }
 
 // 文章喜欢数累加
-func AddLike(articleid int) int {
-	err := model.AddLike(articleid)
-	if err != errmsg.SUCCESS {
-		return errmsg.ERROR
-	}
-	return errmsg.SUCCESS
+var wgUserLike sync.WaitGroup
+
+func AddLike(articleid int64, ip string) int {
+	var err int
+	wgUserLike.Add(1)
+	go func() {
+		defer wgUserLike.Done()
+		err = middleware.AddLike(articleid, ip)
+	}()
+	wgUserLike.Wait()
+	return err
 }

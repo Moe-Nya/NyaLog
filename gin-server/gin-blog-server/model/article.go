@@ -81,11 +81,6 @@ func SeleOneArticle(articleid int64) (Article, int) {
 	if err != nil || article.Articletitle == "" {
 		return article, errmsg.ERROR
 	}
-	newViews := utils.BigNumAdd(article.Articleviews)
-	err = db.Model(&article).Update("articleviews", newViews).Error
-	if err != nil {
-		return article, errmsg.ERROR
-	}
 	return article, errmsg.SUCCESS
 }
 
@@ -102,6 +97,20 @@ func SeleListArticle(pageSize int, pageNum int) ([]Article, int, int64) {
 		articleList[i].Text = ""
 	}
 	return articleList, errmsg.SUCCESS, total
+}
+
+// 增加文章浏览量
+func AddViews(articleid int64, views string) int {
+	article, err := SeleOneArticle(articleid)
+	if err == errmsg.ERROR {
+		return errmsg.ERROR
+	}
+	newViews := utils.BigDecimal(article.Articleviews, views)
+	e := db.Model(&article).Update("articleviews", newViews).Error
+	if e != nil {
+		return errmsg.ERROR
+	}
+	return errmsg.SUCCESS
 }
 
 // RSS查询前10篇文章
@@ -185,7 +194,7 @@ func DeleteArticle(articleid int64) int {
 }
 
 // 文章喜欢数累加
-func AddLike(articleid int) int {
+func AddLike(articleid int64, likes string) int {
 	var article Article
 	err := db.Where("articleid = ?", articleid).Find(&article).Error
 	if err != nil {
@@ -194,8 +203,7 @@ func AddLike(articleid int) int {
 	if article.Articletitle == "" {
 		return errmsg.ERROR
 	}
-	articlelikes := article.Articlelikes
-	newlikes := utils.BigNumAdd(articlelikes)
+	newlikes := utils.BigDecimal(article.Articlelikes, likes)
 	err = db.Model(&article).Update("articlelikes", newlikes).Error
 	if err != nil {
 		return errmsg.ERROR
