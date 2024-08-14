@@ -40,7 +40,7 @@ func SeleOneArticle(c *gin.Context) {
 			"message": errmsg.GetErrorMsg(errmsg.ArticleQueryFailed),
 		})
 	}
-	article, err, comswitch := service.SeleOneArticle(int64(id))
+	article, err, comswitch := service.SeleOneArticle(int64(id), c.ClientIP())
 	if err != errmsg.SUCCESS {
 		c.JSON(http.StatusOK, gin.H{
 			"code":    err,

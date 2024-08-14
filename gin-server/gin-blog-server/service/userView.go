@@ -6,11 +6,8 @@ import (
 )
 
 // 记录浏览新增
-func AddView(articleid int64) {
-	b := middleware.AddArticleId(articleid)
-	if b {
-		middleware.AddView(articleid)
-	}
+func AddView(articleid int64, ip string) {
+	middleware.AddArticleId(articleid, ip)
 }
 
 // 存库
@@ -19,7 +16,7 @@ func StorageViews() {
 	for {
 		time.Sleep(time.Hour)
 		counter++
-		if counter >= 2 {
+		if counter >= 12 {
 			counter = 0
 			middleware.ClearView()
 		}

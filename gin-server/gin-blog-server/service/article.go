@@ -5,6 +5,7 @@ import (
 	"NyaLog/gin-blog-server/model"
 	"NyaLog/gin-blog-server/utils"
 	"NyaLog/gin-blog-server/utils/errmsg"
+	"fmt"
 	"regexp"
 	"sync"
 
@@ -101,7 +102,7 @@ func DeleCid(cid int) int {
 // 查询单篇文章
 var wgSelectArticle sync.WaitGroup
 
-func SeleOneArticle(articleid int64) (model.Article, int, int) {
+func SeleOneArticle(articleid int64, ip string) (model.Article, int, int) {
 	var article model.Article
 	article, err := model.SeleOneArticle(articleid)
 	if err != errmsg.SUCCESS {
@@ -110,10 +111,17 @@ func SeleOneArticle(articleid int64) (model.Article, int, int) {
 	wgSelectArticle.Add(1)
 	go func() {
 		defer wgSelectArticle.Done()
-		AddView(articleid)
+		AddView(articleid, ip)
 	}()
-
 	wgSelectArticle.Wait() // 等待协程执行完毕
+	if middleware.ArticleViewInfo[articleid] != nil {
+		fmt.Println(middleware.ArticleViewInfo[articleid].Views)
+		article.Articleviews = utils.BigDecimal(article.Articleviews, middleware.ArticleViewInfo[articleid].Views)
+	}
+	if middleware.UserLikeMap[articleid] != nil {
+		article.Articlelikes = utils.BigDecimal(article.Articlelikes, middleware.UserLikeMap[articleid].Likes)
+	}
+
 	blogset, err := model.SeleBlogSet()
 	if err != errmsg.SUCCESS {
 		return article, errmsg.ArticleQueryFailed, 0
@@ -134,6 +142,18 @@ func SeleListArticle(data *ArticleList) ([]model.Article, int, int64) {
 	if err != errmsg.SUCCESS {
 		return articleList, errmsg.ArticleQueryFailed, total
 	}
+
+	for index, article := range articleList {
+		if middleware.ArticleViewInfo[article.Articleid] != nil {
+			articleList[index].Articleviews = utils.BigDecimal(
+				article.Articleviews, middleware.ArticleViewInfo[article.Articleid].Views)
+		}
+		if middleware.UserLikeMap[article.Articleid] != nil {
+			articleList[index].Articlelikes = utils.BigDecimal(
+				article.Articlelikes, middleware.UserLikeMap[article.Articleid].Likes)
+		}
+	}
+
 	return articleList, errmsg.SUCCESS, total
 }
 

@@ -7,32 +7,43 @@ import (
 	"sync"
 )
 
+// 用户浏览量和IP访问情况
+type UserView struct {
+	Views    string
+	UserView map[string]bool
+}
+
 // 临时存储每篇文章的浏览量
-var ArticleViewInfo map[int64]string
+var ArticleViewInfo map[int64]*UserView
 
 var mutexUserView sync.Mutex
 
 // 对该存储映射进行初始化
 func init() {
-	ArticleViewInfo = make(map[int64]string)
+	ArticleViewInfo = make(map[int64]*UserView)
 }
 
 // 添加文章id
-func AddArticleId(articleid int64) bool {
+func AddArticleId(articleid int64, ip string) bool {
 	mutexUserView.Lock()
 	defer mutexUserView.Unlock()
-	if ArticleViewInfo[articleid] == "" {
-		ArticleViewInfo[articleid] = "1"
+	if ArticleViewInfo[articleid] == nil {
+		ArticleViewInfo[articleid] = &UserView{
+			Views:    "",
+			UserView: make(map[string]bool),
+		}
+	}
+	if !ArticleViewInfo[articleid].UserView[ip] {
+		ArticleViewInfo[articleid].UserView[ip] = true
+		if ArticleViewInfo[articleid].Views == "" {
+			ArticleViewInfo[articleid].Views = "1"
+		} else {
+			ArticleViewInfo[articleid].Views = utils.BigNumAdd(ArticleViewInfo[articleid].Views)
+		}
+		return true
+	} else {
 		return false
 	}
-	return true
-}
-
-// 增加浏览量
-func AddView(articleid int64) {
-	mutexUserView.Lock()
-	defer mutexUserView.Unlock()
-	ArticleViewInfo[articleid] = utils.BigNumAdd(ArticleViewInfo[articleid])
 }
 
 // 存库并且清空浏览量
@@ -40,7 +51,7 @@ func ClearView() int {
 	mutexUserView.Lock()
 	defer mutexUserView.Unlock()
 	for index, v := range ArticleViewInfo {
-		err := model.AddViews(index, v)
+		err := model.AddViews(index, v.Views)
 		if err != errmsg.SUCCESS {
 			return errmsg.ViewsBufferStorageFailed
 		}
