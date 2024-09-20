@@ -1,5 +1,4 @@
 <script setup>
-import { defineEmits } from 'vue';
 import formatDate from '../../modules/Time';
 import axios from 'axios';
 import { useRouter } from 'vue-router';
@@ -49,14 +48,36 @@ function addMoreArticleBtn() {
     queryArticle();
 }
 
+// 保持页面状态
+function routeToArticle(item) {
+    router.push('/article/' + item.articleid);
+    let pageData = {
+        articles: articles.value,
+        totalarticle: totalarticle.value,
+        remainarticle: remainarticle.value,
+        position: window.scrollY
+    };
+    window.sessionStorage.setItem('pageData', JSON.stringify(pageData));
+}
+
+
 onMounted(() => {
-    queryArticle();
+    if (window.sessionStorage.getItem('pageData')) {
+        let pageData = JSON.parse(window.sessionStorage.getItem('pageData'));
+        articles.value = pageData.articles;
+        totalarticle.value = pageData.totalarticle;
+        remainarticle.value = pageData.remainarticle;
+        window.scrollTo(0, pageData.position);
+        window.sessionStorage.removeItem('pageData');
+    } else {
+        queryArticle();
+    }
 })
 </script>
 <template>
     <div class="articlesbox">
         <div class="articles" v-for="item in articles" :key="item.articleid">
-            <a v-if="item.articlecategory === 0" :href="`/article/`+item.articleid" style="color: inherit; text-decoration: none;">
+            <a v-if="item.articlecategory === 0" @click="routeToArticle(item)" style="color: inherit; text-decoration: none;">
                 <div class="articlespicbox">
                     <img class="articlespic" :src="item.articleimg" @error="articleImgError(item)"/>
                 </div>

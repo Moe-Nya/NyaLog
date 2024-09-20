@@ -19,11 +19,11 @@
     "md-editor-v3": "^4.12.4",
     "naive-ui": "^2.38.1",
     "pinia": "^2.1.7",
-    "unplugin-auto-import": "^0.17.5",
+    "unplugin-auto-import": "^0.7.2",
     "unplugin-vue-components": "^0.26.0",
     "vfonts": "^0.0.3",
     "vite": "^5.2.0",
-    "vite-auto-import-resolvers": "^3.2.1",
+    "vite-auto-import-resolvers": "^3.0.7",
     "vue-router": "^4.3.0"
   },
   "main": "vite.config.js",
