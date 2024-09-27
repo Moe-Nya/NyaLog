@@ -9,6 +9,7 @@ import errmsg from '../../modules/errmsg';
 import { watch } from 'vue';
 import { config } from 'md-editor-v3';
 import ImageFiguresPlugin from '../../modules/markdown-it-image-figures.js';
+import { onBeforeUnmount } from 'vue';
 
 config({
   markdownItConfig: (mdit) => {
@@ -52,6 +53,13 @@ const toolbars = [
   'htmlPreview',
   'catalog',
 ];
+
+const handleBeforeUnload = (event) => {
+    articleCache();
+    // 显示提示信息
+    event.preventDefault();
+    event.returnValue = ''; // 某些浏览器需要这个
+};
 
 // 编辑||新增切换
 let edit = route.query.id || '';
@@ -128,6 +136,7 @@ function submitArticle() {
             if (res.data.code === 200) {
                 window.$loadingBar.finish();
                 window.$message.success('编辑成功');
+                DeleteCache();
             } else {
                 window.$loadingBar.error();
                 errmsg(res.data.code);
@@ -140,6 +149,7 @@ function submitArticle() {
                 window.$loadingBar.finish();
                 window.$message.success('发布成功');
                 router.push('/admin/articlelist');
+                DeleteCache();
             } else {
                 window.$loadingBar.error();
                 errmsg(res.data.code);
@@ -160,11 +170,87 @@ function init() {
     categorysOptions.value = categorysOptions.value.concat({label : '不设置分组', value: -1});
 }
 
+// 文章缓存
+function articleCache() {
+// 创建文章
+if (edit === '') {
+    window.localStorage.setItem('article', JSON.stringify({articletitle: articletitle.value, 
+        text: text.value, articlePhoto: articlePhoto.value, category: category.value, aiswitch: aiswitch.value}));
+    } else {
+        // 编辑文章 根据文章id缓存
+        window.localStorage.setItem(edit.toString(), JSON.stringify({articletitle: articletitle.value, 
+            text: text.value, articlePhoto: articlePhoto.value, category: category.value, aiswitch: aiswitch.value}));
+    }
+}
+
+onBeforeUnmount(() => {
+    window.removeEventListener('beforeunload', handleBeforeUnload);
+    articleCache();
+});
+
+// 页面加载时读取缓存
+function readCache() {
+    if (edit.toString().length == 0 && window.localStorage.getItem('article')) {
+        const article = JSON.parse(window.localStorage.getItem('article'));
+        if (article) {
+            articletitle.value = article.articletitle;
+            text.value = article.text;
+            articlePhoto.value = article.articlePhoto;
+            category.value = article.category;
+            aiswitch.value = article.aiswitch;
+            if (aiswitch.value === 1) {
+                aiSwitchBtn.value = true;
+            } else {
+                aiSwitchBtn.value = false;
+            }
+        }
+    } else if (window.localStorage.getItem(edit.toString())) {
+        const article = JSON.parse(window.localStorage.getItem(edit.toString()));
+        if (article) {
+            articletitle.value = article.articletitle;
+            text.value = article.text;
+            articlePhoto.value = article.articlePhoto;
+            category.value = article.category;
+            aiswitch.value = article.aiswitch;
+            if (aiswitch.value === 1) {
+                aiSwitchBtn.value = true;
+            } else {
+                aiSwitchBtn.value = false;
+            }
+        }
+    } else {
+        editorModel();
+    }
+}
+
+// 清除缓存
+function DeleteCache() {
+    if (edit.toString().length == 0) {
+        window.localStorage.removeItem('article');
+        text.value = '# 说些什么吧~=w=';
+        articletitle.value = '';
+        articlePhoto.value = '';
+        category.value = -1;
+        aiswitch.value = 0;
+        aiSwitchBtn.value = false;
+    } else {
+        window.localStorage.removeItem(edit.toString());
+        editorModel();
+    }
+    text.value = '# 说些什么吧~=w=';
+    articletitle.value = '';
+    articlePhoto.value = '';
+    category.value = -1;
+    aiswitch.value = 0;
+    aiSwitchBtn.value = false;
+}
+
 // 初始化
 onMounted(() => {
+    window.addEventListener('beforeunload', handleBeforeUnload);
     Validate();
     init();
-    editorModel();
+    readCache();
 });
 </script>
 <template>
@@ -217,6 +303,14 @@ onMounted(() => {
         v-model:value="aiSwitchBtn"
         /><br />
         <span class="tips">人工智能的未来会是什么样呢？~</span>
+    </div>
+    <div class="inputbox">
+        <i class="clearcache"></i>
+        <span class="input-text"> 清空本地缓存</span>
+        <n-button style="margin-left: 20px;" @click="DeleteCache" strong round type="error" size="small">
+            清除
+        </n-button><br/>
+        <span class="tips">清除掉保存在浏览器中的本页文章信息~</span>
     </div>
     <div class="btn">
         <n-button style="margin-left: 5px;" :disabled="updateArticleInfo" @click="submitArticle" strong round type="primary" size="large">
