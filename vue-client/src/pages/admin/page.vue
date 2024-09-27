@@ -100,6 +100,7 @@ function submitPage() {
             if (res.data.code === 200) {
                 window.$loadingBar.finish();
                 window.$message.success('编辑成功');
+                DeleteCache();
             } else {
                 window.$loadingBar.error();
                 errmsg(res.data.code);
@@ -110,6 +111,7 @@ function submitPage() {
         if (res.data.code === 200) {
             window.$loadingBar.finish();
             window.$message.success('发布成功');
+            DeleteCache();
             router.push('/admin/pagelist');
         } else {
             window.$loadingBar.error();

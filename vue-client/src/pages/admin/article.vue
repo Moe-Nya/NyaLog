@@ -148,8 +148,8 @@ function submitArticle() {
             if (res.data.code === 200) {
                 window.$loadingBar.finish();
                 window.$message.success('发布成功');
-                router.push('/admin/articlelist');
                 DeleteCache();
+                router.push('/admin/articlelist');
             } else {
                 window.$loadingBar.error();
                 errmsg(res.data.code);
