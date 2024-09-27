@@ -237,12 +237,6 @@ function DeleteCache() {
         window.localStorage.removeItem(edit.toString());
         editorModel();
     }
-    text.value = '# 说些什么吧~=w=';
-    articletitle.value = '';
-    articlePhoto.value = '';
-    category.value = -1;
-    aiswitch.value = 0;
-    aiSwitchBtn.value = false;
 }
 
 // 初始化

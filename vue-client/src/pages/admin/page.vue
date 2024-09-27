@@ -9,6 +9,14 @@ import errmsg from '../../modules/errmsg';
 import { onMounted, watch } from 'vue';
 import { config } from 'md-editor-v3';
 import ImageFiguresPlugin from '../../modules/markdown-it-image-figures.js';
+import { onBeforeUnmount } from 'vue';
+
+const handleBeforeUnload = (event) => {
+    pageCache();
+    // 显示提示信息
+    event.preventDefault();
+    event.returnValue = ''; // 某些浏览器需要这个
+};
 
 config({
   markdownItConfig: (mdit) => {
@@ -125,10 +133,64 @@ function Validate() {
         }
     });
 }
+
+// 页面缓存
+function pageCache() {
+    // 创建页面缓存
+    if (edit === '') {
+        window.localStorage.setItem('page', JSON.stringify({pagetitle: pagetitle.value, 
+            text: text.value, pageurl: pageurl.value}));
+    } else {
+        // 编辑页面 根据页面名称存储
+        window.localStorage.setItem(edit.toString(), JSON.stringify({pagetitle: pagetitle.value, 
+            text: text.value, pageurl: pageurl.value}));
+    }
+}
+
+onBeforeUnmount(() => {
+    window.removeEventListener('beforeunload', handleBeforeUnload);
+    pageCache();
+});
+
+// 页面加载时读取缓存
+function readCache() {
+    if (edit.toString().length == 0 && window.localStorage.getItem('page')) {
+        const page = JSON.parse(window.localStorage.getItem('page'));
+        if (page) {
+            pagetitle.value = page.pagetitle;
+            text.value = page.text;
+            pageurl.value = page.pageurl;
+        }
+    } else if (window.localStorage.getItem(edit.toString())) {
+        const page = JSON.parse(window.localStorage.getItem(edit.toString()));
+        if (page) {
+            pagetitle.value = page.pagetitle;
+            text.value = page.text;
+            pageurl.value = page.pageurl;
+        }
+    } else {
+        editorModel();
+    }
+}
+
+// 清除缓存
+function DeleteCache() {
+    if (edit.toString().length == 0) {
+        window.localStorage.removeItem('page');
+        text.value = '# 说些什么吧~=w=';
+        pagetitle.value = '';
+        pageurl.value = '';
+    } else {
+        window.localStorage.removeItem(edit.toString());
+        editorModel();
+    }
+}
+
 // 初始化
 onMounted(() => {
+    window.addEventListener('beforeunload', handleBeforeUnload);
     Validate();
-    editorModel();
+    readCache();
 });
 </script>
 <template>
@@ -164,6 +226,14 @@ onMounted(() => {
             </div>
             <span class="tips">这里的字符将会作为页面索引的表示，例如https://example.com/索引值。</span>
         </div>
+    </div>
+    <div class="inputbox">
+        <i class="clearcache"></i>
+        <span class="input-text"> 清空本地缓存</span>
+        <n-button style="margin-left: 20px;" @click="DeleteCache" strong round type="error" size="small">
+            清除
+        </n-button><br/>
+        <span class="tips">清除掉保存在浏览器中的本页页面信息~</span>
     </div>
     <div class="btn">
         <n-button style="margin-left: 5px;" :disabled="updatePageInfo" @click="submitPage" strong round type="primary" size="large">
