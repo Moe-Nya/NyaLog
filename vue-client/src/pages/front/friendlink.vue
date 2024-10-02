@@ -45,9 +45,14 @@ onMounted(() => {
 
 
 onUpdated(() => {
-    useMeta({
-        title: '友情链接' + " - " + userinfo.data.username,
-    });
+    while (true) {
+        if (userinfo.data.username !== '一个神秘用户') {
+            useMeta({
+                title: '友情链接' + " - " + userinfo.data.username,
+            });
+        }
+        setTimeout(loop, 200);
+    }
 });
 </script>
 <template>

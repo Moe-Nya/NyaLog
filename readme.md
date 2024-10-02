@@ -270,7 +270,46 @@ sudo docker compose up -d
 
 ### 关于数据库备份
 
-NyaLog将会在`nyalog-docker-compose`目录下生成一个`mysql`文件夹，可以自行备份。
+#### 数据导出
+
+首先进入`nyalog-mysql`容器：
+
+```bash
+sudo docker exec -it nyalog-mysql bash
+```
+
+接下来访问mysql数据库，并且把`.sql`文件导出保存在容器内的`/tmp`目录下的`/backup.sql`：
+
+```bash
+mysqldump -uroot -p nyalog > /tmp/backup.sql
+```
+
+将生成的`.sql`文件从容器导出到`/home`：
+
+```bash
+sudo docker cp nyalog-mysql:/tmp/backup.sql /home
+```
+
+#### 数据导入
+
+将备份的`.sql`文件导入到容器内：
+
+```bash
+sudo docker cp /home/backup.sql nyalog-mysql:/tmp/
+```
+
+进入容器内部：
+
+```bash
+sudo docker exec -it nyalog-mysql bash
+```
+
+执行导入命令（`nyalog`数据库已经存在）：
+
+```bash
+mysql -uroot -p nyalog < /tmp/backup.sql
+```
+
 ### SSR部署
 
 如果你不打算使用SSR（服务端渲染）的话可以忽略这个小节的内容，但如果你对针对爬虫优化有需求的话可以按照这个小节的教程部署SSR。

@@ -35,9 +35,14 @@ onMounted(() => {
 })
 
 onUpdated(() => {
-    useMeta({
-        title: '归档' + " - " + userinfo.data.username,
-    });
+    while(true) {
+        if (userinfo.data.username !== '一个神秘用户') {
+            useMeta({
+                title: '归档' + " - " + userinfo.data.username,
+            });
+        }
+        setTimeout(loop, 200);
+    }
 });
 </script>
 <template>

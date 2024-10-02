@@ -199,7 +199,7 @@ onUpdated(() => {
     let theTitle;
     let theShortText;
     while (theTitle = title.value, theShortText = shorttext.value) {
-        if (theTitle !== '' && theShortText !== '') {
+        if (theTitle !== '' && theShortText !== '' && userinfo.data.username !== '一个神秘用户') {
             useMeta({
                 title: theTitle + " - " + userinfo.data.username,
                 meta: [

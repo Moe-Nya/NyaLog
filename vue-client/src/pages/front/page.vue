@@ -46,7 +46,7 @@ onMounted(() => {
 onUpdated(() => {
     let theTitle;
     while (theTitle = title.value) {
-        if (theTitle !== '') {
+        if (theTitle !== '' && userinfo.data.username !== '一个神秘用户') {
             useMeta({
                 title: theTitle + " - " + userinfo.data.username,
             });
