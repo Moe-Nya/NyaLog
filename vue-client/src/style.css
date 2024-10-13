@@ -9,9 +9,9 @@ body,
     top: 0;
     left: 0;
     background:
-        linear-gradient(217deg, #ffffff, rgba(255,0,0,0) 70.71%),
-        linear-gradient(127deg, #fcf1f6, rgba(0,255,0,0) 70.71%),
-        linear-gradient(336deg, #cde3f3, rgba(0,0,255,0) 70.71%);
+        linear-gradient(217deg, #fffafa, rgba(255,0,0,0) 70.71%),
+        linear-gradient(127deg, #fceff5, rgba(0,255,0,0) 70.71%),
+        linear-gradient(336deg, #e2f6ff, rgba(0,0,255,0) 70.71%);
     background-repeat:no-repeat;
     background-attachment:fixed;
     margin: 0;
