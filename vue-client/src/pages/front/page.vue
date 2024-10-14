@@ -25,7 +25,7 @@ const text = ref('');
 const scrollElement = document.documentElement;
 
 // 页面内容加载
-function queryPage() {
+async function queryPage() {
     window.$loadingBar.start();
     axios.get(`${route.params.pageid}`).then(res => {
         if (res.data.code === 200) {

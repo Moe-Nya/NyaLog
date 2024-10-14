@@ -16,7 +16,7 @@ const friendlinks = ref([]);
 const errimg = ref('/img/userprofile.png');
 
 // 加载友链
-function queryFriendLink() {
+async function queryFriendLink() {
     window.$loadingBar.start();
     axios.post('/friendlinks', {"pagesize": pagesize.value, "pagenum": pagenum.value}).then(res => {
         if (res.data.code === 200) {
@@ -33,8 +33,8 @@ function friendlinkImgError(item) {
     item.friendprofile = errimg.value;
 }
 
-// 加载更多文章
-function addMoreFriendlinkBtn() {
+// 加载更多友链
+async function addMoreFriendlinkBtn() {
     pagenum.value += 1;
     queryFriendLink();
 }

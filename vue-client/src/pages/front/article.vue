@@ -51,7 +51,7 @@ const showloginout = ref(false);
 let pageUrl = window.location.href;
 
 // 加载用户信息
-function loaduser() {
+async function loaduser() {
     axios.get('/comment/comuserinfo', { headers: { Authorization: window.localStorage.getItem('usertoken') } }).then(res => {
         if (res.data.code === 200) {
             username.value = res.data.userinfo.username;
@@ -132,7 +132,7 @@ function senComment() {
 }
 
 // 页面内容加载
-function queryArticle() {
+async function queryArticle() {
     window.$loadingBar.start();
     axios.get(`/article/${route.params.articleid}`).then(res => {
         if (res.data.code === 200) {
@@ -164,7 +164,7 @@ const pagenum = ref(1);
 const comments = ref([]);
 const showaddmorebtn = ref(false);
 
-function queryComments() {
+async function queryComments() {
     axios.post('/comments', { "articleid": Number(route.params.articleid), "pagesize": pagesize.value, "pagenum": pagenum.value }).then(res => {
         if (res.data.code === 200) {
             comments.value = comments.value.concat(res.data.comments);
@@ -178,7 +178,7 @@ function queryComments() {
         }
     })
 }
-function addMoreComment() {
+async function addMoreComment() {
     pagenum.value += 1;
     queryComments();
 }

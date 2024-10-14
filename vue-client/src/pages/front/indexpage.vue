@@ -16,7 +16,7 @@ const articles = ref([]);
 const errimg = ref('/img/defaultarticleimg.svg');
 
 // 请求文章
-function queryArticle() {
+async function queryArticle() {
     window.$loadingBar.start();
     axios.post("/articlelist", {"pagesize": pagesize.value, "pagenum": pagenum.value}).then(res => {
         if (res.data.code === 200) {
@@ -43,7 +43,7 @@ function articleImgError(item) {
 }
 
 // 加载更多文章
-function addMoreArticleBtn() {
+async function addMoreArticleBtn() {
     pagenum.value += 1;
     queryArticle();
 }

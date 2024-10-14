@@ -18,7 +18,7 @@ const userinfo = usePublicUserInfoStore();
 
 // 加载findme
 const findmes = ref([]);
-function queryFindMe() {
+async function queryFindMe() {
     axios.get('/findmes').then(res => {
         if (res.data.code === 200) {
             findmes.value = res.data.findme;
@@ -34,7 +34,7 @@ function findmeIconErr(item) {
 
 // 加载导航栏
 const navs = ref([]);
-function queryNavigation() {
+async function queryNavigation() {
     axios.get('/navigations').then(res => {
         if (res.data.code === 200) {
             navs.value = res.data.navigations;
