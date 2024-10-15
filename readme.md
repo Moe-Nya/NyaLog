@@ -415,3 +415,7 @@ if ($http_user_agent ~* "Baiduspider|twitterbot|facebookexternalhit|rogerbot|lin
 在NyaLog的初始页面，导航栏里什么都没有，此时可以按照下图的方式添加三个固定导航栏：
 
 <div align=center><img src="https://raw.githubusercontent.com/Moe-Nya/NyaLog/main/staticimg/Static nav use.png""></div>
+
+在`vue-client/src/style.css`中可以修改网页背景：
+
+<div align=center><img src="https://raw.githubusercontent.com/Moe-Nya/NyaLog/main/staticimg/background color.png""></div>
