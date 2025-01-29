@@ -60,11 +60,13 @@ const (
 	PageDeleteFailed = 9004
 
 	// 评论管理
-	CreateQueryFailed   = 10001
-	GetQueryFailed      = 10002
-	SendCommentFailed   = 10003
-	SelectCommentFailed = 10004
-	DeleteCommentFailed = 1005
+	CreateQueryFailed       = 10001
+	GetQueryFailed          = 10002
+	SendCommentFailed       = 10003
+	SelectCommentFailed     = 10004
+	DeleteCommentFailed     = 10005
+	LikeBufferStorageFailed = 10006
+	LikeCommentFailed       = 10007
 
 	// findme 管理
 	CreateFindMeFailed = 11001
@@ -151,11 +153,13 @@ var codeMsg = map[int]string{
 	PageDeleteFailed: "page delete failed",
 
 	// 评论管理
-	CreateQueryFailed:   "create query failed",
-	GetQueryFailed:      "get query failed",
-	SendCommentFailed:   "send comment failed",
-	SelectCommentFailed: "select comment failed",
-	DeleteCommentFailed: "delete comment failed",
+	CreateQueryFailed:       "create query failed",
+	GetQueryFailed:          "get query failed",
+	SendCommentFailed:       "send comment failed",
+	SelectCommentFailed:     "select comment failed",
+	DeleteCommentFailed:     "delete comment failed",
+	LikeBufferStorageFailed: "storage like buffer failed",
+	LikeCommentFailed:       "like comment failed",
 
 	// findme 管理
 	CreateFindMeFailed: "create findme failed",

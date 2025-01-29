@@ -10,6 +10,7 @@ func init() {
 	go service.StorageViews()
 	go service.StorageLikes()
 	go service.ClearUserLikes()
+	go service.StorageCommentLikes()
 }
 
 func main() {

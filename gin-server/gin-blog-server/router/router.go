@@ -66,6 +66,8 @@ func IniRouter() {
 	}
 	// 评论-读取某篇文章的评论
 	normalrouter.POST("/comments", v1.SeleCom)
+	// 评论-点赞
+	normalrouter.POST("/likecomment", v1.LikeCom)
 
 	// Findme管理
 	// Findme管理-查询Findme

@@ -51,27 +51,8 @@ func cmp(a string, b string) (string, string) {
 	}
 }
 
-// 字符串转字符切片
-func stringToByte(numStr string) []byte {
-	var numByte []byte
-	for _, i := range numStr {
-		n, _ := strconv.Atoi(string(i))
-		numByte = append(numByte, byte(n))
-	}
-	return numByte
-}
-
-// 字符切片转字符串
-func byteToString(numByte []byte) string {
-	strBigNum := ""
-	for _, i := range numByte {
-		strBigNum += strconv.Itoa(int(i))
-	}
-	return strBigNum
-}
-
-func BigDecimal(a string, b string) string {
-	maxNumStr, minNumStr := cmp(a, b)
+func BigDecimal(addEnd string, summand string) string {
+	maxNumStr, minNumStr := cmp(addEnd, summand)
 	// 特判被加数
 	if len(minNumStr) <= 0 {
 		return maxNumStr
@@ -79,8 +60,8 @@ func BigDecimal(a string, b string) string {
 	var maxNumByte []byte
 	var minNumByte []byte
 	// 将maxNumStr和minNumStr转为字符切片
-	maxNumByte = stringToByte(maxNumStr)
-	minNumByte = stringToByte(minNumStr)
+	maxNumByte = StringToByte(maxNumStr)
+	minNumByte = StringToByte(minNumStr)
 
 	maxLen := len(maxNumByte) - 1
 	minLen := len(minNumByte) - 1
@@ -109,18 +90,18 @@ func BigDecimal(a string, b string) string {
 						maxNumByte[maxLen] = byte(tmpNum) % 10
 					} else {
 						maxNumByte[maxLen] = byte(tmpNum)
-						return byteToString(maxNumByte)
+						return ByteToString(maxNumByte)
 					}
 				} else {
 					var n []byte
 					n = append(n, 1)
 					n = append(n, maxNumByte...)
-					return byteToString(n)
+					return ByteToString(n)
 				}
 				maxLen--
 			}
 		} else if minLen < 0 && bitAdd == 0 {
-			return byteToString(maxNumByte)
+			return ByteToString(maxNumByte)
 		}
 	}
 }

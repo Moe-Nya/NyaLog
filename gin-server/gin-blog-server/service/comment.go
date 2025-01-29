@@ -3,13 +3,15 @@ package service
 import (
 	"NyaLog/gin-blog-server/middleware"
 	"NyaLog/gin-blog-server/model"
+	"NyaLog/gin-blog-server/utils"
 	"NyaLog/gin-blog-server/utils/errmsg"
 )
 
-// 评论所需要的结构体
+// Comment 评论所需要的结构体
 type Comment struct {
-	Articleid int64  `json:"articleid"`
-	Comment   string `json:"comment"`
+	Articleid   int64  `json:"articleid"`
+	Comment     string `json:"comment"`
+	ReCommentId string `json:"replayid"`
 }
 
 // 添加评论
@@ -26,6 +28,7 @@ func NewComment(data *Comment, token string) int {
 	var com = &model.Comment{}
 	com.Articleid = data.Articleid
 	com.Commenttext = data.Comment
+	com.Recomid = data.ReCommentId
 	com.Userid = userinfo["name"].(string)
 	com.Usersite = userinfo["html_url"].(string)
 	com.Profilephoto = userinfo["avatar_url"].(string)
@@ -65,9 +68,22 @@ type ArticleComments struct {
 }
 
 // 读取评论列表(某篇文章)
-func SeleCom(data *ArticleComments) ([]model.Comment, int) {
-	var comment []model.Comment
+func SeleCom(data *ArticleComments) ([]*model.Comment, int) {
+	var comment []*model.Comment
 	comment, err := model.SeleCom(data.Articleid, data.PageSize, data.PageNum)
+	for _, com := range comment {
+		if middleware.CommentLikeInfoMap[com.Comid] != nil && com.Likes != "" {
+			com.Likes = utils.BigDecimal(com.Likes, middleware.CommentLikeInfoMap[com.Comid].Likes)
+		}
+		if com.Recomid != "" {
+			var recom *model.Comment
+			recom, err = model.SelectOneCom(com.Articleid, com.Recomid)
+			if err != errmsg.SUCCESS {
+				continue
+			}
+			com.ReComInfo = recom
+		}
+	}
 	if err != errmsg.SUCCESS {
 		return comment, errmsg.SelectCommentFailed
 	}
@@ -98,6 +114,19 @@ func DeleteAllCom(articleid int64) int {
 	err := model.DeleteAllCom(articleid)
 	if err != errmsg.SUCCESS {
 		return errmsg.DeleteCommentFailed
+	}
+	return errmsg.SUCCESS
+}
+
+type CommentLikeInfo struct {
+	ComId string `json:"comid"`
+}
+
+// LikeCom 评论点赞
+func LikeCom(com CommentLikeInfo, ip string) int {
+	err := AddCommentLike(com.ComId, ip)
+	if err != errmsg.SUCCESS {
+		return errmsg.LikeCommentFailed
 	}
 	return errmsg.SUCCESS
 }

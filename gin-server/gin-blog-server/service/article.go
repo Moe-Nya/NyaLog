@@ -5,7 +5,6 @@ import (
 	"NyaLog/gin-blog-server/model"
 	"NyaLog/gin-blog-server/utils"
 	"NyaLog/gin-blog-server/utils/errmsg"
-	"fmt"
 	"regexp"
 	"sync"
 
@@ -115,7 +114,6 @@ func SeleOneArticle(articleid int64, ip string) (model.Article, int, int) {
 	}()
 	wgSelectArticle.Wait() // 等待协程执行完毕
 	if middleware.ArticleViewInfo[articleid] != nil {
-		fmt.Println(middleware.ArticleViewInfo[articleid].Views)
 		article.Articleviews = utils.BigDecimal(article.Articleviews, middleware.ArticleViewInfo[articleid].Views)
 	}
 	if middleware.UserLikeMap[articleid] != nil {

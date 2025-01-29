@@ -114,7 +114,28 @@ watch([comtext, loginstatus], () => {
         sendbtn.value = true;
     }
 });
-function senComment() {
+function senComment(item) {
+    if (item != undefined) {
+        if (item.replay === '') {
+            window.$message.error('回复内容不能为空~');
+            return
+        }
+        window.$loadingBar.start();
+        axios.post('/comment/newcomment', { "articleid": Number(route.params.articleid), "comment": item.replay, "replayid": String(item.comid) }, { headers: { Authorization: window.localStorage.getItem('usertoken') } }).then(res => {
+            if (res.data.code === 200) {
+                window.$loadingBar.finish();
+                window.$message.success('回复发送成功~');
+                comments.value = [];
+                pagenum.value = 1;
+                queryComments();
+                item.replay = '';
+            } else {
+                window.$loadingBar.error();
+                errmsg(res.data.code);
+            }
+        })
+        return
+    }
     window.$loadingBar.start();
     axios.post('/comment/newcomment', { "articleid": Number(route.params.articleid), "comment": comtext.value }, { headers: { Authorization: window.localStorage.getItem('usertoken') } }).then(res => {
         if (res.data.code === 200) {
@@ -163,10 +184,15 @@ const pagesize = ref(10);
 const pagenum = ref(1);
 const comments = ref([]);
 const showaddmorebtn = ref(false);
+const replaybox = ref(false);
+const replayboxid = ref(-1);
 
 async function queryComments() {
     axios.post('/comments', { "articleid": Number(route.params.articleid), "pagesize": pagesize.value, "pagenum": pagenum.value }).then(res => {
         if (res.data.code === 200) {
+            res.data.comments.forEach(obj => {
+                obj.replay = '';
+            });
             comments.value = comments.value.concat(res.data.comments);
             if (res.data.comments.length === 0) {
                 showaddmorebtn.value = true;
@@ -181,6 +207,29 @@ async function queryComments() {
 async function addMoreComment() {
     pagenum.value += 1;
     queryComments();
+}
+
+function clickReplay(key) {
+    if (replayboxid.value === key && replaybox.value === true) {
+        replaybox.value = false;
+        replayboxid.value = -1;
+        return;
+    }
+    replayboxid.value = key;
+    if (!replaybox.value) {
+        replaybox.value = true;
+    }
+}
+
+function likeCom(item) {
+    axios.post('/likecomment', { "comid": item.comid }).then(res => {
+        if (res.data.code === 200) {
+            item.likes = (BigInt(item.likes) + BigInt(1)).toString();
+            window.$message.success('点赞成功~');
+        } else {
+            window.$message.error('点赞失败');
+        }
+    });
 }
 
 // github授权
@@ -260,23 +309,42 @@ onUpdated(() => {
     </div>
     <div style="display: block; width: 100%;" v-show="showcommentbox">
         <textarea v-model="comtext" id="combox" class="comments" rows="4" cols="50" maxlength="500"
-            placeholder="请输入评论..."></textarea><br />
+            placeholder="我要喵两句..."></textarea><br />
         <span class="comtextremain">还可输入{{ 500 - comtext.length }}个字符</span>
-        <n-button @click="senComment" :disabled="sendbtn" size="large" strong ghost class="sendcom">
+        <n-button @click="senComment(undefined)" :disabled="sendbtn" size="large" strong ghost class="sendcom">
             发送
         </n-button>
-        <div class="commentsbox">
+        <div class="commentsbox" style="margin-top: 50px;">
             <div v-for="item in comments" :key="item.comid">
+                <div class="replaybackground">
+                    <span class="replayinfo" :style="{ display: item.recomid == '' ? 'none' : 'block' }">
+                        {{ item.replayid }}回复{{ item.userid }}：
+                        {{ item.recominfo?.commenttext }}
+                    </span>
+                </div>
                 <div class="commentuser">
                     <a :href="item.usersite" target="blank">
                         <img :src="item.profilephoto" class="commentuserprofile" />
                     </a>
-                    <div>
+                    <div class="commentsbox">
                         <a :href="item.usersite" style="color: inherit; text-decoration: none;" target="blank">
                             <span class="commentusername">{{ item.userid }}</span>
                         </a><br>
                         <div class="commentusercomment">
                             <span class="commentusercommentfont">{{ item.commenttext }}</span>
+                        </div>
+                        <div class="commentreply">
+                            <span class="commentreplybutton" @click=clickReplay(item.comid)>回复</span>
+                            <i class = "commentreplylike" @click="likeCom(item)"></i>
+                            <span style="color:#676565cb; font-size: 14px;">{{ item.likes }}</span>
+                        </div>
+                        <div :style="{ display: replaybox && replayboxid === item.comid ? 'block' : 'none' }">
+                            <textarea v-model=item.replay id="combox" class="comments" rows="4" cols="50" maxlength="500"
+                                placeholder="我要喵两句..."></textarea><br />
+                            <span class="comtextremain">还可输入{{ 500 - String(item.replay || '').length }}个字符</span>
+                            <n-button @click="senComment(item)" :disabled="item.replay === '' && !loginstatus.value" size="large" strong ghost class="sendcom">
+                                发送
+                            </n-button>
                         </div>
                     </div>
                 </div>

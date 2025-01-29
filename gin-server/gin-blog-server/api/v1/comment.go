@@ -74,7 +74,7 @@ func NewComment(c *gin.Context) {
 
 // 读取评论列表(某篇文章)
 func SeleCom(c *gin.Context) {
-	var comments []model.Comment
+	var comments []*model.Comment
 	var commentData service.ArticleComments
 	_ = c.ShouldBindJSON(&commentData)
 	comments, err := service.SeleCom(&commentData)
@@ -126,6 +126,24 @@ func DeleteCom(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{
 			"code":    err,
 			"message": "delete comment success",
+		})
+	}
+}
+
+// 点赞评论
+func LikeCom(c *gin.Context) {
+	var commentData service.CommentLikeInfo
+	_ = c.ShouldBindJSON(&commentData)
+	err := service.LikeCom(commentData, c.ClientIP())
+	if err != errmsg.SUCCESS {
+		c.JSON(http.StatusOK, gin.H{
+			"code":    err,
+			"message": errmsg.GetErrorMsg(err),
+		})
+	} else {
+		c.JSON(http.StatusOK, gin.H{
+			"code":    err,
+			"message": "like comment success",
 		})
 	}
 }
