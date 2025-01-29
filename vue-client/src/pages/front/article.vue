@@ -318,7 +318,7 @@ onUpdated(() => {
             <div v-for="item in comments" :key="item.comid">
                 <div class="replaybackground">
                     <span class="replayinfo" :style="{ display: item.recomid == '' ? 'none' : 'block' }">
-                        {{ item.replayid }}回复{{ item.userid }}：
+                        {{ item.replayid }}回复{{ item.recominfo?.userid }}：
                         {{ item.recominfo?.commenttext }}
                     </span>
                 </div>
