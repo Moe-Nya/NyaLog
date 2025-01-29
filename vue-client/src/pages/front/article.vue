@@ -342,7 +342,7 @@ onUpdated(() => {
                             <textarea v-model=item.replay id="combox" class="comments" rows="4" cols="50" maxlength="500"
                                 placeholder="我要喵两句..."></textarea><br />
                             <span class="comtextremain">还可输入{{ 500 - String(item.replay || '').length }}个字符</span>
-                            <n-button @click="senComment(item)" :disabled="item.replay === '' && !loginstatus.value" size="large" strong ghost class="sendcom">
+                            <n-button @click="senComment(item)" :disabled="item.replay === '' || !loginstatus" size="large" strong ghost class="sendcom">
                                 发送
                             </n-button>
                         </div>
