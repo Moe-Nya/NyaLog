@@ -45,8 +45,8 @@ func CreateArticle(data *Article) int {
 	// 这样做在列出文章列表是，可以丰富展示框内容，又节约服务器性能
 	// 只截取30字符，交给前端取舍
 	runes := []rune(data.Text)
-	if len(runes) > 50 {
-		runes = runes[:50]
+	if len(runes) > 100 {
+		runes = runes[:100]
 	}
 	article.Shorttext = string(runes)
 
