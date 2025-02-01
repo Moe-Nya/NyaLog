@@ -26,10 +26,18 @@ func NewComment(data *Comment, token string) int {
 		return errmsg.SendCommentFailed
 	}
 	var com = &model.Comment{}
+	if userinfo["name"] == nil {
+		if userinfo["login"] == nil || userinfo["avatar_url"] == nil || userinfo["html_url"] == nil {
+			return errmsg.SendCommentFailed
+		} else {
+			com.Userid = userinfo["login"].(string)
+		}
+	} else {
+		com.Userid = userinfo["name"].(string)
+	}
 	com.Articleid = data.Articleid
 	com.Commenttext = data.Comment
 	com.Recomid = data.ReCommentId
-	com.Userid = userinfo["name"].(string)
 	com.Usersite = userinfo["html_url"].(string)
 	com.Profilephoto = userinfo["avatar_url"].(string)
 	err = model.CreateCom(com)
@@ -53,7 +61,15 @@ func QueryCommentUserInfo(token string) (CommentUser, int) {
 	if err != errmsg.SUCCESS {
 		return comuser, errmsg.GetQueryFailed
 	}
-	comuser.Username = userinfo["name"].(string)
+	if userinfo["name"] == nil {
+		if userinfo["login"] == nil || userinfo["avatar_url"] == nil || userinfo["html_url"] == nil {
+			return comuser, errmsg.GetQueryFailed
+		} else {
+			comuser.Username = userinfo["login"].(string)
+		}
+	} else {
+		comuser.Username = userinfo["name"].(string)
+	}
 	comuser.Userprofile = userinfo["avatar_url"].(string)
 	comuser.Usersite = userinfo["html_url"].(string)
 	return comuser, errmsg.SUCCESS
