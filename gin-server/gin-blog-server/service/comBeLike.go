@@ -13,13 +13,8 @@ func AddCommentLike(commentId string, ip string) int {
 
 // StorageCommentLikes 存储评论点赞并清除缓存
 func StorageCommentLikes() {
-	var counter int = 0
 	for {
-		time.Sleep(time.Hour)
-		counter++
-		if counter >= 6 {
-			counter = 0
-			middleware.ClearCommentLike()
-		}
+		time.Sleep(30 * time.Minute)
+		middleware.ClearCommentLike()
 	}
 }
