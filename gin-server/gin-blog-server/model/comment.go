@@ -14,6 +14,7 @@ type Comment struct {
 	Userid       string   `gorm:"type:varchar(20);not null" json:"userid" label:"用户id"`
 	Profilephoto string   `gorm:"type:varchar(1000);not null" json:"profilephoto" label:"用户头像"`
 	Usersite     string   `gorm:"type:varchar(1000)" json:"usersite" label:"用户主页"`
+	Usermail     string   `gorm:"type:varchar(100)" json:"usermail" label:"用户邮箱"`
 	Likes        string   `gorm:"type:varchar(1000);default:0" json:"likes" label:"点赞数"`
 	Recomid      string   `gorm:"type:varchar(20)" json:"recomid" label:"回复评论id"`
 	ReComInfo    *Comment `gorm:"type:json;default:null" json:"recominfo" label:"回复评论信息"`

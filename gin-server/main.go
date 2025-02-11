@@ -11,6 +11,7 @@ func init() {
 	go service.StorageLikes()
 	go service.ClearUserLikes()
 	go service.StorageCommentLikes()
+	go service.SendCommentMail()
 }
 
 func main() {

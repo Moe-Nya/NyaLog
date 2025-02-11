@@ -5,6 +5,8 @@ import (
 	"NyaLog/gin-blog-server/model"
 	"NyaLog/gin-blog-server/utils"
 	"NyaLog/gin-blog-server/utils/errmsg"
+	"strconv"
+	"time"
 )
 
 // Comment 评论所需要的结构体
@@ -40,6 +42,23 @@ func NewComment(data *Comment, token string) int {
 	com.Recomid = data.ReCommentId
 	com.Usersite = userinfo["html_url"].(string)
 	com.Profilephoto = userinfo["avatar_url"].(string)
+	if userinfo["email"] != nil {
+		com.Usermail = userinfo["email"].(string)
+		if com.Recomid != "" {
+			var recom *model.Comment
+			recom, err = model.SelectOneCom(com.Articleid, com.Recomid)
+			if err != errmsg.SUCCESS {
+				return errmsg.SendCommentFailed
+			}
+			sendmail := CommentMail{
+				ArticleUrl:   utils.Domain + "/article/" + strconv.FormatInt(com.Articleid, 10),
+				FromUserName: com.Userid,
+				ToUserMail:   recom.Usermail,
+				Comment:      com.Commenttext,
+			}
+			MailChannel <- sendmail
+		}
+	}
 	err = model.CreateCom(com)
 	if err != errmsg.SUCCESS {
 		return errmsg.SendCommentFailed
@@ -145,4 +164,32 @@ func LikeCom(com CommentLikeInfo, ip string) int {
 		return errmsg.LikeCommentFailed
 	}
 	return errmsg.SUCCESS
+}
+
+type CommentMail struct {
+	ArticleUrl   string `json:"article_url"`
+	FromUserName string `json:"from_user"`
+	ToUserMail   string `json:"to_user"`
+	Comment      string `json:"comment"`
+}
+
+var MailChannel = make(chan CommentMail, 100)
+
+func SendCommentMail() {
+	for {
+		time.Sleep(100 * time.Millisecond)
+		select {
+		case mails := <-MailChannel:
+			// 编辑发送邮件的信息
+			msg := []byte("From: " + "NyaLog" + "\r\n" +
+				"To: " + mails.ToUserMail + "\r\n" +
+				"Subject: " + "NyaLog: You have a comment" + "\r\n" +
+				"\r\n" +
+				mails.Comment + "\r\n" +
+				"Click the link to view the comment: " + mails.ArticleUrl)
+			middleware.SendEmail(mails.ToUserMail, msg)
+		default:
+			continue
+		}
+	}
 }

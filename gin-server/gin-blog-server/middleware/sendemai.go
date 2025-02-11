@@ -18,14 +18,16 @@ func SendEmail(email string, msg []byte) int {
 	mail.SetHeader("To", email)
 
 	// 设置邮件主题和正文
-	mail.SetHeader("Subject", "Your Subject")
+	mail.SetHeader("Subject", "Information from NyaLog")
 	mail.SetBody("text/plain", string(msg))
 
 	smtpPort, _ := strconv.Atoi(utils.Smtpport)
 
 	// SMTP 配置
 	smtp := gomail.NewDialer(utils.Smtphost, smtpPort, utils.Emailusername, utils.Emailpassword)
-
+	if smtpPort == 465 {
+		smtp.SSL = true
+	}
 	// 发送邮件
 	if err := smtp.DialAndSend(mail); err != nil {
 		fmt.Println(err)
